@@ -21,11 +21,14 @@ own for setting up virtualenv and installing Docker.
 
 Install Virtualenv
 ''''''''''''''''''
-https://virtualenv.pypa.io/en/latest/installation.html
+
+- https://virtualenv.pypa.io/en/latest/installation.html
 
 Install Docker
 ''''''''''''''
-https://docs.docker.com/installation
+
+- https://docs.docker.com/installation (docker itself)
+- https://github.com/docker/compose/releases (docker-compose tool for development)
 
 I installed everything, now what?
 '''''''''''''''''''''''''''''''''
