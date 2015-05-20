@@ -9,4 +9,4 @@ install:
   - 'pip install --editable .'
 
 script:
-  - 'flake8 .'
+  - 'flake8 . --exclude __init__.py'
