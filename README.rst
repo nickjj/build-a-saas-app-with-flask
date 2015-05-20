@@ -59,6 +59,20 @@ How do I shut everything down?
 - Hit CTRL+C a few times to stop everything
 - Type ``docker-compose stop`` to ensure all containers are stopped
 
+How do I provide my own settings?
+---------------------------------
+
+- Create an ``instance/`` folder in the root of the project
+- Create a ``settings.py`` file at ``$PROJECT_ROOT/instance/settings.py``
+- Overwrite as many settings as you want
+
+For example, your ``settings.py`` file might end up looking like:
+
+::
+
+    MAIL_USERNAME = 'yourrealaccount@gmail.com'
+    MAIL_PASSWORD = 'seriousbusinesspassword'
+
 High level overview
 ^^^^^^^^^^^^^^^^^^^
 
