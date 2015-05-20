@@ -33,7 +33,7 @@ Install Docker
 I installed everything, now what?
 '''''''''''''''''''''''''''''''''
 
-- Clone this repo ``git clone https://github.com/nick/build-a-saas-app-with-flask.git``
+- Clone this repo ``git clone https://github.com/nickjj/build-a-saas-app-with-flask``
 - Type ``cd build-a-saas-app-with-flask``
 - Activate your virtualenv
 - Type ``pip install --editable .`` to activate the CLI
