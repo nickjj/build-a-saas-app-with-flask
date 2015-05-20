@@ -17,7 +17,8 @@ Installation instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This process will be more streamlined in the future but for now you're on your
-own for setting up virtualenv and installing Docker.
+own for setting up virtualenv, installing Docker, installing nodejs and doing
+the post-install steps.
 
 Install Virtualenv
 ''''''''''''''''''
@@ -30,37 +31,73 @@ Install Docker
 - https://docs.docker.com/installation (docker itself)
 - https://github.com/docker/compose/releases (docker-compose tool for development)
 
+Install nodejs
+''''''''''''''
+
+- https://nodejs.org/download/ (runtime dependency for assets)
+
 I installed everything, now what?
 '''''''''''''''''''''''''''''''''
+
+Create a bit of supporting directory structure
+----------------------------------------------
+
+- Create a new folder somewhere, let's say: ``/tmp/testsaasapp``
+- Create a new ``website`` folder inside of that: ``/tmp/testsaasapp/website``
+- CD into that directory: ``cd /tmp/testsaasapp/website``
+
+Clone the repo and install all dependencies
+-------------------------------------------
 
 - Clone this repo ``git clone https://github.com/nickjj/build-a-saas-app-with-flask``
 - Type ``cd build-a-saas-app-with-flask``
 - Activate your virtualenv
 - Type ``pip install --editable .`` to activate the CLI
 - Type ``pip install -r requirements.txt`` to install dependencies
-- Type ``run`` to see a list of what's available
-- Edit ``docker-compose.yml`` and setup a local volume for Postgres/Redis
+- Type ``npm install`` to install the asset dependencies
+
+Set up docker-compose
+---------------------
+
+- Edit ``docker-compose.yml`` and `setup a local volume for Postgres/Redis`__
 - Type ``docker-compose up`` to start Postgres/Redis
+
+Initialize everything and view the app
+--------------------------------------
+
+- Open a new terminal window
+- Type ``run`` to see a list of what's available
+- Type ``run assets build`` to create the build directory
 - Type ``run db reset`` to initialize the database
 - Type ``run all`` to start everything
 - Visit http://localhost:8000 in your browser
-- If you wish to login, email: ``dev@localhost.com``, password: ``password``
+- If you wish to login, email: ``dev@localhost.com`` / password: ``password``
 
-What's the workflow after I do the above at least once?
--------------------------------------------------------
+Do I need to do the above steps all the time?
+'''''''''''''''''''''''''''''''''''''''''''''
+
+Heck no, from now on you only need to do this:
 
 - Activate your virtualenv
 - Type ``run all`` to start everything
 - Visit http://localhost:8000 in your browser
 
+Also in the future I will be working on ways to automate the above steps. You
+have to remember the above steps are replacing things like Vagrant and more.
+
+You just setup a complete dev environment which you can reproduce on
+any machine capable of running Docker. Your environment is now very close to
+what we will be running in production.
+
 How do I shut everything down?
-------------------------------
+''''''''''''''''''''''''''''''
 
 - Hit CTRL+C a few times to stop everything
 - Type ``docker-compose stop`` to ensure all containers are stopped
+- Confirm no containers are running by typing ``docker ps``
 
 How do I provide my own settings?
----------------------------------
+'''''''''''''''''''''''''''''''''
 
 - Create an ``instance/`` folder in the root of the project
 - Create a ``settings.py`` file at ``$PROJECT_ROOT/instance/settings.py``
@@ -73,8 +110,8 @@ For example, your ``settings.py`` file might end up looking like:
     MAIL_USERNAME = 'yourrealaccount@gmail.com'
     MAIL_PASSWORD = 'seriousbusinesspassword'
 
-High level overview
-^^^^^^^^^^^^^^^^^^^
+Learn more
+^^^^^^^^^^
 
 What packages are being used?
 '''''''''''''''''''''''''''''
@@ -82,23 +119,25 @@ What packages are being used?
 Check the commented ``requirements.txt`` for package specifics.
 
 How will the project be managed?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+''''''''''''''''''''''''''''''''
 
 Upcoming features
-'''''''''''''''''
+-----------------
 
 I'm an organized person but not OCD about it. I will do my best to add pending
 features to the issue tracker with a specific label. Not all features will get
 added to the issue tracker because who wants to write issues all day!
 
 Branches
-''''''''
+--------
 
 The latest "unstable but might be stable" version will be master.
 
 Stable releases will be tagged and released using the http://semver.org/ system.
 However early on in the project there's a very good chance the versions will
 not adhere to semver perfectly.
+
+__ https://github.com/nickjj/build-a-saas-app-with-flask/commit/9031114d3f0880e01a9f97df9f924dbb1238a092
 
 .. |Build status| image:: https://secure.travis-ci.org/nickjj/build-a-saas-app-with-flask.png
    :target: https://travis-ci.org/nickjj/build-a-saas-app-with-flask
