@@ -1,4 +1,3 @@
-import datetime
 from collections import OrderedDict
 from hashlib import md5
 
