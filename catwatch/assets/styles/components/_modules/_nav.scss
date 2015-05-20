@@ -1,0 +1,19 @@
+.nav--main {
+  float: left;
+
+  @include small-only {
+    float: none;
+  }
+}
+
+.nav--account {
+  float: right;
+
+  @include small-only {
+    float: none;
+  }
+}
+
+a.nav--cta {
+  font-weight: bold;
+}

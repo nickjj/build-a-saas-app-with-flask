@@ -1,0 +1,118 @@
+# Translations template for PROJECT.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-05-20 10:27-0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: catwatch/blueprints/issue/forms.py:12
+msgid "What do you need help with?"
+msgstr ""
+
+#: catwatch/blueprints/issue/forms.py:14
+msgid "What's your e-mail address?"
+msgstr ""
+
+#: catwatch/blueprints/issue/forms.py:16
+msgid "What's your question or issue?"
+msgstr ""
+
+#: catwatch/blueprints/issue/forms.py:18
+msgid "Submit this support request"
+msgstr ""
+
+#: catwatch/blueprints/issue/views.py:28 catwatch/tests/issue/test_views.py:38
+msgid "Help is on the way, expect a response shortly."
+msgstr ""
+
+#: catwatch/blueprints/user/decorators.py:40
+msgid "You do not have permission to do that."
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:32 catwatch/blueprints/user/forms.py:40
+msgid "Username or email"
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:36
+msgid "Sign in"
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:45 catwatch/blueprints/user/forms.py:51
+msgid "Continue"
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:62 catwatch/blueprints/user/forms.py:94
+msgid "Password"
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:63
+msgid "Register"
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:67
+msgid "Letters, numbers and underscores only please."
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:78 catwatch/blueprints/user/forms.py:95
+msgid "Save"
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:89
+msgid "Current password"
+msgstr ""
+
+#: catwatch/blueprints/user/tasks.py:28
+msgid "Password reset from Catwatch"
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:50 catwatch/tests/user/test_views.py:26
+msgid "This account has been disabled."
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:52 catwatch/tests/user/test_views.py:32
+msgid "Identity or password is incorrect."
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:61 catwatch/tests/user/test_views.py:40
+msgid "You have been logged out."
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:78 catwatch/tests/user/test_views.py:93
+#, python-format
+msgid "An email has been sent to %(email)s."
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:94 catwatch/tests/user/test_views.py:115
+#: catwatch/tests/user/test_views.py:125
+msgid "Your reset token has expired or was tampered with."
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:103 catwatch/tests/user/test_views.py:103
+msgid "Your password has been reset."
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:122 catwatch/tests/user/test_views.py:169
+msgid "Awesome, thanks for signing up!"
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:137 catwatch/tests/user/test_views.py:188
+msgid "Sign up is complete, enjoy our services."
+msgstr ""
+
+#: catwatch/blueprints/user/views.py:164 catwatch/tests/user/test_views.py:272
+#: catwatch/tests/user/test_views.py:295 catwatch/tests/user/test_views.py:315
+msgid "Your sign in settings have been updated."
+msgstr ""
+

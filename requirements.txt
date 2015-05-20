@@ -1,0 +1,48 @@
+# Flask
+Flask==0.10.1
+Flask-Mail==0.9.1
+
+# Database and migrations
+psycopg2==2.6
+Flask-SQLAlchemy==2.0
+alembic==0.7.4
+
+# Background worker and cache
+redis==2.10.3
+celery==3.1.17
+Flask-Cache==0.13.1
+
+# Authentication and authorization
+Flask-Login==0.2.11
+Flask-Bcrypt==0.6.2
+itsdangerous==0.24
+flask-bouncer==0.1.13
+
+# I18n
+Flask-Babel==0.9
+
+# Forms
+Flask-WTF==0.11
+WTForms-Components==0.9.7
+
+# Testing
+pytest==2.7.0
+pytest-cov==1.8.1
+
+# Command line tasks
+click==4.0
+
+# Deployment
+gunicorn==19.3.0
+
+# Generate fake data
+fake-factory==0.5.0
+
+# Debug toolbar
+Flask-DebugToolbar==0.10.0
+
+# Manage multiple processes in development
+honcho==0.6.6
+
+# Analyze code base
+flake8>=2.4.1

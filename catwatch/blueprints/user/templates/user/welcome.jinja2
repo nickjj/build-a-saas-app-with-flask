@@ -1,0 +1,45 @@
+{% extends 'layouts/app.jinja2' %}
+{% import 'macros/forms.jinja2' as field %}
+
+{% block title %}Thanks for signing up{% endblock %}
+
+{% block body %}
+  <div class="clear subsection-title">
+    <div class="g--half">
+      <h3>You're just about done</h3>
+
+      <p>Did you know you can gain so many awesome benefits by upgrading your
+        account?</p>
+
+      <p class="small">Take a look at what you'll gain by <a href="#">becoming a
+        paid member</a>.</p>
+    </div>
+    <div class="g--half g--last">
+      <div class="login--background">
+        <form method="post" action="{{ url_for('user.welcome') }}"
+              class="clear">
+          <legend class="centered medium">Pick a username</legend>
+          <p class="small color--muted bottom-margin">
+            You can only pick this once, make it count.
+          </p>
+          {{ form.csrf_token }}
+          {{ form.hidden_tag() }}
+          {{ field.with_errors(form.username, placeholder='Username', autofocus='autofocus') }}
+
+          <div class="g--half">
+            <button type="submit" class="full-width rounded button--primary">
+              Save
+            </button>
+          </div>
+          <div class="g--half g--last">
+            <a href="{{ url_for('user.settings') }}"
+               class="login--register full-width rounded button--secondary">
+              Do it later
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{% block meta_description %}{% endblock %}">
+  <title>{% block title %}{% endblock %}</title>
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="{{ self.title() }}">
+  <meta name="theme-color" content="#3372DF">
+  <link rel="icon" sizes="192x192"
+        href="{{ asset_url_for('images/touch/chrome-touch-icon-192x192.png') }}">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="{{ self.title() }}">
+  <link rel="apple-touch-icon"
+        href="{{ asset_url_for('images/touch/apple-touch-icon.png') }}">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage"
+        content="{{ asset_url_for('images/touch/ms-touch-icon-144x144-precomposed.png') }}">
+  <meta name="msapplication-TileColor" content="#3372DF">
+
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  <!-- Static assets -->
+  {{ stylesheet_tag('app_css') | safe }}
+  <link
+      href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,700,700italic,300,400italic'
+      rel='stylesheet' type='text/css'>
+</head>
+<body>
+{% block header %}{% endblock %}
+
+<main>
+  {% block flash_message %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        <div id='flash-messages' class="top-margin">
+          {% for category, msg in messages %}
+            <div class="alert--{{ category }}">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  {% endblock %}
+
+  {% block container %}
+    {% block heading %}{% endblock %}
+    {% block body %}{% endblock %}
+  {% endblock %}
+</main>
+
+<footer>
+  <hr/>
+  <ul class="login--footer list-centered small color--muted">
+    <li>{{ _('Cat watch') }} &copy; 2015</li>
+    {% block footer %}{% endblock %}
+  </ul>
+</footer>
+
+{{ javascript_tag('common', 'app_js') | safe }}
+</body>
+</html>

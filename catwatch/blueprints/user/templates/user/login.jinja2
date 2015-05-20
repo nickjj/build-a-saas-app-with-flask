@@ -1,0 +1,39 @@
+{% extends 'layouts/login.jinja2' %}
+{% import 'macros/forms.jinja2' as field %}
+
+{% block title %}Sign in to access your account{% endblock %}
+
+{% block body %}
+  <div class="g--half g--centered">
+    <div class="login--background">
+      <form method="post" action="{{ url_for('user.login') }}"
+            class="clear bottom-margin">
+        <legend class="centered medium bottom-margin">Sign in to continue
+        </legend>
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        {{ field.with_errors(form.identity, placeholder='Email or username', autofocus='autofocus') }}
+        {{ field.with_errors(form.password, placeholder='Password') }}
+
+        <div class="g--half">
+          <button type="submit" class="full-width rounded button--primary">
+            Sign in
+          </button>
+        </div>
+        <div class="g--half g--last">
+          <a href="{{ url_for('user.signup') }}"
+             class="login--register full-width rounded button--secondary">
+            Register
+          </a>
+        </div>
+      </form>
+
+      <div class="centered">
+        <a href="{{ url_for('user.begin_password_reset') }}"
+           class="login--forgot-password">
+          Forgot your password?
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

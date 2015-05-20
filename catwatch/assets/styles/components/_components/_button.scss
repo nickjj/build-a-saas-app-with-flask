@@ -1,0 +1,78 @@
+/**
+*
+* Button
+*
+**/
+
+.button {
+  display: inline-block;
+  padding: (($lineHeight / 3) - 1) 32px;
+  margin-bottom: $lineHeight / 2;
+  margin-top: 0;
+  min-height: $lineHeight;
+
+  text-align: center;
+
+  font-family: $fontHighlight;
+  font-weight: 600;
+  text-decoration: none;
+
+  outline: 0;
+
+  transition: none;
+
+  &:hover {
+    background: darken($colorBlue, 15%);
+    color: #ffffff;
+    border: 1px solid darken($colorBlue, 15%);
+    text-decoration: none;
+  }
+
+  &:active {
+    background: darken($colorBlue, 5%);
+    color: #ffffff;
+    border: 1px solid #4d4d4d;
+    text-decoration: none;
+  }
+}
+
+// Mixin to create buttons
+@mixin style-button($color, $textColor, $isInverted: false) {
+
+  background: $color;
+  color: $textColor;
+  border: 1px solid darken($color, 10%);
+
+  @if $isInverted {
+    border-color: transparent;
+  }
+}
+
+.button--primary {
+  @extend .button;
+  @include style-button($colorBlue, #ffffff);
+}
+
+.button--secondary {
+  @extend .button;
+  @include style-button(#ffffff, $colorBlue);
+
+  &:hover {
+    background: transparent;
+    color: $colorBlueA700;
+    border: 1px solid darken($colorGrayKeyline, 1%);
+    text-decoration: none;
+  }
+
+  &:active {
+    background: transparent;
+    color: $colorBlueA700;
+    border: 1px solid darken($colorGrayKeyline, 1%);
+    text-decoration: none;
+  }
+}
+
+.button--secondary-variation {
+  @extend .button;
+  @include style-button(#ffffff, $colorBlue, true);
+}

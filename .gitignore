@@ -1,0 +1,53 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+node_modules/
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+parts/
+sdist/
+var/
+npm-debug.log
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.coverage
+.cache
+
+# Translations
+*.mo
+
+# Sphinx documentation
+docs/_build/
+
+# OS and editor files
+.DS_Store
+*/**.DS_Store
+._*
+.*.sw*
+*~
+.idea/
+.mr.developer.cfg
+.project
+.pydevproject
+*.tmproj
+*.tmproject
+tmtags
+
+# App ignores.
+instance/
+celerybeat-schedule

@@ -1,0 +1,21 @@
+/**
+*
+* Link
+*
+**/
+
+a, a:visited, a:active, a:hover {
+  color: $colorBlue;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.cta--primary {
+  @include style-cta($colorBlue);
+}
+
+.cta--secondary {
+  @include style-cta($colorBlue);
+}

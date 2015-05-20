@@ -1,0 +1,50 @@
+{% extends 'layouts/base.jinja2' %}
+
+{% block header %}
+  <header class="app-bar promote-layer">
+    <div class="app-bar-container">
+      <button class="menu"><img
+          src="{{ asset_url_for('images/hamburger.svg') }}"
+          alt="Menu"></button>
+      <h1 class="logo">
+        <a href="{{ url_for('pages.home') }}">
+          Cat <strong>watch</strong>
+        </a>
+      </h1>
+      <section class="app-bar-actions"></section>
+    </div>
+  </header>
+  <nav class="navdrawer-container promote-layer">
+    <h4>Navigation</h4>
+
+    <div class="container">
+      <ul class="nav--main">
+        {% if current_user.is_authenticated() %}
+          <li><a href="#">Live stream</a></li>
+        {% else %}
+          <li><a href="{{ url_for('pages.learn_more') }}">Learn more</a></li>
+          <li><a href="{{ url_for('billing.pricing') }}">Pricing</a></li>
+        {% endif %}
+      </ul>
+      <ul class="nav--account">
+        {% if current_user.is_authenticated() %}
+          <li><a href="{{ url_for('user.logout') }}">Log out</a></li>
+          <li><a href="{{ url_for('user.settings') }}"
+                 class="nav--cta">Account</a>
+            {% else %}
+          <li><a href="{{ url_for('user.login') }}">Log in</a></li>
+          <li>
+          <a href="{{ url_for('user.signup') }}" class="nav--cta">Sign up</a>
+        {% endif %}
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+
+{% block footer %}
+  <li><a href="{{ url_for('pages.faq') }}">FAQ</a></li>
+  <li><a href="{{ url_for('issue.support') }}">Support</a></li>
+  <li><a href="{{ url_for('pages.privacy') }}">Privacy policy</a></li>
+  <li><a href="{{ url_for('pages.terms') }}">Terms of service</a></li>
+{% endblock %}

@@ -1,0 +1,39 @@
+a.login--header {
+  font-weight: bold;
+  text-align: center;
+  color: $colorBlack;
+  text-decoration: none;
+}
+
+.login--background {
+  padding: 0 30px 20px;
+  border: 1px solid darken($colorGrayBackground, 1%);
+  background-color: lighten($colorGrayBackground, 3%);
+}
+
+.login--footer {
+  li {
+    display: inline;
+    padding-right: 20px;
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+a.login--forgot-password {
+  color: $colorGray;
+  text-decoration: none;
+}
+
+a.login--register {
+  color: $colorBlue800;
+  font-size: 12px;
+  font-weight: normal;
+}
+

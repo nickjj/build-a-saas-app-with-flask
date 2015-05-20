@@ -1,0 +1,52 @@
+{% extends 'layouts/app.jinja2' %}
+
+{% block title %}Join thousands of others who enjoy cat gossip{% endblock %}
+
+{% block body %}
+  <div class="clear">
+    <div
+        class="highlight-module highlight-module--code">
+      <div class="highlight-module__container">
+        <div
+            class="highlight-module__content ">
+          <p class="highlight-module__title">Real time cat stream</p>
+
+          <p class="highlight-module__text">
+            Because <strong>life without</strong> real time access to <strong>tweets
+            about cats</strong> would be <strong>ridiculous</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <section class="styleguide__centered-list">
+      <ul class="list-guides-intro list-centered list-reset clear">
+        <li class="g-medium--half g-wide--1 theme--multi-device-layouts">
+          <h3 class="themed">Real time</h3>
+
+          <p>Let's be serious now, it is real time.</p>
+        </li>
+        <li class="g-medium--half g-wide--1 theme--user-input">
+          <h3 class="themed">Stay updated</h3>
+
+          <p>Never miss a tweet about cats again.</p>
+        </li>
+        <li class="g-medium--half g-wide--1 theme--introduction-to-media g-medium--last">
+          <h3 class="themed">Incredible</h3>
+
+          <p>You've never seen anything like this.</p>
+        </li>
+        <li class="g-medium--half g-wide--1 theme--performance g-medium--last g-wide--last">
+          <h3 class="themed">Is this real life?</h3>
+
+          <p>You bet it is, hurry up and <a href="{{ url_for('user.signup') }}">sign
+            up</a>!</p>
+        </li>
+      </ul>
+    </section>
+    <div class="centered">
+      <a href="{{ url_for('user.signup') }}"
+         class="xxlarge button--secondary-variation">Sign up TODAY!</a>
+    </div>
+  </div>
+
+{% endblock %}

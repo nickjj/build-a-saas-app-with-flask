@@ -1,0 +1,49 @@
+{% extends 'layouts/app.jinja2' %}
+{% import 'macros/forms.jinja2' as field %}
+
+{% block title %}Sign up for a new account{% endblock %}
+
+{% block body %}
+  <div class="clear subsection-title">
+    <div class="g--half">
+      <h3 class="bottom-margin">What are you waiting for?</h3>
+      <dl>
+        <dt><strong>Real time</strong></dt>
+        <dd class="no-margin bottom-margin">Let's be serious now, it is real
+          time.
+        </dd>
+        <dt><strong>Stay updated</strong></dt>
+        <dd class="no-margin bottom-margin">Never miss a tweet about cats again.
+        </dd>
+        <dt><strong>Incredible</strong></dt>
+        <dd class="no-margin bottom-margin">You've never seen anything like
+          this.
+        </dd>
+      </dl>
+    </div>
+    <div class="g--half g--last">
+      <div class="login--background">
+        <form method="post" action="{{ url_for('user.signup') }}" class="clear">
+          <legend class="centered medium bottom-margin">Sign up today</legend>
+          {{ form.csrf_token }}
+          {{ form.hidden_tag() }}
+          {{ field.with_errors(form.email, placeholder='Email', autofocus='autofocus') }}
+          {{ field.with_errors(form.password, placeholder='Password') }}
+
+          <div class="g--half">
+            <button type="submit" class="full-width rounded button--primary">
+              Register
+            </button>
+          </div>
+          <div class="g--half g--last">
+            <a href="{{ url_for('user.login') }}"
+               class="login--register full-width rounded button--secondary">
+              Sign in instead?
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
