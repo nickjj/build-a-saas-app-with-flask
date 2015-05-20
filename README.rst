@@ -37,6 +37,7 @@ I installed everything, now what?
 - Type ``cd build-a-saas-app-with-flask``
 - Activate your virtualenv
 - Type ``pip install --editable .`` to activate the CLI
+- Type ``pip install -r requirements.txt`` to install dependencies
 - Type ``run`` to see a list of what's available
 - Edit ``docker-compose.yml`` and setup a local volume for Postgres/Redis
 - Type ``docker-compose up`` to start Postgres/Redis
