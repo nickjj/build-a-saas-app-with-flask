@@ -82,8 +82,8 @@ Stable releases will be tagged and released using the http://semver.org/ system.
 However early on in the project there's a very good chance the versions will
 not adhere to semver perfectly.
 
-.. |Build status| image:: https://secure.travis-ci.org/nickjj/build-saas-app-with-flask.png
-   :target: https://travis-ci.org/nickjj/build-saas-app-with-flask
+.. |Build status| image:: https://secure.travis-ci.org/nickjj/build-a-saas-app-with-flask.png
+   :target: https://travis-ci.org/nickjj/build-a-saas-app-with-flask
 
 .. |Flattr this git repo| image:: http://api.flattr.com/button/flattr-badge-large.png
    :target: https://flattr.com/submit/auto?user_id=nickjj&url=https://github.com/nickjj/build-a-saas-app-with-flask&title=Build+a+SAAS+app+with+Flask&language=Python&tags=github&category=software
