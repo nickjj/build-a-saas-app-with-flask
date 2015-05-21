@@ -300,9 +300,7 @@ class TestUpdateCredentials:
         response = client.post(url_for('user.update_credentials'), data=user,
                                follow_redirects=True)
 
-        assert_status_with_message(200, response,
-                                   _('Your sign in settings have been '
-                                     'updated.'))
+        assert response.status_code == 200
 
         logout(client)
         login(client, 'admin@localhost.com', 'newpassword')
@@ -317,9 +315,8 @@ class TestUpdateCredentials:
             'email': 'admin2@localhost.com',
             'password': 'newpassword'
         }
+
         response = client.post(url_for('user.update_credentials'), data=user,
                                follow_redirects=True)
 
-        assert_status_with_message(200, response,
-                                   _('Your sign in settings have been '
-                                     'updated.'))
+        assert response.status_code == 200
