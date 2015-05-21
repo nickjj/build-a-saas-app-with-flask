@@ -1,4 +1,5 @@
 from collections import OrderedDict
+import datetime
 from hashlib import md5
 
 from flask import current_app
@@ -33,6 +34,13 @@ class User(UserMixin, ResourceMixin, db.Model):
     # Billing.
     name = db.Column(db.String(128), nullable=False, server_default='')
     stripe_customer_id = db.Column(db.String(128), index=True)
+
+    # Activity tracking.
+    sign_in_count = db.Column(db.Integer, nullable=False, default=0)
+    current_sign_in_on = db.Column(db.DateTime)
+    current_sign_in_ip = db.Column(db.String(45))
+    last_sign_in_on = db.Column(db.DateTime)
+    last_sign_in_ip = db.Column(db.String(45))
 
     def __init__(self, **kwargs):
         # Call Flask-SQLAlchemy's constructor.
@@ -144,3 +152,22 @@ class User(UserMixin, ResourceMixin, db.Model):
 
         serializer = TimedJSONWebSignatureSerializer(private_key, expiration)
         return serializer.dumps({'user_email': self.email}).decode('utf-8')
+
+    def update_activity_tracking(self, ip_address):
+        """
+        Update various fields on the user that's related to meta data on his
+        account, such as the sign in count and ip address, etc..
+
+        :param ip_address: IP address
+        :type ip_address: str
+        :return: The result of updating the record
+        """
+        self.sign_in_count += 1
+
+        self.last_sign_in_on = self.current_sign_in_on
+        self.last_sign_in_ip = self.current_sign_in_ip
+
+        self.current_sign_in_on = datetime.datetime.utcnow()
+        self.current_sign_in_ip = ip_address
+
+        return db.session.commit()

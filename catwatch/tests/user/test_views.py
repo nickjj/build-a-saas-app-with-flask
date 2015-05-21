@@ -17,6 +17,18 @@ class TestLogin:
         response = login(client, 'admin@localhost.com', 'password')
         assert response.status_code == 200
 
+    def test_login_activity(self, session, client):
+        """ Login successfully and update the activity stats. """
+        user = User.find_by_identity('admin@localhost.com')
+        old_sign_in_count = user.sign_in_count
+
+        response = login(client, 'admin@localhost.com', 'password')
+
+        new_sign_in_count = user.sign_in_count
+
+        assert response.status_code == 200
+        assert (old_sign_in_count + 1) == new_sign_in_count
+
     def test_login_disable(self, session, client):
         """ Login failure due to account being disabled. """
         response = login(client, 'disabled@localhost.com', 'password')

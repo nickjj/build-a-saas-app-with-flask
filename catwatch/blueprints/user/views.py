@@ -45,6 +45,7 @@ def login():
             # 2) Uncomment the 'remember' field in user/forms.py#LoginForm
             # 3) Add a checkbox to the login form with the id/name 'remember'
             if login_user(u, remember=True):
+                u.update_activity_tracking(request.remote_addr)
                 return redirect(url_for('user.settings'))
             else:
                 flash(_('This account has been disabled.'), 'error')
