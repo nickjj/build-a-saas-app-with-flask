@@ -32,7 +32,6 @@ class TestLogin:
     def test_login_disable(self, session, client):
         """ Login failure due to account being disabled. """
         response = login(client, 'disabled@localhost.com', 'password')
-        print response.data
 
         assert_status_with_message(200, response,
                                    _('This account has been disabled.'))
@@ -193,8 +192,6 @@ class TestSignup:
         user = {'username': 'hello'}
         response = client.post(url_for('user.welcome'), data=user,
                                follow_redirects=True)
-
-        print response.data
 
         assert_status_with_message(200, response,
                                    _('Sign up is complete, enjoy our '
