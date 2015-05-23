@@ -1,5 +1,5 @@
 {% extends 'layouts/app.jinja2' %}
-{% import 'macros/forms.jinja2' as field %}
+{% import 'macros/form.jinja2' as f with context %}
 
 {% block title %}Thanks for signing up{% endblock %}
 
@@ -16,15 +16,12 @@
     </div>
     <div class="g--half g--last">
       <div class="login--background">
-        <form method="post" action="{{ url_for('user.welcome') }}"
-              class="clear">
+        {% call f.form_tag('user.welcome', class='clear') %}
           <legend class="centered medium">Pick a username</legend>
           <p class="small color--muted bottom-margin">
             You can only pick this once, make it count.
           </p>
-          {{ form.csrf_token }}
-          {{ form.hidden_tag() }}
-          {{ field.with_errors(form.username, placeholder='Username', autofocus='autofocus') }}
+          {{ f.field(form.username, placeholder='Username', autofocus='autofocus') }}
 
           <div class="g--half">
             <button type="submit" class="full-width rounded button--primary">
@@ -37,7 +34,7 @@
               Do it later
             </a>
           </div>
-        </form>
+        {% endcall %}
       </div>
     </div>
 

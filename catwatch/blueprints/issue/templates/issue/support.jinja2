@@ -1,32 +1,29 @@
 {% extends 'layouts/app.jinja2' %}
-{% import 'macros/forms.jinja2' as field %}
+{% import 'macros/form.jinja2' as f with context %}
 
 {% block title %}Let's remedy any issues you may have{% endblock %}
 
 {% block body %}
   <div class="g--2 g--centered subsection-title">
     <div class="login--background">
-      <form method="post" action="{{ url_for('issue.support') }}"
-            class="clear">
+      {% call f.form_tag('issue.support', class='clear') %}
         <legend class="centered medium bottom-margin">We're here to help
         </legend>
-        {{ form.csrf_token }}
-        {{ form.hidden_tag() }}
         {{ form.label.label }}
-        {{ field.with_errors(form.label) }}
+        {{ f.field(form.label) }}
 
         {{ form.email.label }}
-        {{ field.with_errors(form.email, placeholder='Email') }}
+        {{ f.field(form.email, placeholder='Email') }}
 
         {{ form.question.label }}
-        {{ field.with_errors(form.question, placeholder='The more we know, the easier it will be to help you', rows='12') }}
+        {{ f.field(form.question, placeholder='The more we know, the easier it will be to help you', rows='12') }}
 
         <div class="g--half">
           <button type="submit" class="full-width rounded button--primary">
             Submit this support request
           </button>
         </div>
-      </form>
+      {% endcall %}
     </div>
   </div>
 {% endblock %}

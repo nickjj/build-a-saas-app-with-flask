@@ -1,5 +1,5 @@
 {% extends 'layouts/app.jinja2' %}
-{% import 'macros/forms.jinja2' as field %}
+{% import 'macros/form.jinja2' as f with context %}
 
 {% block title %}Sign up for a new account{% endblock %}
 
@@ -23,12 +23,10 @@
     </div>
     <div class="g--half g--last">
       <div class="login--background">
-        <form method="post" action="{{ url_for('user.signup') }}" class="clear">
+        {% call f.form_tag('user.signup', class='clear') %}
           <legend class="centered medium bottom-margin">Sign up today</legend>
-          {{ form.csrf_token }}
-          {{ form.hidden_tag() }}
-          {{ field.with_errors(form.email, placeholder='Email', autofocus='autofocus') }}
-          {{ field.with_errors(form.password, placeholder='Password') }}
+          {{ f.field(form.email, placeholder='Email', autofocus='autofocus') }}
+          {{ f.field(form.password, placeholder='Password') }}
 
           <div class="g--half">
             <button type="submit" class="full-width rounded button--primary">
@@ -41,7 +39,7 @@
               Sign in instead?
             </a>
           </div>
-        </form>
+        {% endcall %}
       </div>
     </div>
 
