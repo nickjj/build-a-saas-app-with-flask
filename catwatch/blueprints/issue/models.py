@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from catwatch.lib.sqlalchemy import ResourceMixin
+from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
 
 

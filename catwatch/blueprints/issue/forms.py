@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Length
 from wtforms_components import EmailField
 from flask_babel import lazy_gettext as _
 
-from catwatch.lib.wtforms import choices_from_dict
+from catwatch.lib.util_wtforms import choices_from_dict
 from catwatch.blueprints.issue.models import Issue
 
 
