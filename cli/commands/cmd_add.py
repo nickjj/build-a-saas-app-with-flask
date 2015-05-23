@@ -71,7 +71,8 @@ def users():
         params = {
             'role': random.choice(User.ROLE.keys()),
             'email': random_emails.pop(),
-            'password': 'password'
+            'password': User.encrypt_password('password'),
+            'name': fake.name()
         }
 
         data.append(params)
