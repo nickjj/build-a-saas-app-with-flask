@@ -26,9 +26,20 @@
   color: darken($colorYellow, 20%);
 }
 
+.alert--interesting {
+  @extend .alert;
+  border: 1px solid darken($colorPurple50, 8%);
+  background-color: lighten($colorPurple50, 1%);
+  color: darken($colorPurple100, 25%);
+}
+
 .alert--error, .alert--message {
   @extend .alert;
   border: 1px solid lighten($colorDanger, 30%);
   background-color: lighten($colorDanger, 40%);
   color: darken($colorDanger, 20%);
+}
+
+.alert--small {
+  padding: 4px;
 }

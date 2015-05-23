@@ -1,0 +1,44 @@
+{% import 'macros/form.jinja2' as f with context %}
+
+{% if request.endpoint.endswith('new') %}
+  {% set endpoint = 'admin.issues_new' %}
+  {% set form_kwargs = {} %}
+  {% set legend = 'Add a new issue' %}
+  {% set button = 'Add' %}
+{% else %}
+  {% set endpoint = 'admin.issues_edit' %}
+  {% set form_kwargs = {'id': issue.id} %}
+  {% set legend = 'Update this issue' %}
+  {% set button = 'Save' %}
+{% endif %}
+
+<div class="g--2 g--centered subsection-title">
+  <div class="login--background">
+    {% call f.form_tag(endpoint, class='clear', **form_kwargs) %}
+      <legend class="centered medium bottom-margin">{{ legend }}</legend>
+      {{ form.label.label }}
+      {{ f.field(form.label) }}
+
+      {{ form.email.label }}
+      {{ f.field(form.email, placeholder='Email') }}
+
+      {{ form.question.label }}
+      {{ f.field(form.question, placeholder='The more we know, the easier it will be to help you', rows='12') }}
+
+      {{ form.status.label }}
+      {{ f.field(form.status) }}
+      <hr>
+      <div class="g--half">
+        <button type="submit" class="full-width rounded button--primary">
+          {{ button }}
+        </button>
+      </div>
+      <div class="g--half g--last">
+        <a href="{{ url_for('admin.issues') }}"
+           class="login--register full-width rounded button--secondary">
+          Cancel
+        </a>
+      </div>
+    {% endcall %}
+  </div>
+</div>

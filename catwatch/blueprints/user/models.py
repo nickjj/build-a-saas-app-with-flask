@@ -65,6 +65,9 @@ class User(UserMixin, ResourceMixin, db.Model):
         :type fields: tuple
         :return: SQLAlchemy filter
         """
+        if not query:
+            return ''
+
         # TODO: Refactor this to dynamically search on any model by any filter.
         search_query = '%{0}%'.format(query)
         search_chain = (User.email.ilike(search_query),
@@ -115,6 +118,24 @@ class User(UserMixin, ResourceMixin, db.Model):
             return User.find_by_identity(decoded_payload.get('user_email'))
         except Exception:
             return None
+
+    @classmethod
+    def is_last_admin(cls, existing_role, new_role):
+        """
+        Determine whether or not this user is the last admin account.
+
+        :param existing_role: Existing role of the user
+        :type existing_role: str
+        :param new_role: New role being set
+        :type new_role: str
+        :return: bool
+        """
+        if existing_role == 'admin' and new_role != 'admin':
+            admin_count = User.query.filter(User.role == 'admin').count()
+            if admin_count == 1:
+                return True
+
+        return False
 
     def is_active(self):
         """

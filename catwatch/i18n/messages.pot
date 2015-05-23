@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-20 10:27-0700\n"
+"POT-Creation-Date: 2015-05-23 11:22-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,73 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: catwatch/blueprints/issue/forms.py:12
+#: catwatch/blueprints/admin/forms.py:35
+msgid "Search terms"
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:36
+msgid "Search"
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:45 catwatch/blueprints/admin/forms.py:63
+msgid "Privileges"
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:47
+msgid "Delete items"
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:51 catwatch/blueprints/user/forms.py:67
+msgid "Letters, numbers and underscores only please."
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:62
+msgid "Full name"
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:66
+msgid "Yes, allow this user to sign in"
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:67 catwatch/blueprints/admin/forms.py:80
+#: catwatch/blueprints/user/forms.py:78 catwatch/blueprints/user/forms.py:95
+msgid "Save"
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:71 catwatch/blueprints/issue/forms.py:12
 msgid "What do you need help with?"
 msgstr ""
 
-#: catwatch/blueprints/issue/forms.py:14
+#: catwatch/blueprints/admin/forms.py:73 catwatch/blueprints/issue/forms.py:14
 msgid "What's your e-mail address?"
 msgstr ""
 
-#: catwatch/blueprints/issue/forms.py:16
+#: catwatch/blueprints/admin/forms.py:75 catwatch/blueprints/issue/forms.py:16
 msgid "What's your question or issue?"
+msgstr ""
+
+#: catwatch/blueprints/admin/forms.py:77
+msgid "What status is the issue in?"
+msgstr ""
+
+#: catwatch/blueprints/admin/views.py:73
+msgid "You are the last admin, you cannot demote yourself."
+msgstr ""
+
+#: catwatch/blueprints/admin/views.py:83
+msgid "User has been saved successfully."
+msgstr ""
+
+#: catwatch/blueprints/admin/views.py:106
+msgid "No users were deleted, something went wrong."
+msgstr ""
+
+#: catwatch/blueprints/admin/views.py:141
+msgid "Issue has been saved successfully."
+msgstr ""
+
+#: catwatch/blueprints/admin/views.py:163
+msgid "No issues were deleted, something went wrong."
 msgstr ""
 
 #: catwatch/blueprints/issue/forms.py:18
@@ -61,14 +118,6 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:67
-msgid "Letters, numbers and underscores only please."
-msgstr ""
-
-#: catwatch/blueprints/user/forms.py:78 catwatch/blueprints/user/forms.py:95
-msgid "Save"
-msgstr ""
-
 #: catwatch/blueprints/user/forms.py:89
 msgid "Current password"
 msgstr ""
@@ -77,42 +126,41 @@ msgstr ""
 msgid "Password reset from Catwatch"
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:50 catwatch/tests/user/test_views.py:26
+#: catwatch/blueprints/user/views.py:51 catwatch/tests/user/test_views.py:37
 msgid "This account has been disabled."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:52 catwatch/tests/user/test_views.py:32
+#: catwatch/blueprints/user/views.py:53 catwatch/tests/user/test_views.py:43
 msgid "Identity or password is incorrect."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:61 catwatch/tests/user/test_views.py:40
+#: catwatch/blueprints/user/views.py:62 catwatch/tests/user/test_views.py:51
 msgid "You have been logged out."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:78 catwatch/tests/user/test_views.py:93
+#: catwatch/blueprints/user/views.py:79 catwatch/tests/user/test_views.py:104
 #, python-format
 msgid "An email has been sent to %(email)s."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:94 catwatch/tests/user/test_views.py:115
-#: catwatch/tests/user/test_views.py:125
+#: catwatch/blueprints/user/views.py:95 catwatch/tests/user/test_views.py:126
+#: catwatch/tests/user/test_views.py:136
 msgid "Your reset token has expired or was tampered with."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:103 catwatch/tests/user/test_views.py:103
+#: catwatch/blueprints/user/views.py:104 catwatch/tests/user/test_views.py:114
 msgid "Your password has been reset."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:122 catwatch/tests/user/test_views.py:169
+#: catwatch/blueprints/user/views.py:123 catwatch/tests/user/test_views.py:180
 msgid "Awesome, thanks for signing up!"
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:137 catwatch/tests/user/test_views.py:188
+#: catwatch/blueprints/user/views.py:138 catwatch/tests/user/test_views.py:197
 msgid "Sign up is complete, enjoy our services."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:164 catwatch/tests/user/test_views.py:272
-#: catwatch/tests/user/test_views.py:295 catwatch/tests/user/test_views.py:315
+#: catwatch/blueprints/user/views.py:165 catwatch/tests/user/test_views.py:281
 msgid "Your sign in settings have been updated."
 msgstr ""
 

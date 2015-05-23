@@ -18,6 +18,7 @@ from catwatch.extensions import (
     debug_toolbar
 )
 from catwatch.blueprints.user.models import User
+from catwatch.blueprints.admin import admin
 from catwatch.blueprints.pages import pages
 from catwatch.blueprints.user import user
 from catwatch.blueprints.billing import billing
@@ -116,6 +117,7 @@ def register_blueprints(app):
     :return: None
     """
     blueprints = [
+        admin,
         pages,
         user,
         billing,

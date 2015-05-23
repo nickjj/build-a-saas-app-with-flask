@@ -1,0 +1,74 @@
+{% extends 'layouts/app.jinja2' %}
+{% import 'macros/items.jinja2' as items %}
+{% import 'macros/form.jinja2' as f with context %}
+{% import 'user/macros/user.jinja2' as account %}
+
+{% block title %}Admin - Users / List{% endblock %}
+
+{% block body %}
+  {{ f.search('admin.users') }}
+
+  {% if users.total == 0 %}
+    <h3>No results found</h3>
+    {% if request.args.get('q') %}
+      <p>Try limiting or removing your search terms.</p>
+    {% else %}
+      <p>There are no users present, you should <a href="{{ url_for('user.signup') }}">sign up</a>.</p>
+    {% endif %}
+  {% else %}
+    {% call f.form_tag('admin.users_bulk_delete') %}
+      <table>
+        <thead>
+        <tr>
+          <th>
+            <label for="select_all"></label>
+            <input id="select_all" name="select_all" type="checkbox">
+          </th>
+          <th class="col-header">
+            {{ items.sort('name') }}
+          </th>
+          <th class="col-header">
+            {{ items.sort('last_sign_in_on', 'Last sign in date') }}
+          </th>
+          <th class="col-header">
+            {{ items.sort('sign_in_count', 'Sign in count') }}
+          </th>
+          <th id="bulk_actions">
+            {{ f.field(bulk_form.scope, inline=True) }}
+            <button type="submit"
+                    class="rounded button--small button--primary">
+              Delete items
+            </button>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users.items %}
+          <tr>
+            <td>
+              <label for="bulk_ids"></label>
+              <input class="checkbox-item" id="bulk_ids" name="bulk_ids"
+                     type="checkbox" value="{{ user.id }}">
+            </td>
+            <td>
+              {{ account.role_icon_for(user.role) }}
+              <a href="{{ url_for('admin.users_edit', id=user.id) }}">
+                <h5 class="medium admin--table-label">{{ user.name }}</h5>
+
+                <p class="small color--muted admin--table--sublabel">
+                  {{ user.email }}
+                </p>
+              </a>
+            </td>
+            <td>{{ user.last_sign_in_on }}</td>
+            <td>{{ user.sign_in_count }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endcall %}
+
+    {{ items.paginate(users) }}
+  {% endif %}
+{% endblock %}
+

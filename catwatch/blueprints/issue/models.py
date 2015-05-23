@@ -1,5 +1,7 @@
 from collections import OrderedDict
 
+from sqlalchemy import or_
+
 from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
 
@@ -31,3 +33,22 @@ class Issue(ResourceMixin, db.Model):
     email = db.Column(db.String(255), index=True, nullable=False,
                       server_default='')
     question = db.Column(db.Text())
+
+    @classmethod
+    def search(cls, query, fields):
+        """
+        Search a resource by 1 or more fields.
+
+        :param query: Search query
+        :type query: str
+        :param fields: Fields to search
+        :type fields: tuple
+        :return: SQLAlchemy filter
+        """
+        if not query:
+            return ''
+
+        # TODO: Refactor this to dynamically search on any model by any filter.
+        search_query = '%{0}%'.format(query)
+
+        return or_(Issue.email.ilike(search_query))

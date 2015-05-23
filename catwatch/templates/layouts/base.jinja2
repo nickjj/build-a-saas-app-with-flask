@@ -37,6 +37,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
+{% if current_user.role == 'admin' %}
+  {% include 'admin/_topbar.jinja2' %}
+{% endif %}
+
 {% block header %}{% endblock %}
 
 <main>

@@ -1,0 +1,50 @@
+{% extends 'layouts/app.jinja2' %}
+
+{% block title %}Admin - Dashboard{% endblock %}
+{% block heading %}
+  <h2 class="centered">Dashboard</h2>
+  <hr>
+{% endblock %}
+
+{% block body %}
+  <section class="styleguide__editorial-header">
+    <div class="editorial-header">
+      <div class="g-wide--1">
+        <h3>Billing stats</h3>
+
+        <p>Coming soon!</p>
+      </div>
+      <div class="g-wide--1">
+        <h3>User stats</h3>
+        {% for item in group_and_count_users %}
+          <dl>
+            <dt><strong>{{ item[1] | title }}</strong></dt>
+            <dd class="no-margin bottom-margin">{{ item[0] }}</dd>
+          </dl>
+        {% endfor %}
+      </div>
+      <div class="g-wide--1">
+        <h3>Issue stats</h3>
+        {% for item in group_and_count_issues %}
+          <dl>
+            <dt><strong>{{ item[1] | title }}</strong></dt>
+            <dd class="no-margin bottom-margin">{{ item[0] }}</dd>
+          </dl>
+        {% endfor %}
+      </div>
+      <div class="g-wide--1 g--last">
+        <h3>Links</h3>
+
+        <p class="small color--muted">You may want to include a list of
+          external links so you can easily get to those services.</p>
+        <dl>
+          <dt><strong>Primary e-mail</strong></dt>
+          <dd class="no-margin bottom-margin"><a
+              href="#">catwatch@gmail.com</a></dd>
+          <dt><strong>Digital Ocean</strong></dt>
+          <dd class="no-margin bottom-margin"><a href="#">Admin panel</a></dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+{% endblock %}
