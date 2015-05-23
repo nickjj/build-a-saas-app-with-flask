@@ -1,0 +1,15 @@
+.pagination {
+  li {
+    display: inline;
+    list-style-type: none;
+    padding: 4px;
+    padding-left: 8px;
+    margin: 4px;
+    border: 1px solid lighten($colorGrayKeyline, 2%);
+
+    a {
+      text-decoration: none;
+
+    }
+  }
+}

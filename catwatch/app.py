@@ -155,7 +155,7 @@ def register_template_processors(app):
 
     :return: None
     """
-    pass
+    app.jinja_env.add_extension('jinja2.ext.do')
 
 
 def initialize_authentication(app, user_model):

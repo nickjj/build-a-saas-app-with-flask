@@ -5,9 +5,12 @@
 **/
 
 table {
-  margin-top: $lineHeight;
   width: 100%;
   font-size: $fontSmall;
+
+  a {
+    text-decoration: none;
+  }
 
   thead {
     border-bottom: 2px solid lighten($colorBlue, 24%);
@@ -148,4 +151,8 @@ td:last-child::after {
       }
     }
   }
+}
+
+.selected-row {
+  background-color: $colorYellow50;
 }

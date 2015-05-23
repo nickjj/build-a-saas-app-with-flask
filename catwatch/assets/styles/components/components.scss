@@ -39,11 +39,13 @@
 @import '_components/_subsection-title';
 @import '_components/_articles-list';
 @import '_components/_guides-list';
-// Custom modules
+// Custom modules and components
 @import '_modules/_admin';
 @import '_modules/_nav';
 @import '_modules/_login';
-@import '_modules/pricing';
+@import '_modules/_pricing';
+@import '_modules/_pagination';
+@import '_modules/_bulk_delete';
 // Themed styles
 @import '_themed';
 // Pages

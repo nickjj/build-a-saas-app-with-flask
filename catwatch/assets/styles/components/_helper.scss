@@ -168,6 +168,10 @@
 }
 
 /*==========  GENERIC  ==========*/
+.inline {
+  display: inline;
+}
+
 .centered {
   text-align: center;
 }
@@ -194,6 +198,27 @@
 
 .no-margin {
   margin-left: 0;
+}
+
+.sort:after {
+  content: '\f0dc';
+  font-family: FontAwesome;
+  margin-left: 6px;
+  color: darken($colorGrayKeyline, 2%);
+}
+
+.asc:after {
+  content: '\f0dd';
+  font-family: FontAwesome;
+  margin-left: 6px;
+  color: $colorGray;
+}
+
+.desc:after {
+  content: '\f0de';
+  font-family: FontAwesome;
+  margin-left: 6px;
+  color: $colorGray;
 }
 
 /*==========  TAG  ==========*/
