@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-23 11:22-0700\n"
+"POT-Creation-Date: 2015-05-23 14:50-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,23 +66,23 @@ msgstr ""
 msgid "What status is the issue in?"
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:73
-msgid "You are the last admin, you cannot demote yourself."
+#: catwatch/blueprints/admin/views.py:75
+msgid "You are the last admin, you cannot do that."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:83
+#: catwatch/blueprints/admin/views.py:85
 msgid "User has been saved successfully."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:106
+#: catwatch/blueprints/admin/views.py:108
 msgid "No users were deleted, something went wrong."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:141
+#: catwatch/blueprints/admin/views.py:143
 msgid "Issue has been saved successfully."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:163
+#: catwatch/blueprints/admin/views.py:165
 msgid "No issues were deleted, something went wrong."
 msgstr ""
 

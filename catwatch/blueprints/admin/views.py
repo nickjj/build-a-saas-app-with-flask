@@ -69,8 +69,10 @@ def users_edit(id):
     form = UserForm(obj=user)
 
     if form.validate_on_submit():
-        if User.is_last_admin(user.role, request.form.get('role', None)):
-            flash(_('You are the last admin, you cannot demote yourself.'),
+        if User.is_last_admin(user,
+                              request.form.get('role', None),
+                              request.form.get('active', None)):
+            flash(_('You are the last admin, you cannot do that.'),
                   'error')
             return redirect(url_for('admin.users'))
 

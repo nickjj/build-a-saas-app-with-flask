@@ -120,19 +120,25 @@ class User(UserMixin, ResourceMixin, db.Model):
             return None
 
     @classmethod
-    def is_last_admin(cls, existing_role, new_role):
+    def is_last_admin(cls, user, new_role, new_active):
         """
         Determine whether or not this user is the last admin account.
 
-        :param existing_role: Existing role of the user
-        :type existing_role: str
+        :param user: User being tested
+        :type user: User
         :param new_role: New role being set
         :type new_role: str
+        :param new_active: New active status being set
+        :type new_active: bool
         :return: bool
         """
-        if existing_role == 'admin' and new_role != 'admin':
+        is_changing_roles = user.role == 'admin' and new_role != 'admin'
+        is_changing_active = user.active is True and new_active is None
+
+        if is_changing_roles or is_changing_active:
             admin_count = User.query.filter(User.role == 'admin').count()
-            if admin_count == 1:
+            active_count = User.query.filter(User.is_active is True).count()
+            if admin_count == 1 or active_count == 1:
                 return True
 
         return False

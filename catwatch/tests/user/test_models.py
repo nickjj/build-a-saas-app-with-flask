@@ -17,12 +17,18 @@ class TestLogin:
         assert user is None
 
     def test_is_last_admin_yes(self, token):
-        """ Last admin should not be able to demote himself. """
-        assert True == User.is_last_admin('admin', 'member')
-        assert False == User.is_last_admin('admin', 'admin')
+        """ Last admin should not be able to change himself. """
+        user = User.find_by_identity('admin@localhost.com')
+
+        assert True is User.is_last_admin(user, 'member', 'y')
+        assert False is User.is_last_admin(user, 'admin', 'y')
+        assert True is User.is_last_admin(user, 'admin', None)
+        assert False is User.is_last_admin(user, 'admin', 'y')
 
     def test_is_last_admin_no(self, token):
-        """ Not the last admin should be able to demote himself. """
+        """ Not the last admin should be able to change himself. """
+        user = User.find_by_identity('admin@localhost.com')
+
         params = {
             'role': 'admin',
             'email': 'hello@world.com',
@@ -32,4 +38,6 @@ class TestLogin:
         new_user = User(**params)
         new_user.save()
 
-        assert False == User.is_last_admin('admin', 'member')
+        assert False is User.is_last_admin(user, 'member', 'y')
+        assert False is User.is_last_admin(user, 'admin', None)
+        assert False is User.is_last_admin(user, 'member', None)
