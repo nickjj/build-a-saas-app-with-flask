@@ -32,7 +32,7 @@ class User(UserMixin, ResourceMixin, db.Model):
     password = db.Column(db.String(128), nullable=False, server_default='')
 
     # Billing.
-    name = db.Column(db.String(128), nullable=False, server_default='')
+    name = db.Column(db.String(128), index=True)
     stripe_customer_id = db.Column(db.String(128), index=True)
 
     # Activity tracking.
