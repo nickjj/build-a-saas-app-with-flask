@@ -18,7 +18,7 @@ class Dashboard(object):
     @classmethod
     def group_and_count_issues(cls):
         """
-        Perform a group by/count on all user types.
+        Perform a group by/count on all issue types.
 
         :return: List of results
         """
