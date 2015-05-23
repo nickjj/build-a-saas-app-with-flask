@@ -1,3 +1,5 @@
+var BulkDelete = require('./bulk-delete');
+
 /*!
  *
  *  Web Starter Kit
@@ -47,4 +49,7 @@
             closeMenu();
         }
     });
+
+    var bulk_delete = new BulkDelete();
+    bulk_delete.listenForEvents();
 })();

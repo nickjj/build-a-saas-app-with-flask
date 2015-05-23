@@ -36,6 +36,11 @@
   }
 }
 
+.button--small {
+  padding: 0 8px;
+  margin-bottom: 0;
+}
+
 // Mixin to create buttons
 @mixin style-button($color, $textColor, $isInverted: false) {
 

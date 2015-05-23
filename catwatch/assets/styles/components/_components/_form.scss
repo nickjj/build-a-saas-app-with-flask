@@ -16,6 +16,11 @@ input:focus, textarea:focus, select:focus {
   border: 1px solid $colorBlue;
 }
 
+input[type='checkbox'] {
+  width: 16px;
+  vertical-align: middle;
+}
+
 select,
 input[type='text'], input[type='password'],
 input[type='datetime'], input[type='datetime-local'],

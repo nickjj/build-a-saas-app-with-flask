@@ -54,6 +54,24 @@ class User(UserMixin, ResourceMixin, db.Model):
         self.password = User.encrypt_password(kwargs.get('password', ''))
 
     @classmethod
+    def search(cls, query, fields):
+        """
+        Search a resource by 1 or more fields.
+
+        :param query: Search query
+        :type query: str
+        :param fields: Fields to search
+        :type fields: tuple
+        :return: SQLAlchemy filter
+        """
+        # TODO: Refactor this to dynamically search on any model by any filter.
+        search_query = '%{0}%'.format(query)
+        search_chain = (User.email.ilike(search_query),
+                        User.name.ilike(search_query))
+
+        return or_(*search_chain)
+
+    @classmethod
     def find_by_identity(cls, identity):
         """
         Find a user by their e-mail or username.
