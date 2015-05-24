@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-23 14:50-0700\n"
+"POT-Creation-Date: 2015-05-24 06:39-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,52 +17,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: catwatch/blueprints/admin/forms.py:35
+#: catwatch/blueprints/admin/forms.py:16
 msgid "Search terms"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:36
+#: catwatch/blueprints/admin/forms.py:17
 msgid "Search"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:45 catwatch/blueprints/admin/forms.py:63
+#: catwatch/blueprints/admin/forms.py:26 catwatch/blueprints/admin/forms.py:44
 msgid "Privileges"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:47
+#: catwatch/blueprints/admin/forms.py:28
 msgid "Delete items"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:51 catwatch/blueprints/user/forms.py:67
+#: catwatch/blueprints/admin/forms.py:32 catwatch/blueprints/user/forms.py:50
 msgid "Letters, numbers and underscores only please."
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:62
+#: catwatch/blueprints/admin/forms.py:43
 msgid "Full name"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:66
+#: catwatch/blueprints/admin/forms.py:47
 msgid "Yes, allow this user to sign in"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:67 catwatch/blueprints/admin/forms.py:80
-#: catwatch/blueprints/user/forms.py:78 catwatch/blueprints/user/forms.py:95
+#: catwatch/blueprints/admin/forms.py:48 catwatch/blueprints/admin/forms.py:61
+#: catwatch/blueprints/user/forms.py:61 catwatch/blueprints/user/forms.py:78
 msgid "Save"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:71 catwatch/blueprints/issue/forms.py:12
+#: catwatch/blueprints/admin/forms.py:52 catwatch/blueprints/issue/forms.py:12
 msgid "What do you need help with?"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:73 catwatch/blueprints/issue/forms.py:14
+#: catwatch/blueprints/admin/forms.py:54 catwatch/blueprints/issue/forms.py:14
 msgid "What's your e-mail address?"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:75 catwatch/blueprints/issue/forms.py:16
+#: catwatch/blueprints/admin/forms.py:56 catwatch/blueprints/issue/forms.py:16
 msgid "What's your question or issue?"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:77
+#: catwatch/blueprints/admin/forms.py:58
 msgid "What status is the issue in?"
 msgstr ""
 
@@ -98,32 +98,41 @@ msgstr ""
 msgid "You do not have permission to do that."
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:32 catwatch/blueprints/user/forms.py:40
+#: catwatch/blueprints/user/forms.py:15 catwatch/blueprints/user/forms.py:23
 msgid "Username or email"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:36
+#: catwatch/blueprints/user/forms.py:19
 msgid "Sign in"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:45 catwatch/blueprints/user/forms.py:51
+#: catwatch/blueprints/user/forms.py:28 catwatch/blueprints/user/forms.py:34
 msgid "Continue"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:62 catwatch/blueprints/user/forms.py:94
+#: catwatch/blueprints/user/forms.py:33 catwatch/blueprints/user/forms.py:45
+#: catwatch/blueprints/user/forms.py:77
 msgid "Password"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:63
+#: catwatch/blueprints/user/forms.py:46
 msgid "Register"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:89
+#: catwatch/blueprints/user/forms.py:72
 msgid "Current password"
 msgstr ""
 
 #: catwatch/blueprints/user/tasks.py:28
 msgid "Password reset from Catwatch"
+msgstr ""
+
+#: catwatch/blueprints/user/validations.py:18
+msgid "Unable to locate account."
+msgstr ""
+
+#: catwatch/blueprints/user/validations.py:32
+msgid "Does not match."
 msgstr ""
 
 #: catwatch/blueprints/user/views.py:51 catwatch/tests/user/test_views.py:37
@@ -162,5 +171,9 @@ msgstr ""
 
 #: catwatch/blueprints/user/views.py:165 catwatch/tests/user/test_views.py:281
 msgid "Your sign in settings have been updated."
+msgstr ""
+
+#: catwatch/lib/util_wtforms.py:49
+msgid "Please select one..."
 msgstr ""
 

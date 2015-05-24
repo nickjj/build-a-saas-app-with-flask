@@ -30,7 +30,7 @@ class BeginPasswordResetForm(Form):
 
 class PasswordResetForm(Form):
     reset_token = HiddenField()
-    password = PasswordField('Password', [DataRequired(), Length(8, 128)])
+    password = PasswordField(_('Password'), [DataRequired(), Length(8, 128)])
     submit = SubmitField(_('Continue'))
 
 

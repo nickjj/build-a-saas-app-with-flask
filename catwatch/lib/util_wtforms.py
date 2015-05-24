@@ -1,4 +1,5 @@
 from flask_wtf import Form
+from flask_babel import lazy_gettext as _
 
 
 class ModelForm(Form):
@@ -45,7 +46,7 @@ def choices_from_dict(source, prepend_blank=True):
     choices = []
 
     if prepend_blank:
-        choices.append(('', 'Please select one...'))
+        choices.append(('', _('Please select one...')))
 
     for key, value in source.iteritems():
         pair = (key, value)
