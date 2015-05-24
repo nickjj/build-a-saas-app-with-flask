@@ -31,6 +31,9 @@
             {{ items.sort('label') }}
           </th>
           <th class="col-header">
+            {{ items.sort('created_on', 'Date') }}
+          </th>
+          <th class="col-header">
             {{ items.sort('email') }}
           </th>
           <th id="bulk_actions">
@@ -52,13 +55,10 @@
             </td>
             <td>{{ support.status_icon_for(issue.status) }}</td>
             <td>{{ support.label_tag_for(issue.label) }}</td>
+            <td>{{ issue.created_on }}</td>
             <td>
               <a href="{{ url_for('admin.issues_edit', id=issue.id) }}">
                 <h5 class="medium admin--table-label">{{ issue.email }}</h5>
-
-                <p class="small color--muted admin--table--sublabel">
-                  {{ issue.created_on }}
-                </p>
               </a>
             </td>
           </tr>
