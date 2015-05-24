@@ -47,7 +47,7 @@
         </thead>
         <tbody>
         {% for issue in issues.items %}
-          <tr>
+          <tr class="{{ 'faded' if issue.status == 'closed' }}">
             <td>
               <label for="bulk_ids"></label>
               <input class="checkbox-item" id="bulk_ids" name="bulk_ids"
