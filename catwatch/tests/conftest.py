@@ -1,5 +1,6 @@
 import pytest
 
+from config import settings
 from catwatch.app import create_app
 from catwatch.extensions import db as _db
 from catwatch.blueprints.user.models import User
@@ -12,15 +13,15 @@ def app():
 
     :return: Flask app
     """
-    _app = create_app()
+    db_uri = '{0}_test'.format(settings.SQLALCHEMY_DATABASE_URI)
+    params = {
+        'DEBUG': False,
+        'TESTING': True,
+        'WTF_CSRF_ENABLED': False,
+        'SQLALCHEMY_DATABASE_URI': db_uri
+    }
 
-    _app.config['DEBUG'] = False
-    _app.config['TESTING'] = True
-    _app.config['WTF_CSRF_ENABLED'] = False
-
-    # We want to use a test database rather than our development database.
-    db_uri = _app.config['SQLALCHEMY_DATABASE_URI']
-    _app.config['SQLALCHEMY_DATABASE_URI'] = '{0}_test'.format(db_uri)
+    _app = create_app(settings_override=params)
 
     # Establish an application context before running the tests.
     ctx = _app.app_context()

@@ -61,7 +61,8 @@ def create_app(application_name=__name__, settings_override=None):
     http://flask.pocoo.org/docs/0.10/patterns/appfactories
 
     :param application_name: The name of the application
-    :param settings_override: A dictionary of settings to override
+    :param settings_override: Override settings
+    :type settings_override: dict
 
     :return: Flask app
     """
@@ -83,13 +84,16 @@ def configure_settings(app, settings_override=None):
     Create the settings of the application (mutates the app passed in).
 
     :param app: Flask application instance
-    :param settings_override: A dictionary of settings to override
+    :param settings_override: Override settings
+    :type settings_override: dict
 
     :return: None
     """
     app.config.from_object('config.settings')
     app.config.from_pyfile('settings.py', silent=True)
-    app.config.from_object(settings_override)
+
+    if settings_override:
+        app.config.update(settings_override)
 
 
 def register_middleware(app):
