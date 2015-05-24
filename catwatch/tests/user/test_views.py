@@ -50,12 +50,6 @@ class TestLogin:
         assert_status_with_message(200, response,
                                    _('You have been logged out.'))
 
-    def test_logout_without_being_logged_in(self, session, client):
-        """ Logout failure due to not being logged in. """
-        response = logout(client)
-        assert_status_with_message(200, response,
-                                   'Please log in to access this page.')
-
 
 class TestPasswordReset:
     def test_begin_password_reset_page(self, session, client):
@@ -70,21 +64,19 @@ class TestPasswordReset:
 
     def test_begin_password_reset_as_logged_in(self, session, client):
         """ Begin password reset should redirect to settings. """
-        # login(client, 'admin@localhost.com', 'password')
-        # response = client.get(url_for('user.begin_password_reset'),
-        # follow_redirects=False)
-        #
-        # assert response.status_code == 302
-        pass
+        login(client, 'admin@localhost.com', 'password')
+        response = client.get(url_for('user.begin_password_reset'),
+                              follow_redirects=False)
+
+        assert response.status_code == 302
 
     def test_password_reset_as_logged_in(self, session, client):
         """ Password reset should redirect to settings. """
-        # login(client, 'admin@localhost.com', 'password')
-        # response = client.get(url_for('user.password_reset'),
-        #                       follow_redirects=False)
-        #
-        # assert response.status_code == 302
-        pass
+        login(client, 'admin@localhost.com', 'password')
+        response = client.get(url_for('user.password_reset'),
+                              follow_redirects=False)
+
+        assert response.status_code == 302
 
     def test_begin_password_reset_fail(self, session, client):
         """ Begin reset failure due to using a non-existent account. """
@@ -220,13 +212,6 @@ class TestSettings:
 
         assert response.status_code == 200
 
-    def test_settings_page_without_logged_in(self, session, client):
-        """ Settings renders successfully. """
-        response = client.get(url_for('user.settings'))
-
-        assert_status_with_message(200, response,
-                                   'Please log in to access this page.')
-
 
 class TestUpdateCredentials:
     def test_update_credentials_page(self, session, client):
@@ -235,13 +220,6 @@ class TestUpdateCredentials:
         response = client.get(url_for('user.update_credentials'))
 
         assert response.status_code == 200
-
-    def test_update_credentials_page_without_logged_in(self, session, client):
-        """ Update credentials renders successfully. """
-        response = client.get(url_for('user.update_credentials'))
-
-        assert_status_with_message(200, response,
-                                   'Please log in to access this page.')
 
     def test_begin_update_credentials_invalid_current(self, session, client):
         """ Update credentials failure due to invalid current password. """
@@ -287,6 +265,10 @@ class TestUpdateCredentials:
         new_user = User.find_by_identity('admin2@localhost.com')
         assert new_user is not None
 
+        # Revert the user.
+        new_user.email = 'admin@localhost.com'
+        new_user.save()
+
     def test_begin_update_credentials_password_change(self, session, client):
         """ Update credentials but only the password. """
         login(client, 'admin@localhost.com', 'password')
@@ -305,6 +287,11 @@ class TestUpdateCredentials:
         logout(client)
         login(client, 'admin@localhost.com', 'newpassword')
         assert response.status_code == 200
+
+        # Revert the user.
+        u = User.find_by_identity('admin@localhost.com')
+        u.password = User.encrypt_password('password')
+        u.save()
 
     def test_begin_update_credentials_email_password(self, session, client):
         """ Update both the email and a new password. """
