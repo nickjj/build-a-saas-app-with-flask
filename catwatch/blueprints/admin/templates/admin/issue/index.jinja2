@@ -36,7 +36,7 @@
           <th class="col-header">
             {{ items.sort('email') }}
           </th>
-          <th id="bulk_actions">
+          <th id="bulk_actions" colspan="4">
             {{ f.field(bulk_form.scope, inline=True) }}
             <button type="submit"
                     class="rounded button--small button--primary">

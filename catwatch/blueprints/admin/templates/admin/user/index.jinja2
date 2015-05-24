@@ -33,7 +33,7 @@
           <th class="col-header">
             {{ items.sort('sign_in_count', 'Sign in count') }}
           </th>
-          <th id="bulk_actions">
+          <th id="bulk_actions" colspan="3">
             {{ f.field(bulk_form.scope, inline=True) }}
             <button type="submit"
                     class="rounded button--small button--primary">
