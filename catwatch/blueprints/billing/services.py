@@ -23,7 +23,7 @@ class StripeSubscription(Stripe):
             'email': 'foo@bar.com',
             'plan': 'gold'
           }
-          Stripe.create_subscription(params)
+          StripeSubscription.create(params)
 
         API Documentation:
           https://stripe.com/docs/api#create_subscription
@@ -91,7 +91,7 @@ class StripePlan(Stripe):
             'statement_descriptor': 'Bronze monthly',
             'metadata': {}
           }
-          Stripe.create_plan(params)
+          StripePlan.create(params)
 
         API Documentation:
           https://stripe.com/docs/api#create_plan
@@ -119,7 +119,7 @@ class StripePlan(Stripe):
             'statement_descriptor': 'Bronze monthly',
             'metadata': {}
           }
-          Stripe.update_plan(params)
+          StripePlan.update(params)
 
         API Documentation:
           https://stripe.com/docs/api#update_plan
