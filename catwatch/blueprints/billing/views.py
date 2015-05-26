@@ -4,7 +4,8 @@ from flask_login import login_required, current_user
 from flask_babel import gettext as _
 
 from config import settings
-from catwatch.blueprints.billing.forms import CreditCardForm
+from catwatch.blueprints.billing.forms import CreditCardForm, \
+    CancelSubscriptionForm
 from catwatch.blueprints.billing.models import Subscription
 
 
@@ -50,3 +51,26 @@ def process():
 
     return render_template('billing/process.jinja2',
                            form=form, plan=active_plan)
+
+
+@billing.route('/cancel', methods=['GET', 'POST'])
+@login_required
+def cancel():
+    if not current_user.subscription:
+        flash(_('You do not have an active subscription.'), 'error')
+        return redirect(url_for('user.settings'))
+
+    form = CancelSubscriptionForm()
+
+    if form.validate_on_submit():
+        params = {'user': current_user}
+
+        subscription = Subscription(**params)
+        if subscription.cancel_membership():
+            flash(_(
+                'Sorry to see you go, your subscription has been cancelled.'),
+                'success')
+            return redirect(url_for('user.settings'))
+
+    return render_template('billing/cancel.jinja2',
+                           form=form)

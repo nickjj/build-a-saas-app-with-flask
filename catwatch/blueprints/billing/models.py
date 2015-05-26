@@ -104,7 +104,7 @@ class Subscription(ResourceMixin, db.Model):
 
     def __init__(self, **kwargs):
         """
-        It expects the following call signature:
+        For creation, it expects the following call signature:
           params = {
             'user': User object (ie. current_user),
             'name': 'Mr or Mrs. Foo',
@@ -113,6 +113,14 @@ class Subscription(ResourceMixin, db.Model):
           }
           subscription = Subscription(**params)
           subscription.begin_membership()
+
+        or, for cancelling:
+
+          params = {
+            'user': User object (ie. current_user)
+          }
+          subscription = Subscription(**params)
+          subscription.cancel_membership()
 
         :param user: Subscriber's user account
         :type user: User
@@ -127,7 +135,9 @@ class Subscription(ResourceMixin, db.Model):
         self.params = kwargs
 
         self.user_id = kwargs['user'].id
-        self.plan = kwargs['plan']
+
+        if kwargs.get('plan', None):
+            self.plan = kwargs['plan']
 
         super(Subscription, self).__init__(user_id=self.user_id,
                                            plan=self.plan)
@@ -174,6 +184,30 @@ class Subscription(ResourceMixin, db.Model):
         db.session.add(user)
         db.session.add(credit_card)
         db.session.add(self)
+
+        db.session.commit()
+
+        return True
+
+    def cancel_membership(self, at_period_end=False):
+        """
+        Return whether or not the membership was cancelled successfully.
+
+        :param at_period_end: If true, delay the cancellation until the end of
+                              the billing cycle
+        :type at_period_end: bool
+        :return: bool
+        """
+        user = self.params['user']
+
+        StripeSubscription.cancel(user.stripe_customer_id, at_period_end)
+
+        # Update the user account.
+        user.stripe_customer_id = None
+        user.cancelled_subscription_on = datetime.datetime.utcnow()
+
+        db.session.add(user)
+        db.session.delete(user.subscription)
 
         db.session.commit()
 

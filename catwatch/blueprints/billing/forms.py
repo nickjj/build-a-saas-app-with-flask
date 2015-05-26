@@ -12,3 +12,7 @@ class CreditCardForm(Form):
     name = StringField(_('Name on card'),
                        [DataRequired(), Length(1, 254)])
     submit = SubmitField(_('Process payment'))
+
+
+class CancelSubscriptionForm(Form):
+    submit = SubmitField(_('Cancel subscriptiption'))

@@ -81,3 +81,22 @@
   @extend .button;
   @include style-button(#ffffff, $colorBlue, true);
 }
+
+.button--danger {
+  @extend .button;
+  @include style-button($colorDanger, #ffffff, true);
+
+  &:hover {
+    background: darken($colorDanger, 15%);
+    color: #ffffff;
+    border: 1px solid darken($colorDanger, 15%);
+    text-decoration: none;
+  }
+
+  &:active {
+    background: darken($colorDanger, 5%);
+    color: #ffffff;
+    border: 1px solid #4d4d4d;
+    text-decoration: none;
+  }
+}

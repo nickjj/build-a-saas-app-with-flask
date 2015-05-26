@@ -1,0 +1,44 @@
+{% extends 'layouts/app.jinja2' %}
+{% import 'macros/form.jinja2' as f with context %}
+
+{% block title %}You are about to cancel your subscription{% endblock %}
+
+{% block body %}
+  <div class="g--half g--centered subsection-title">
+    <div class="login--background">
+      {% call f.form_tag('billing.cancel', class='clear') %}
+        <legend class="centered large">
+          Cancel subscription<br>
+        </legend>
+
+        <p>Hi {{ current_user.name }},<br>
+          Before you cancel your account, please review what will happen:
+        </p>
+        <ul class="list--disc small">
+          <li>You will no longer be billed</li>
+          <li>You will lose access to the live stream</li>
+          <li>Your account <strong>will</strong> remain open</li>
+          <li>You may subscribe again in the future</li>
+        </ul>
+
+        <div class="alert--error payment-errors"></div>
+        <hr>
+        <div class="g--half">
+          <button type="submit" class="full-width rounded button--danger">
+            <img src="{{ asset_url_for('images/spinner.gif') }}"
+                 class="spinner"
+                 width="16" height="11" alt="Spinner"/>
+            Cancel
+          </button>
+        </div>
+        <div class="g--half g--last">
+          <a href="{{ url_for('user.settings') }}"
+             class="login--register full-width rounded button--secondary">
+            Nevermind
+          </a>
+        </div>
+      {% endcall %}
+    </div>
+  </div>
+
+{% endblock %}

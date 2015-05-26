@@ -57,7 +57,8 @@
                   <a href="#">Change plan</a>
                 </li>
                 <li>
-                  <a href="#" class="small">Cancel membership</a>
+                  <a href="{{ url_for('billing.cancel') }}" class="small">Cancel
+                    membership</a>
                 </li>
               </ul>
             {% else %}

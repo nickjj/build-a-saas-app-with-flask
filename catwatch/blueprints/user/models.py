@@ -41,6 +41,7 @@ class User(UserMixin, ResourceMixin, db.Model):
     # Billing.
     name = db.Column(db.String(128), index=True)
     stripe_customer_id = db.Column(db.String(128), index=True)
+    cancelled_subscription_on = db.Column(db.DateTime)
 
     # Activity tracking.
     sign_in_count = db.Column(db.Integer, nullable=False, default=0)

@@ -39,8 +39,24 @@ class StripeSubscription(Stripe):
         pass
 
     @classmethod
-    def cancel(cls, customer_id=None):
-        pass
+    def cancel(cls, customer_id=None, at_period_end=False):
+        """
+        Cancel an existing subscription.
+
+        API Documentation:
+          https://stripe.com/docs/api#cancel_subscription
+
+        :param customer_id: Stripe customer id
+        :type customer_id: int
+        :param at_period_end: If true, delay the cancellation until the end of
+                              the billing cycle
+        :type at_period_end: bool
+        :return: Stripe subscription object
+        """
+        customer = stripe.Customer.retrieve(customer_id)
+        subscription_id = customer.subscriptions.data[0].id
+
+        return customer.subscriptions.retrieve(subscription_id).delete()
 
 
 class StripePlan(Stripe):
