@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{% block meta_description %}{% endblock %}">
+  <meta name="description"
+        content="{% block meta_description %}{% endblock %}">
   <title>{% block title %}{% endblock %}</title>
 
   <!-- Add to homescreen for Chrome on Android -->
@@ -34,8 +35,9 @@
       href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,700,700italic,300,400italic'
       rel='stylesheet' type='text/css'>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  {% if request.endpoint.endswith('process') %}
+  <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  {% if request.endpoint == 'billing.create' or request.endpoint == 'billing.update' %}
     <script src="https://js.stripe.com/v2/"></script>
   {% endif %}
 </head>

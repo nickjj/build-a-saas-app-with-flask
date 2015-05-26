@@ -112,7 +112,7 @@ class Subscription(ResourceMixin, db.Model):
             'source': 'the_stripe_token'
           }
           subscription = Subscription(**params)
-          subscription.begin_membership()
+          subscription.create()
 
         or, for cancelling:
 
@@ -120,7 +120,7 @@ class Subscription(ResourceMixin, db.Model):
             'user': User object (ie. current_user)
           }
           subscription = Subscription(**params)
-          subscription.cancel_membership()
+          subscription.cancel()
 
         :param user: Subscriber's user account
         :type user: User
@@ -157,7 +157,7 @@ class Subscription(ResourceMixin, db.Model):
 
         return None
 
-    def begin_membership(self):
+    def create(self):
         """
         Return whether or not the membership was created successfully.
 
@@ -189,7 +189,7 @@ class Subscription(ResourceMixin, db.Model):
 
         return True
 
-    def cancel_membership(self, at_period_end=False):
+    def cancel(self, at_period_end=False):
         """
         Return whether or not the membership was cancelled successfully.
 

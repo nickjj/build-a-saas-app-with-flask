@@ -6,7 +6,7 @@
 {% block body %}
   <div class="g--half g--centered subsection-title">
     <div class="login--background">
-      {% call f.form_tag('billing.process', id='payment_form', class='clear') %}
+      {% call f.form_tag('billing.create', id='payment_form', class='clear') %}
         <legend class="centered large">
           {{ request.args.get('plan', '') | title }} subscription<br>
           <span class="centered small color--muted">

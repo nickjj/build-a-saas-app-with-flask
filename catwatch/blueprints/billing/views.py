@@ -10,7 +10,7 @@ from catwatch.blueprints.billing.models import Subscription
 
 
 billing = Blueprint('billing', __name__, template_folder='templates',
-                    url_prefix='/payment')
+                    url_prefix='/subscription')
 
 
 @billing.route('/pricing')
@@ -19,9 +19,9 @@ def pricing():
                            plans=settings.STRIPE_PLANS)
 
 
-@billing.route('/process', methods=['GET', 'POST'])
+@billing.route('/create', methods=['GET', 'POST'])
 @login_required
-def process():
+def create():
     if current_user.subscription:
         flash(_('You already have an active subscription.'), 'info')
         return redirect(url_for('user.settings'))
@@ -45,11 +45,11 @@ def process():
         }
 
         subscription = Subscription(**params)
-        if subscription.begin_membership():
+        if subscription.create():
             flash(_('Awesome, thanks for subscribing!'), 'success')
             return redirect(url_for('user.settings'))
 
-    return render_template('billing/process.jinja2',
+    return render_template('billing/create.jinja2',
                            form=form, plan=active_plan)
 
 
@@ -66,7 +66,7 @@ def cancel():
         params = {'user': current_user}
 
         subscription = Subscription(**params)
-        if subscription.cancel_membership():
+        if subscription.cancel():
             flash(_(
                 'Sorry to see you go, your subscription has been cancelled.'),
                 'success')
