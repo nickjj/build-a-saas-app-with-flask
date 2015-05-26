@@ -36,6 +36,18 @@ Install nodejs
 
 - https://nodejs.org/download/ (runtime dependency for assets)
 
+Register on Stripe to get your API keys
+'''''''''''''''''''''''''''''''''''''''
+
+- https://dashboard.stripe.com/register
+- Go to your account settings on Stripe
+- Copy your API keys
+- Follow the directions in ``config/settings.py``
+
+Review the plans in the above settings file before proceeding. You can always
+change or delete plans later, so don't sweat it. Just make sure you know
+what's being created.
+
 I installed everything, now what?
 '''''''''''''''''''''''''''''''''
 
@@ -69,6 +81,7 @@ Initialize everything and view the app
 - Type ``run`` to see a list of what's available
 - Type ``run assets build`` to create the build directory
 - Type ``run db reset`` to initialize the database
+- Type ``run stripe sync_plans`` to sync your ``STRIPE_PLANS`` to Stripe
 - Type ``run all`` to start everything
 - Visit http://localhost:8000 in your browser
 - If you wish to login, email: ``dev@localhost.com`` / password: ``password``
@@ -103,12 +116,29 @@ How do I provide my own settings?
 - Create a ``settings.py`` file at ``$PROJECT_ROOT/instance/settings.py``
 - Overwrite as many settings as you want
 
-For example, your ``settings.py`` file might end up looking like:
+For example, your ``instance/settings.py`` file might end up looking like:
 
 ::
 
+    STRIPE_SECRET_KEY = 'realkeygoeshere'
+    STRIPE_PUBLISHABLE_KEY = 'thisonetoo'
+
     MAIL_USERNAME = 'yourrealaccount@gmail.com'
     MAIL_PASSWORD = 'seriousbusinesspassword'
+
+Can I quickly change my schema without migrating?
+'''''''''''''''''''''''''''''''''''''''''''''''''
+
+Yep, just be warned that this will completely purge your database but doing
+this early on in development can sometimes be reasonable while you tinker with
+your schema very frequently.
+
+- Shut everything down
+- Type ``docker-compose run postgres``
+- Type ``run db reset catwatch catwatch_test``
+- Type ``run add all``
+
+This will drop your database, create a new one and seed it with fake data.
 
 Learn more
 ^^^^^^^^^^
