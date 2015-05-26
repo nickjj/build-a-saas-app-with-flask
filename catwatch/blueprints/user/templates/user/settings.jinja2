@@ -40,24 +40,40 @@
         <div class="highlight-module__container">
           <div
               class="highlight-module__content g-wide--pull-1">
-            <p class="highlight-module__title">
-              Subscription<br>
-              <span class="color--muted small">Visa ****0931 (5/2020)</span>
-            </p>
-            <ul class="list--spaced">
-              <li>
-                <a href="#">Update payment info</a>
-              </li>
-              <li>
-                <a href="#">Billing details</a>
-              </li>
-              <li>
-                <a href="#">Change plan</a>
-              </li>
-              <li>
-                <a href="#" class="small">Cancel membership</a>
-              </li>
-            </ul>
+            {% if current_user.subscription %}
+              <p class="highlight-module__title">
+                {{ current_user.subscription.plan | title }} subscription<br>
+                <span
+                    class="color--muted small">{{ current_user.credit_card.brand }} ****{{ current_user.credit_card.last4 }} ({{ current_user.credit_card.exp_date.strftime('%m/%Y') }})</span>
+              </p>
+              <ul class="list--spaced">
+                <li>
+                  <a href="#">Update payment info</a>
+                </li>
+                <li>
+                  <a href="#">Billing details</a>
+                </li>
+                <li>
+                  <a href="#">Change plan</a>
+                </li>
+                <li>
+                  <a href="#" class="small">Cancel membership</a>
+                </li>
+              </ul>
+            {% else %}
+              <p class="highlight-module__title">
+                Subscribe today<br>
+                  <span class="color--muted small">
+                    Hey buddy, why aren't you subscribed?
+                  </span>
+              </p>
+              <p class="small bottom-margin">Now that you've created an
+                account, wouldn't it be
+                unbelievably amazing to unlock everything by becoming a
+                subscriber today?</p>
+              <a href="{{ url_for('billing.pricing') }}"
+                 class="button--primary pricing--primary">Learn more</a>
+            {% endif %}
           </div>
         </div>
       </div>

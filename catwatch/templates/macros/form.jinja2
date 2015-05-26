@@ -20,9 +20,9 @@
   </div>
 {%- endmacro %}
 
-{% macro form_tag(endpoint, class='', method='post') -%}
+{% macro form_tag(endpoint, id='', class='', method='post') -%}
   <form action="{{ url_for(endpoint, **kwargs) }}" method="{{ method }}"
-        class="{{ class }}" role="form">
+        id="{{ id }}" class="{{ class }}" role="form">
     {{ form.csrf_token }}
     {{ form.hidden_tag() }}
     {{ caller () }}

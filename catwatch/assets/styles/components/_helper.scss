@@ -168,12 +168,32 @@
 }
 
 /*==========  GENERIC  ==========*/
+.spinner {
+  display: none;
+}
+
+.scale-up {
+  transform: scale(1.05);
+}
+
+.underline {
+  text-decoration: underline;
+}
+
 .faded {
   opacity: 0.5;
 }
 
+.half-faded {
+  opacity: 0.75;
+}
+
 .inline {
   display: inline;
+}
+
+.block {
+  display: block;
 }
 
 .centered {
@@ -190,6 +210,10 @@
 
 .top-margin {
   margin-top: 20px;
+}
+
+.xl-top-margin {
+  margin-top: 60px;
 }
 
 .bottom-margin {

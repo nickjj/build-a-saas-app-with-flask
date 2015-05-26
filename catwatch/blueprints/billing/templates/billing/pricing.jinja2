@@ -1,4 +1,5 @@
 {% extends 'layouts/app.jinja2' %}
+{% import 'billing/macros/billing.jinja2' as billing with context %}
 
 {% block title %}You can't put a price on {{ _('Cat watch') }}{% endblock %}
 {% block heading %}
@@ -10,8 +11,7 @@
 
 {% block body %}
   <div class="clear subsection-title centered">
-    <div class="g--third login--background">
-      <h3 class="text-divider color--muted">Bronze</h3>
+    {% call billing.plan(plans['0']) %}
       <dl>
         <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
         <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
@@ -23,12 +23,8 @@
         <dd class="no-margin strike">Consequuntur voluptatum</dd>
         <dd class="no-margin strike">Consequuntur voluptatum</dd>
       </dl>
-      <a href="" class="button--secondary">Continue</a>
-
-      <p class="small color--muted">$1.00 / month</p>
-    </div>
-    <div class="g--third login--background">
-      <h3 class="text-divider color--highlight">Gold</h3>
+    {% endcall %}
+    {% call billing.plan(plans['1']) %}
       <dl>
         <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
         <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
@@ -40,12 +36,8 @@
         <dd class="no-margin strike">Consequuntur voluptatum</dd>
         <dd class="no-margin strike">Consequuntur voluptatum</dd>
       </dl>
-      <a href="" class="button--secondary">Continue</a>
-
-      <p class="small color--muted">$5.00 / month</p>
-    </div>
-    <div class="g--third g--last login--background">
-      <h3 class="text-divider color--muted">Platinum</h3>
+    {% endcall %}
+    {% call billing.plan(plans['2'], last=True) %}
       <dl>
         <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
         <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
@@ -57,9 +49,6 @@
         <dd class="no-margin">Consequuntur voluptatum</dd>
         <dd class="no-margin">Consequuntur voluptatum</dd>
       </dl>
-      <a href="" class="button--secondary">Continue</a>
-
-      <p class="small color--muted">$10.00 / month</p>
-    </div>
+    {% endcall %}
   </div>
 {% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'layouts/app.jinja2' %}
+{% import 'macros/form.jinja2' as f with context %}
+
+{% block title %}Enter payment information{% endblock %}
+
+{% block body %}
+  <div class="g--half g--centered subsection-title">
+    <div class="login--background">
+      {% call f.form_tag('billing.process', id='payment_form', class='clear') %}
+        <legend class="centered large">
+          {{ request.args.get('plan', '') | title }} subscription<br>
+          <span class="centered small color--muted">
+            You will be charged ${{ plan.amount | format_currency }} / {{ plan.interval }}
+          </span>
+        </legend>
+        <hr>
+
+        <div class="alert--error payment-errors"></div>
+
+        {{ form.name.label }}
+        {{ f.field(form.name) }}
+
+        <div class="form-field">
+          <label for="">Card number</label>
+          <input data-stripe="number" class="input"/>
+        </div>
+
+        <div class="g--half pull-left">
+          <div class="form-field">
+            <label for="" class="block">Exp. date</label>
+            <select data-stripe="exp-month" class="cc-details">
+              <option value=""></option>
+              {% for month in range(1,13) %}
+                <option
+                    value="{{ '%02d' % month }}">{{ '%02d' % month }}</option>
+              {% endfor %}
+            </select>
+            <select data-stripe="exp-year" class="cc-details">
+              <option value=""></option>
+              {% for year in range(2015,2031) %}
+                <option
+                    value="{{ '%04d' % year }}">{{ '%02d' % year }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="g--half g--last">
+          <div class="form-field pull-right">
+            <label for="" class="block color--highlight underline"
+                   title="3-4 digit code on the back">
+              CVC
+            </label>
+            <input data-stripe="cvc" class="input cc-details"/>
+          </div>
+        </div>
+        <div class="g--full xl-bottom-margin">
+          <button type="submit" class="full-width rounded button--primary">
+            <img src="{{ asset_url_for('images/spinner.gif') }}"
+                 class="spinner"
+                 width="16" height="11" alt="Spinner"/>
+            Process payment
+          </button>
+        </div>
+
+        <div class="centered half-faded">
+          <img src="{{ asset_url_for('images/credit-cards/visa.png') }}"
+               width="40" height="24" class="cc-images" alt="Visa"/>
+          <img src="{{ asset_url_for('images/credit-cards/mastercard.png') }}"
+               width="40" height="24" class="cc-images" alt="Mastercard"/>
+          <img
+              src="{{ asset_url_for('images/credit-cards/american-express.png') }}"
+              width="40" height="24" class="cc-images" alt="American Express"/>
+          <img src="{{ asset_url_for('images/credit-cards/jcb.png') }}"
+               width="40" height="24" class="cc-images" alt="J.C.B"/>
+          <img src="{{ asset_url_for('images/credit-cards/diners-club.png') }}"
+               width="40" height="24" class="cc-images" alt="Diner's Club"/>
+
+          <div class="alert--success alert--small top-margin">
+            <i class="fa fa-fw fa-lock"></i>
+            <span class="small">Protected by 128-bit SSL encryption</span>
+          </div>
+        </div>
+      {% endcall %}
+    </div>
+  </div>
+{% endblock %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-24 06:39-0700\n"
+"POT-Creation-Date: 2015-05-26 12:48-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,6 +86,30 @@ msgstr ""
 msgid "No issues were deleted, something went wrong."
 msgstr ""
 
+#: catwatch/blueprints/billing/forms.py:8
+msgid "Stripe key"
+msgstr ""
+
+#: catwatch/blueprints/billing/forms.py:10
+msgid "Plan"
+msgstr ""
+
+#: catwatch/blueprints/billing/forms.py:12
+msgid "Name on card"
+msgstr ""
+
+#: catwatch/blueprints/billing/forms.py:14
+msgid "Process payment"
+msgstr ""
+
+#: catwatch/blueprints/billing/views.py:25
+msgid "You already have an active subscription."
+msgstr ""
+
+#: catwatch/blueprints/billing/views.py:48
+msgid "Awesome, thanks for subscribing!"
+msgstr ""
+
 #: catwatch/blueprints/issue/forms.py:18
 msgid "Submit this support request"
 msgstr ""
@@ -147,29 +171,29 @@ msgstr ""
 msgid "You have been logged out."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:79 catwatch/tests/user/test_views.py:104
+#: catwatch/blueprints/user/views.py:79 catwatch/tests/user/test_views.py:96
 #, python-format
 msgid "An email has been sent to %(email)s."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:95 catwatch/tests/user/test_views.py:126
-#: catwatch/tests/user/test_views.py:136
+#: catwatch/blueprints/user/views.py:95 catwatch/tests/user/test_views.py:118
+#: catwatch/tests/user/test_views.py:128
 msgid "Your reset token has expired or was tampered with."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:104 catwatch/tests/user/test_views.py:114
+#: catwatch/blueprints/user/views.py:104 catwatch/tests/user/test_views.py:106
 msgid "Your password has been reset."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:123 catwatch/tests/user/test_views.py:180
+#: catwatch/blueprints/user/views.py:123 catwatch/tests/user/test_views.py:172
 msgid "Awesome, thanks for signing up!"
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:138 catwatch/tests/user/test_views.py:197
+#: catwatch/blueprints/user/views.py:138 catwatch/tests/user/test_views.py:189
 msgid "Sign up is complete, enjoy our services."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:165 catwatch/tests/user/test_views.py:281
+#: catwatch/blueprints/user/views.py:165 catwatch/tests/user/test_views.py:259
 msgid "Your sign in settings have been updated."
 msgstr ""
 

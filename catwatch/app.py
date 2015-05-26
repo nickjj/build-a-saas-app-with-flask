@@ -2,6 +2,7 @@ from flask import Flask, request
 from werkzeug.contrib.fixers import ProxyFix
 from itsdangerous import URLSafeTimedSerializer
 from celery import Celery
+import stripe
 
 from catwatch.lib.http_method_override_middleware import \
     HTTPMethodOverrideMiddleware
@@ -23,6 +24,7 @@ from catwatch.blueprints.pages import pages
 from catwatch.blueprints.user import user
 from catwatch.blueprints.billing import billing
 from catwatch.blueprints.issue import issue
+from catwatch.blueprints.billing.template_processors import format_currency
 
 
 def create_celery_app(app=None):
@@ -69,6 +71,7 @@ def create_app(application_name=__name__, settings_override=None):
     app = Flask(application_name, instance_relative_config=True)
 
     configure_settings(app, settings_override)
+    register_api_keys(app)
     register_middleware(app)
     register_blueprints(app)
     register_extensions(app)
@@ -94,6 +97,16 @@ def configure_settings(app, settings_override=None):
 
     if settings_override:
         app.config.update(settings_override)
+
+
+def register_api_keys(app):
+    """
+    Register 0 or more API keys.
+
+    :param app: Flask application instance
+    :return: None
+    """
+    stripe.api_key = app.config.get('STRIPE_SECRET_KEY', None)
 
 
 def register_middleware(app):
@@ -124,8 +137,8 @@ def register_blueprints(app):
         admin,
         pages,
         user,
-        billing,
-        issue
+        issue,
+        billing
     ]
 
     for blueprint in blueprints:
@@ -162,6 +175,7 @@ def register_template_processors(app):
     :return: None
     """
     app.jinja_env.add_extension('jinja2.ext.do')
+    app.jinja_env.filters['format_currency'] = format_currency
 
 
 def initialize_authentication(app, user_model):

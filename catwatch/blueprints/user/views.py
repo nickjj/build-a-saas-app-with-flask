@@ -136,7 +136,7 @@ def welcome():
         current_user.save()
 
         flash(_('Sign up is complete, enjoy our services.'), 'success')
-        return redirect(url_for('user.settings'))
+        return redirect(url_for('billing.pricing'))
 
     return render_template('user/welcome.jinja2', form=form)
 

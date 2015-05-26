@@ -9,6 +9,7 @@ from itsdangerous import URLSafeTimedSerializer,\
 from sqlalchemy import or_
 
 from catwatch.lib.util_sqlalchemy import ResourceMixin
+from catwatch.blueprints.billing.models import CreditCard, Subscription
 from catwatch.extensions import db, bcrypt
 
 
@@ -21,6 +22,11 @@ class User(UserMixin, ResourceMixin, db.Model):
 
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
+
+    # Relationships.
+    credit_card = db.relationship(CreditCard, uselist=False, backref='users')
+    subscription = db.relationship(Subscription, uselist=False,
+                                   backref='users')
 
     # Authentication.
     role = db.Column(db.Enum(*ROLE, name='role_types'),

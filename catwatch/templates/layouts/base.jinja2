@@ -35,6 +35,9 @@
       rel='stylesheet' type='text/css'>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  {% if request.endpoint.endswith('process') %}
+    <script src="https://js.stripe.com/v2/"></script>
+  {% endif %}
 </head>
 <body>
 {% if current_user.role == 'admin' %}
@@ -72,6 +75,6 @@
   </ul>
 </footer>
 
-{{ javascript_tag('common', 'app_js') | safe }}
+{{ javascript_tag('app_js') | safe }}
 </body>
 </html>

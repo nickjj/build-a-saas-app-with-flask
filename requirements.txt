@@ -21,6 +21,9 @@ flask-bouncer==0.1.13
 # I18n
 Flask-Babel==0.9
 
+# Billing
+stripe==1.22.2
+
 # Forms
 Flask-WTF==0.11
 WTForms-Components==0.9.7
