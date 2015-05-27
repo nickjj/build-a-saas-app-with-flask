@@ -159,7 +159,7 @@ class Subscription(ResourceMixin, db.Model):
 
     def create(self):
         """
-        Return whether or not the membership was created successfully.
+        Return whether or not the subscription was created successfully.
 
         :return: bool
         """
