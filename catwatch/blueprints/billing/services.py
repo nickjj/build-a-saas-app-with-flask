@@ -23,8 +23,8 @@ class StripeCard(Stripe):
         :return: Stripe customer object
         """
         customer = stripe.Customer.retrieve(customer_id)
-        customer.source = stripe_token
 
+        customer.source = stripe_token
         return customer.save()
 
 
