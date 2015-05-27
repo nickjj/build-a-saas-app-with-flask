@@ -6,7 +6,7 @@ from flask_babel import gettext as _
 from config import settings
 from catwatch.blueprints.billing.forms import CreditCardForm, \
     CancelSubscriptionForm
-from catwatch.blueprints.billing.models import Subscription
+from catwatch.blueprints.billing.models import Subscription, CreditCard
 
 
 billing = Blueprint('billing', __name__, template_folder='templates',
@@ -52,7 +52,7 @@ def create():
             flash(_('Awesome, thanks for subscribing!'), 'success')
             return redirect(url_for('user.settings'))
 
-    return render_template('billing/create.jinja2',
+    return render_template('billing/payment_method.jinja2',
                            form=form, plan=active_plan)
 
 
@@ -110,3 +110,35 @@ def cancel():
 
     return render_template('billing/cancel.jinja2',
                            form=form)
+
+
+@billing.route('/update_payment_method', methods=['GET', 'POST'])
+@login_required
+def update_payment_method():
+    if not current_user.credit_card:
+        flash(_('You do not have a payment method on file.'), 'error')
+        return redirect(url_for('user.settings'))
+
+    active_plan = Subscription.get_plan_by_stripe_id(
+        current_user.subscription.plan)
+
+    card_last4 = str(current_user.credit_card.last4)
+    stripe_key = current_app.config['STRIPE_PUBLISHABLE_KEY']
+    form = CreditCardForm(stripe_key=stripe_key,
+                          plan=active_plan,
+                          name=current_user.name)
+
+    if form.validate_on_submit():
+        params = {
+            'user': current_user,
+            'name': request.form.get('name', None),
+            'stripe_token': request.form.get('stripe_token', None)
+        }
+
+        subscription = Subscription(**params)
+        if subscription.update_payment_method():
+            flash(_('Your payment method has been updated.'), 'success')
+            return redirect(url_for('user.settings'))
+
+    return render_template('billing/payment_method.jinja2', form=form,
+                           plan=active_plan, card_last4=card_last4)

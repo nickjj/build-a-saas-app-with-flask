@@ -3,7 +3,7 @@ import datetime
 from config import settings
 from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
-from catwatch.blueprints.billing.services import StripeSubscription
+from catwatch.blueprints.billing.services import StripeCard, StripeSubscription
 
 
 class Money(object):
@@ -244,6 +244,32 @@ class Subscription(ResourceMixin, db.Model):
         # on file even if they cancelled.
         if discard_credit_card:
             db.session.delete(user.credit_card)
+
+        db.session.commit()
+
+        return True
+
+    def update_payment_method(self):
+        """
+        Return whether or not the subscription payment method
+        was updated successfully.
+
+        :return: bool
+        """
+        user = self.params['user']
+
+        customer = StripeCard.update(user.stripe_customer_id,
+                                     self.params['stripe_token'])
+
+        user.name = self.params['name']
+
+        # Create the new credit card.
+        credit_card = CreditCard(user_id=user.id,
+                                 **CreditCard.extract_card_params(customer))
+
+        db.session.add(user)
+        db.session.delete(user.credit_card)
+        db.session.add(credit_card)
 
         db.session.commit()
 

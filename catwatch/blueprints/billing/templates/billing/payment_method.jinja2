@@ -1,17 +1,32 @@
 {% extends 'layouts/app.jinja2' %}
 {% import 'macros/form.jinja2' as f with context %}
 
-{% block title %}Enter payment information{% endblock %}
+{% set plan_name = request.args.get('plan', '') %}
+{% if plan_name %}
+  {% set title = 'Enter payment information' %}
+  {% set endpoint = 'billing.create' %}
+  {% set button = 'Process payment' %}
+{% else %}
+  {% set title = 'Update payment information' %}
+  {% set endpoint = 'billing.update_payment_method' %}
+  {% set button = 'Update payment method' %}
+{% endif %}
+
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
   <div class="g--half g--centered subsection-title">
     <div class="login--background">
-      {% call f.form_tag('billing.create', id='payment_form', class='clear') %}
+      {% call f.form_tag(endpoint, id='payment_form', class='clear') %}
         <legend class="centered large">
-          {{ request.args.get('plan', '') | title }} subscription<br>
-          <span class="centered small color--muted">
+          {% if plan_name %}
+            {{ plan_name | title }} subscription<br>
+            <span class="centered small color--muted">
             You will be charged ${{ plan.amount | format_currency }} / {{ plan.interval }}
           </span>
+          {% else %}
+            {{ title }}
+          {% endif %}
         </legend>
         <hr>
 
@@ -22,7 +37,8 @@
 
         <div class="form-field">
           <label for="">Card number</label>
-          <input data-stripe="number" class="input"/>
+          <input data-stripe="number" class="input"
+                 value="{{ '****' + card_last4 if card_last4 }}"/>
         </div>
 
         <div class="g--half pull-left">
@@ -58,7 +74,7 @@
             <img src="{{ asset_url_for('images/spinner.gif') }}"
                  class="spinner"
                  width="16" height="11" alt="Spinner"/>
-            Process payment
+            {{ button }}
           </button>
         </div>
 

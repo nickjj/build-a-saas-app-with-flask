@@ -7,10 +7,28 @@ class Stripe(object):
     pass
 
 
-class StripeCard(object):
+class StripeCard(Stripe):
     @classmethod
-    def update(cls, customer_id, token=None):
-        pass
+    def update(cls, customer_id, stripe_token=None):
+        """
+        Update an existing card through a customer.
+
+        API Documentation:
+          https://stripe.com/docs/api/python#update_card
+
+        :param customer_id: Stripe customer id
+        :type customer_id: int
+        :param stripe_token: Stripe token
+        :type stripe_token: str
+        :return: Stripe customer object
+        """
+        try:
+            customer = stripe.Customer.retrieve(customer_id)
+            customer.source = stripe_token
+
+            return customer.save()
+        except stripe.error.StripeError as e:
+            logging.error(e)
 
 
 class StripeSubscription(Stripe):
