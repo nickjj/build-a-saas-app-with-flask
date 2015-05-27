@@ -22,13 +22,10 @@ class StripeCard(Stripe):
         :type stripe_token: str
         :return: Stripe customer object
         """
-        try:
-            customer = stripe.Customer.retrieve(customer_id)
-            customer.source = stripe_token
+        customer = stripe.Customer.retrieve(customer_id)
+        customer.source = stripe_token
 
-            return customer.save()
-        except stripe.error.StripeError as e:
-            logging.error(e)
+        return customer.save()
 
 
 class StripeSubscription(Stripe):
@@ -66,15 +63,12 @@ class StripeSubscription(Stripe):
         :type plan_id: str
         :return: Stripe subscription object
         """
-        try:
-            customer = stripe.Customer.retrieve(customer_id)
-            subscription_id = customer.subscriptions.data[0].id
-            subscription = customer.subscriptions.retrieve(subscription_id)
+        customer = stripe.Customer.retrieve(customer_id)
+        subscription_id = customer.subscriptions.data[0].id
+        subscription = customer.subscriptions.retrieve(subscription_id)
 
-            subscription.plan = plan_id
-            return subscription.save()
-        except stripe.error.StripeError as e:
-            logging.error(e)
+        subscription.plan = plan_id
+        return subscription.save()
 
     @classmethod
     def cancel(cls, customer_id=None, at_period_end=False):

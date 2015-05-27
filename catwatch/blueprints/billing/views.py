@@ -6,7 +6,8 @@ from flask_babel import gettext as _
 from config import settings
 from catwatch.blueprints.billing.forms import CreditCardForm, \
     CancelSubscriptionForm
-from catwatch.blueprints.billing.models import Subscription, CreditCard
+from catwatch.blueprints.billing.models import Subscription
+from catwatch.blueprints.billing.decorators import handle_stripe_exceptions
 
 
 billing = Blueprint('billing', __name__, template_folder='templates',
@@ -23,6 +24,7 @@ def pricing():
 
 
 @billing.route('/create', methods=['GET', 'POST'])
+@handle_stripe_exceptions
 @login_required
 def create():
     if current_user.subscription:
@@ -57,6 +59,7 @@ def create():
 
 
 @billing.route('/update')
+@handle_stripe_exceptions
 @login_required
 def update():
     if not current_user.subscription:
@@ -90,6 +93,7 @@ def update():
 
 
 @billing.route('/cancel', methods=['GET', 'POST'])
+@handle_stripe_exceptions
 @login_required
 def cancel():
     if not current_user.subscription:
@@ -113,6 +117,7 @@ def cancel():
 
 
 @billing.route('/update_payment_method', methods=['GET', 'POST'])
+@handle_stripe_exceptions
 @login_required
 def update_payment_method():
     if not current_user.credit_card:
