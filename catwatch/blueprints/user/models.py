@@ -24,9 +24,10 @@ class User(UserMixin, ResourceMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # Relationships.
-    credit_card = db.relationship(CreditCard, uselist=False, backref='users')
+    credit_card = db.relationship(CreditCard, uselist=False, backref='users',
+                                  passive_deletes=True)
     subscription = db.relationship(Subscription, uselist=False,
-                                   backref='users')
+                                   backref='users', passive_deletes=True)
 
     # Authentication.
     role = db.Column(db.Enum(*ROLE, name='role_types'),
