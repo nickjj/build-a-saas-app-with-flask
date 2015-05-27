@@ -47,8 +47,7 @@ STRIPE_PLANS = {
         'interval': 'month',
         'interval_count': 1,
         'trial_period_days': 14,
-        'statement_descriptor': 'BRONZE MONTHLY',
-        'foo': 'bar'
+        'statement_descriptor': 'BRONZE MONTHLY'
     },
     '1': {
         'id': 'gold',
