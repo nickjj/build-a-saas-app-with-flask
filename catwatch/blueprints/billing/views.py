@@ -15,6 +15,9 @@ billing = Blueprint('billing', __name__, template_folder='templates',
 
 @billing.route('/pricing')
 def pricing():
+    if current_user.subscription:
+        return redirect(url_for('billing.update'))
+
     return render_template('billing/pricing.jinja2',
                            plans=settings.STRIPE_PLANS)
 
@@ -51,6 +54,39 @@ def create():
 
     return render_template('billing/create.jinja2',
                            form=form, plan=active_plan)
+
+
+@billing.route('/update')
+@login_required
+def update():
+    if not current_user.subscription:
+        return redirect(url_for('billing.pricing'))
+
+    current_plan = current_user.subscription.plan
+    active_plan = Subscription.get_plan_by_stripe_id(current_plan)
+
+    new_plan = request.args.get('plan', None)
+    plan = Subscription.get_plan_by_stripe_id(new_plan)
+
+    # Guard against an invalid, missing or identical plan.
+    is_same_plan = new_plan == active_plan['id']
+    if (new_plan is not None and plan is None) or is_same_plan:
+        return redirect(url_for('billing.update'))
+
+    if new_plan:
+        params = {
+            'user': current_user,
+            'plan': plan['id']
+        }
+
+        subscription = Subscription(**params)
+        if subscription.update():
+            flash(_('Your subscription has been updated.'), 'success')
+            return redirect(url_for('user.settings'))
+
+    return render_template('billing/pricing.jinja2',
+                           plans=settings.STRIPE_PLANS,
+                           active_plan=active_plan)
 
 
 @billing.route('/cancel', methods=['GET', 'POST'])

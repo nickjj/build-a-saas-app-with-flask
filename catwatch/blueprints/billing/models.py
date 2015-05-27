@@ -114,6 +114,15 @@ class Subscription(ResourceMixin, db.Model):
           subscription = Subscription(**params)
           subscription.create()
 
+        or, for updating:
+
+        params = {
+            'user': User object (ie. current_user),
+            'plan': 'bronze'
+        }
+        subscription = Subscription(**params)
+        subscription.update()
+
         or, for cancelling:
 
           params = {
@@ -190,12 +199,31 @@ class Subscription(ResourceMixin, db.Model):
 
         return True
 
-    def cancel(self, at_period_end=False):
+    def update(self):
         """
-        Return whether or not the membership was cancelled successfully.
+        Return whether or not the subscription was updated successfully.
+
+        :return: bool
+        """
+        user = self.params['user']
+
+        StripeSubscription.update(customer_id=user.stripe_customer_id,
+                                  plan_id=self.plan)
+
+        user.subscription.plan = self.plan
+        db.session.add(user.subscription)
+        db.session.commit()
+
+        return True
+
+    def cancel(self, at_period_end=False, discard_credit_card=True):
+        """
+        Return whether or not the subscription was cancelled successfully.
 
         :param at_period_end: If true, delay the cancellation until the end of
                               the billing cycle
+        :type at_period_end: bool
+        :param at_period_end: If true, delete the user's credit card
         :type at_period_end: bool
         :return: bool
         """
@@ -209,6 +237,13 @@ class Subscription(ResourceMixin, db.Model):
 
         db.session.add(user)
         db.session.delete(user.subscription)
+
+        # Explicitly delete the credit card because the FK is on the
+        # user, not subscription so we can't depend on cascading deletes.
+        # This is for cases where you may want to keep a user's card
+        # on file even if they cancelled.
+        if discard_credit_card:
+            db.session.delete(user.credit_card)
 
         db.session.commit()
 

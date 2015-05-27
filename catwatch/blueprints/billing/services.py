@@ -35,8 +35,28 @@ class StripeSubscription(Stripe):
         return stripe.Customer.create(**params)
 
     @classmethod
-    def update(cls, customer_id=None, plan=None):
-        pass
+    def update(cls, customer_id=None, plan_id=None):
+        """
+        Update an existing subscription.
+
+        API Documentation:
+          https://stripe.com/docs/api/python#update_subscription
+
+        :param customer_id: Stripe customer id
+        :type customer_id: int
+        :param plan_id: Stripe plan
+        :type plan_id: str
+        :return: Stripe subscription object
+        """
+        try:
+            customer = stripe.Customer.retrieve(customer_id)
+            subscription_id = customer.subscriptions.data[0].id
+            subscription = customer.subscriptions.retrieve(subscription_id)
+
+            subscription.plan = plan_id
+            return subscription.save()
+        except stripe.error.StripeError as e:
+            logging.error(e)
 
     @classmethod
     def cancel(cls, customer_id=None, at_period_end=False):

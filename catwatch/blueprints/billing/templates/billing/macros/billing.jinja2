@@ -4,8 +4,18 @@
     <h3 class="text-divider{{ ' color--blue' if plan.metadata and plan.metadata.recommended }}">{{ plan.name }}</h3>
     {{ caller () }}
     {% if current_user.is_authenticated() %}
-      <a href="{{ url_for('billing.create', plan=plan.id) }}"
-         class="button--primary pricing--primary">Continue</a>
+      {% if current_user.subscription %}
+        {% if plan == active_plan %}
+          <strong class="button--secondary pricing--secondary">Current
+            plan</strong>
+        {% else %}
+          <a href="{{ url_for('billing.update', plan=plan.id) }}"
+             class="button--primary pricing--primary">Change plan</a>
+        {% endif %}
+      {% else %}
+        <a href="{{ url_for('billing.create', plan=plan.id) }}"
+           class="button--primary pricing--primary">Continue</a>
+      {% endif %}
     {% else %}
       <a href="{{ url_for('user.signup') }}"
          class="button--primary pricing--primary">Sign up</a>

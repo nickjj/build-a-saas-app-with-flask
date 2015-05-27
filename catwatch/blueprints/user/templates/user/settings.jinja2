@@ -54,7 +54,7 @@
                   <a href="#">Billing details</a>
                 </li>
                 <li>
-                  <a href="#">Change plan</a>
+                  <a href="{{ url_for('billing.update') }}">Change plan</a>
                 </li>
                 <li>
                   <a href="{{ url_for('billing.cancel') }}" class="small">Cancel

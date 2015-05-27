@@ -3,10 +3,17 @@
 
 {% block title %}You can't put a price on {{ _('Cat watch') }}{% endblock %}
 {% block heading %}
-  <h2 class="centered">You're moments away</h2>
-  <h3 class="centered bottom-margin color--muted">
-    Just a few more clicks or taps before it's cat tweet time
-  </h3>
+  {% if current_user.subscription %}
+    <h2 class="centered bottom-margin">You're about to change plans</h2>
+    <div class="alert--warn centered bottom-margin">
+      Your plan will change <strong>immediately</strong> after clicking 'Change plan'.
+    </div>
+  {% else %}
+    <h2 class="centered">You're moments away</h2>
+    <h3 class="centered bottom-margin color--muted">
+      Just a few more clicks or taps before it's cat tweet time
+    </h3>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
