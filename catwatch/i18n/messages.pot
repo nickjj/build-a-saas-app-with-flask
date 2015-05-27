@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-26 12:48-0700\n"
+"POT-Creation-Date: 2015-05-27 10:18-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,6 +86,26 @@ msgstr ""
 msgid "No issues were deleted, something went wrong."
 msgstr ""
 
+#: catwatch/blueprints/billing/decorators.py:21
+msgid "Sorry, your card was declined. Try again perhaps?"
+msgstr ""
+
+#: catwatch/blueprints/billing/decorators.py:25
+msgid "Our payment gateway did not like that request."
+msgstr ""
+
+#: catwatch/blueprints/billing/decorators.py:28
+msgid "Authentication with our payment gateway failed."
+msgstr ""
+
+#: catwatch/blueprints/billing/decorators.py:32
+msgid "Our payment gateway is experiencing connectivity issues, please try again."
+msgstr ""
+
+#: catwatch/blueprints/billing/decorators.py:37
+msgid "Our payment gateway is having issues, please try again."
+msgstr ""
+
 #: catwatch/blueprints/billing/forms.py:8
 msgid "Stripe key"
 msgstr ""
@@ -102,12 +122,36 @@ msgstr ""
 msgid "Process payment"
 msgstr ""
 
-#: catwatch/blueprints/billing/views.py:25
+#: catwatch/blueprints/billing/forms.py:18
+msgid "Cancel subscription"
+msgstr ""
+
+#: catwatch/blueprints/billing/views.py:31
 msgid "You already have an active subscription."
 msgstr ""
 
-#: catwatch/blueprints/billing/views.py:48
+#: catwatch/blueprints/billing/views.py:54
 msgid "Awesome, thanks for subscribing!"
+msgstr ""
+
+#: catwatch/blueprints/billing/views.py:87
+msgid "Your subscription has been updated."
+msgstr ""
+
+#: catwatch/blueprints/billing/views.py:100
+msgid "You do not have an active subscription."
+msgstr ""
+
+#: catwatch/blueprints/billing/views.py:110
+msgid "Sorry to see you go, your subscription has been cancelled."
+msgstr ""
+
+#: catwatch/blueprints/billing/views.py:124
+msgid "You do not have a payment method on file."
+msgstr ""
+
+#: catwatch/blueprints/billing/views.py:145
+msgid "Your payment method has been updated."
 msgstr ""
 
 #: catwatch/blueprints/issue/forms.py:18
