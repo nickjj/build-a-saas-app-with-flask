@@ -176,6 +176,7 @@ class Subscription(ResourceMixin, db.Model):
         # Update the user account.
         user.stripe_customer_id = customer.id
         user.name = self.params['name']
+        user.cancelled_subscription_on = None
 
         # Create the credit card.
         credit_card = CreditCard(user_id=user.id,
