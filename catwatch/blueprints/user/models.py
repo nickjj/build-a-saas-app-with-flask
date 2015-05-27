@@ -9,8 +9,9 @@ from itsdangerous import URLSafeTimedSerializer, \
 from sqlalchemy import or_
 
 from catwatch.lib.util_sqlalchemy import ResourceMixin
-from catwatch.blueprints.billing.models import CreditCard, Subscription, \
-    Invoice
+from catwatch.blueprints.billing.models.credit_card import CreditCard
+from catwatch.blueprints.billing.models.subscription import Subscription
+from catwatch.blueprints.billing.models.invoice import Invoice
 from catwatch.extensions import db, bcrypt
 
 

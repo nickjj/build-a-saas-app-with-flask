@@ -2,16 +2,16 @@ from flask import Blueprint, current_app, render_template, url_for, request, \
     redirect, flash
 from flask_login import login_required, current_user
 from flask_babel import gettext as _
-from sqlalchemy import text
 
 from config import settings
 from catwatch.blueprints.billing.forms import CreditCardForm, \
     CancelSubscriptionForm
-from catwatch.blueprints.billing.models import Subscription, Invoice
+from catwatch.blueprints.billing.models.subscription import Subscription
+from catwatch.blueprints.billing.models.invoice import Invoice
 from catwatch.blueprints.billing.decorators import handle_stripe_exceptions
 
 
-billing = Blueprint('billing', __name__, template_folder='templates',
+billing = Blueprint('billing', __name__, template_folder='../templates',
                     url_prefix='/subscription')
 
 

@@ -1,4 +1,4 @@
-from catwatch.blueprints.billing.models import Money
+from catwatch.blueprints.billing.models.credit_card import Money
 
 
 def format_currency(amount, cents_to_dollars=True):
