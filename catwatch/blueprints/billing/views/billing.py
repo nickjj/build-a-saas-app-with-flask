@@ -53,7 +53,10 @@ def create():
         subscription = Subscription(**params)
         if subscription.create():
             flash(_('Awesome, thanks for subscribing!'), 'success')
-            return redirect(url_for('user.settings'))
+        else:
+            flash(_('You must enable Javascript for this request.'), 'warn')
+
+        return redirect(url_for('user.settings'))
 
     return render_template('billing/payment_method.jinja2',
                            form=form, plan=active_plan)
@@ -144,7 +147,10 @@ def update_payment_method():
         subscription = Subscription(**params)
         if subscription.update_payment_method():
             flash(_('Your payment method has been updated.'), 'success')
-            return redirect(url_for('user.settings'))
+        else:
+            flash(_('You must enable Javascript for this request.'), 'warn')
+
+        return redirect(url_for('user.settings'))
 
     return render_template('billing/payment_method.jinja2', form=form,
                            plan=active_plan, card_last4=card_last4)

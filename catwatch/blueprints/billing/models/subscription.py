@@ -90,6 +90,9 @@ class Subscription(ResourceMixin, db.Model):
 
         :return: bool
         """
+        if self.params['stripe_token'] is None:
+            return False
+
         user = self.params['user']
 
         # Create the customer on Stripe's end.
@@ -174,6 +177,9 @@ class Subscription(ResourceMixin, db.Model):
 
         :return: bool
         """
+        if self.params['stripe_token'] is None:
+            return False
+
         user = self.params['user']
 
         customer = StripeCard.update(user.stripe_customer_id,
