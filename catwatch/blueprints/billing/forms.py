@@ -15,4 +15,4 @@ class CreditCardForm(Form):
 
 
 class CancelSubscriptionForm(Form):
-    submit = SubmitField(_('Cancel subscriptiption'))
+    submit = SubmitField(_('Cancel subscription'))
