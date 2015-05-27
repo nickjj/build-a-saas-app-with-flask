@@ -226,3 +226,19 @@ class StripePlan(Stripe):
                 del stripe_params[param]
 
         return stripe_params
+
+
+class StripeInvoice(Stripe):
+    @classmethod
+    def upcoming(cls, customer_id):
+        """
+        Retrieve an upcoming invoice item for a user.
+
+        API Documentation:
+          https://stripe.com/docs/api#retrieve_customer_invoice
+
+        :param customer_id: Stripe customer id
+        :type customer_id: int
+        :return: Stripe invoice object
+        """
+        return stripe.Invoice.upcoming(customer=customer_id)

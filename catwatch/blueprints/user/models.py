@@ -4,12 +4,13 @@ from hashlib import md5
 
 from flask import current_app
 from flask_login import UserMixin
-from itsdangerous import URLSafeTimedSerializer,\
+from itsdangerous import URLSafeTimedSerializer, \
     TimedJSONWebSignatureSerializer
 from sqlalchemy import or_
 
 from catwatch.lib.util_sqlalchemy import ResourceMixin
-from catwatch.blueprints.billing.models import CreditCard, Subscription
+from catwatch.blueprints.billing.models import CreditCard, Subscription, \
+    Invoice
 from catwatch.extensions import db, bcrypt
 
 
@@ -28,6 +29,7 @@ class User(UserMixin, ResourceMixin, db.Model):
                                   passive_deletes=True)
     subscription = db.relationship(Subscription, uselist=False,
                                    backref='users', passive_deletes=True)
+    invoices = db.relationship(Invoice, backref='users')
 
     # Authentication.
     role = db.Column(db.Enum(*ROLE, name='role_types'),

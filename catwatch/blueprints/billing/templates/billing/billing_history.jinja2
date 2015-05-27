@@ -1,0 +1,64 @@
+{% extends 'layouts/app.jinja2' %}
+
+{% block title %}Billing details and history{% endblock %}
+
+{% block body %}
+  <h2 class="bottom-margin">Subscription details</h2>
+  <table class="bottom-margin">
+    <thead>
+    <tr>
+      <th>Subscription</th>
+      <th>Description</th>
+      <th>Next billing date</th>
+      <th>Price</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{ upcoming.plan_name }}</td>
+      <td>{{ upcoming.description }}</td>
+      <td>{{ upcoming.next_bill_on }}</td>
+      <td>
+        ${{ upcoming.amount_due | format_currency }}
+        <span class="color--muted">/{{ upcoming.interval }}</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <h2 class="bottom-margin">Recent billing history</h2>
+  {% if invoices.count() == 0 %}
+    <h3>No invoices found</h3>
+    <p>This isn't an error. You just haven't been invoiced yet.</p>
+  {% else %}
+    <table class="xl-bottom-margin">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Method</th>
+        <th>Description</th>
+        <th>Service period</th>
+        <th>Tax</th>
+        <th>Total</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for invoice in invoices.items %}
+        <tr>
+          <td>{{ user.created_on }}</td>
+          <td>{{ invoice.brand }} ****{{ invoice.last4 }}</td>
+          <td>{{ user.description }}</td>
+          <td>{{ user.period_start_on }}</td>
+          <td>{{ user.period_end_on }}</td>
+          <td>{{ user.tax }}</td>
+          <td>{{ user.total }} ({{ user.currency }})</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  <a href="{{ url_for('user.settings') }}"
+     class="top-margin button--primary pricing--primary">Go back to your
+    account</a>
+{% endblock %}
+

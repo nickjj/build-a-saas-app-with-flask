@@ -2,11 +2,12 @@ from flask import Blueprint, current_app, render_template, url_for, request, \
     redirect, flash
 from flask_login import login_required, current_user
 from flask_babel import gettext as _
+from sqlalchemy import text
 
 from config import settings
 from catwatch.blueprints.billing.forms import CreditCardForm, \
     CancelSubscriptionForm
-from catwatch.blueprints.billing.models import Subscription
+from catwatch.blueprints.billing.models import Subscription, Invoice
 from catwatch.blueprints.billing.decorators import handle_stripe_exceptions
 
 
@@ -147,3 +148,14 @@ def update_payment_method():
 
     return render_template('billing/payment_method.jinja2', form=form,
                            plan=active_plan, card_last4=card_last4)
+
+
+@billing.route('/billing_history')
+@handle_stripe_exceptions
+@login_required
+def billing_history():
+    invoices = Invoice.query.limit(12)
+    upcoming = Invoice.upcoming(current_user.stripe_customer_id)
+
+    return render_template('billing/billing_history.jinja2',
+                           invoices=invoices, upcoming=upcoming)
