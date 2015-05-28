@@ -40,6 +40,7 @@ def _bulk_insert(model, data, label):
     """
     with app.app_context():
         model.query.delete()
+        db.session.commit()
         db.engine.execute(model.__table__.insert(), data)
 
         _log_status(model.query.count(), label)
