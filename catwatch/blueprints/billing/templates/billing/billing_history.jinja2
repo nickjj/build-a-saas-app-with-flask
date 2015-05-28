@@ -43,15 +43,17 @@
       </tr>
       </thead>
       <tbody>
-      {% for invoice in invoices.items %}
+      {% for invoice in invoices %}
         <tr>
-          <td>{{ user.created_on }}</td>
+          <td>{{ invoice.created_on }}</td>
           <td>{{ invoice.brand }} ****{{ invoice.last4 }}</td>
-          <td>{{ user.description }}</td>
-          <td>{{ user.period_start_on }}</td>
-          <td>{{ user.period_end_on }}</td>
-          <td>{{ user.tax }}</td>
-          <td>{{ user.total }} ({{ user.currency }})</td>
+          <td>{{ invoice.description }}</td>
+          <td>
+            {{ invoice.period_start_on.strftime('%B %d, %Y') }} <span
+              class="color--muted">&mdash;</span> {{ invoice.period_end_on.strftime('%B %d, %Y') }}
+          </td>
+          <td>{{ invoice.tax }}</td>
+          <td title="{{ invoice.currency }}">${{ invoice.total }}</td>
         </tr>
       {% endfor %}
       </tbody>

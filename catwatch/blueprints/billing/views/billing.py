@@ -160,7 +160,8 @@ def update_payment_method():
 @handle_stripe_exceptions
 @login_required
 def billing_history():
-    invoices = Invoice.query.limit(12)
+    invoices = Invoice.query.filter(Invoice.user_id == current_user.id).limit(
+        12)
     upcoming = Invoice.upcoming(current_user.stripe_customer_id)
 
     return render_template('billing/billing_history.jinja2',

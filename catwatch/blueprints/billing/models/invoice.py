@@ -12,7 +12,7 @@ class Invoice(ResourceMixin, db.Model):
     # Relationships.
     user_id = db.Column(db.Integer, db.ForeignKey('users.id',
                                                   onupdate='CASCADE',
-                                                  ondelete='SET NULL'),
+                                                  ondelete='CASCADE'),
                         index=True, nullable=False)
 
     # Invoice details.
@@ -37,22 +37,93 @@ class Invoice(ResourceMixin, db.Model):
         super(Invoice, self).__init__(**kwargs)
 
     @classmethod
-    def upcoming(cls, customer_id):
+    def parse_from_event(cls, payload):
         """
-        Return the upcoming invoice item.
+        Parse and return the invoice information that will get saved locally.
 
-        :return: Stripe invoice object
+        :return: Invoice dict
         """
-        stripe_invoice = StripeInvoice.upcoming(customer_id)
-        plan_info = stripe_invoice['lines']['data'][0]['plan']
-        date = datetime.datetime.utcfromtimestamp(stripe_invoice['date'])
+        data = payload['data']['object']
+        plan_info = data['lines']['data'][0]['plan']
+
+        period_start_on = datetime.datetime.utcfromtimestamp(
+            data['lines']['data'][0]['period']['start']).date()
+        period_end_on = datetime.datetime.utcfromtimestamp(
+            data['lines']['data'][0]['period']['end']).date()
 
         invoice = {
-            'plan_name': plan_info['name'],
+            'stripe_customer_id': data['customer'],
+            'plan': plan_info['name'],
+            'receipt_number': data['receipt_number'],
+            'description': plan_info['statement_descriptor'],
+            'period_start_on': period_start_on,
+            'period_end_on': period_end_on,
+            'currency': data['currency'],
+            'tax': data['tax'],
+            'tax_percent': data['tax_percent'],
+            'total': data['total']
+        }
+
+        return invoice
+
+    @classmethod
+    def parse_from_api(cls, payload):
+        """
+        Parse and return the invoice information we are interested in.
+
+        :return: Invoice dict
+        """
+        plan_info = payload['lines']['data'][0]['plan']
+        date = datetime.datetime.utcfromtimestamp(payload['date'])
+
+        invoice = {
+            'plan': plan_info['name'],
             'description': plan_info['statement_descriptor'],
             'next_bill_on': date.strftime('%B %d, %Y'),
-            'amount_due': stripe_invoice['amount_due'],
+            'amount_due': payload['amount_due'],
             'interval': plan_info['interval']
         }
 
         return invoice
+
+    @classmethod
+    def prepare_and_save(cls, parsed_event):
+        """
+        Potentially save the invoice after argument the event fields.
+
+        :param parsed_event: Event params to be saved
+        :type parsed_event: dict
+        :return: Stripe invoice object or None
+        """
+        # Avoid circular imports.
+        from catwatch.blueprints.user.models import User
+
+        # Only save the invoice if the user is valid at this point.
+        id = parsed_event['stripe_customer_id']
+        user = User.query.filter((User.stripe_customer_id == id)).first()
+
+        if user and user.credit_card:
+            parsed_event['user_id'] = user.id
+            parsed_event['brand'] = user.credit_card.brand
+            parsed_event['last4'] = user.credit_card.last4
+            parsed_event['exp_date'] = user.credit_card.exp_date
+
+            del parsed_event['stripe_customer_id']
+
+            invoice = Invoice(**parsed_event)
+            return invoice.save()
+
+        return None
+
+    @classmethod
+    def upcoming(cls, customer_id):
+        """
+        Return the upcoming invoice item.
+
+        :param customer_id: Stripe customer id
+        :type customer_id: int
+        :return: Stripe invoice object
+        """
+        stripe_invoice = StripeInvoice.upcoming(customer_id)
+
+        return Invoice.parse_from_api(stripe_invoice)

@@ -7,6 +7,24 @@ class Stripe(object):
     pass
 
 
+class StripeEvent(Stripe):
+    @classmethod
+    def retrieve(cls, event_id):
+        """
+        Retrieve an event, this is used to validate the event in attempt to
+        protect us from potentially malicious events not sent from Stripe.
+
+        API Documentation:
+          https://stripe.com/docs/api#retrieve_event
+
+        :param event_id: Stripe event id
+        :type event_id: int
+
+        :return: Stripe event object
+        """
+        return stripe.Event.retrieve(event_id)
+
+
 class StripeCard(Stripe):
     @classmethod
     def update(cls, customer_id, stripe_token=None):

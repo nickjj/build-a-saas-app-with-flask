@@ -7,11 +7,22 @@ APP_NAME = 'catwatch'
 
 # App settings.
 APP_ROOT = path.join(path.dirname(path.abspath(__file__)), '..')
-SERVER_NAME = 'localhost:8000'
 SECRET_KEY = 'pickabettersecret'
 DEBUG = True
 TESTING = False
 LOG_LEVEL = 'info'
+
+# You will need to disable this to get Stripe's webhooks to work because you'll
+# likely end up using tunneling tooling such as ngrok so the endpoints are
+# reachable outside of your private network.
+#
+# The problem with this is, Flask won't allow any connections to the ngrok
+# url with the SERVER_NAME set to localhost:8000. However if you comment out
+# the SERVER_NAME below then webbooks will work but now url_for will not work
+# inside of email templates.
+#
+# A better solution will turn up in the future.
+SERVER_NAME = 'localhost:8000'
 
 # Stripe information.
 #

@@ -140,6 +140,18 @@ your schema very frequently.
 
 This will drop your database, create a new one and seed it with fake data.
 
+My billing history is always empty
+''''''''''''''''''''''''''''''''''
+
+Filling out the billing history requires setting up webhooks with Stripe. You
+can do that in your Stripe account dashboard under webhooks.
+
+You will need to setup something like ngrok so localhost is accessible outside
+of your local network. It does this by setting up a tunnel.
+
+Also make sure to look at the comments in ``config/settings.py`` for the
+``SERVER_NAME`` setting.
+
 Learn more
 ^^^^^^^^^^
 
