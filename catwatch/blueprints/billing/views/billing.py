@@ -22,7 +22,9 @@ def pricing():
     if current_user.subscription:
         return redirect(url_for('billing.update'))
 
-    return render_template('billing/pricing.jinja2',
+    form = UpdateSubscriptionForm()
+
+    return render_template('billing/pricing.jinja2', form=form,
                            plans=settings.STRIPE_PLANS)
 
 
