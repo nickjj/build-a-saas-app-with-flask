@@ -22,7 +22,7 @@
           {% if plan_name %}
             {{ plan_name | title }} subscription<br>
             <span class="centered small color--muted">
-            You will be charged ${{ plan.amount | format_currency }} / {{ plan.interval }}
+            This plan costs ${{ plan.amount | format_currency }} / {{ plan.interval }}
           </span>
           {% else %}
             {{ title }}
@@ -31,6 +31,16 @@
         <hr>
 
         <div class="alert--error payment-errors"></div>
+
+        {% if plan_name %}
+          <div class="coupon-code">
+            {{ form.coupon_code.label }}
+            {{ f.field(form.coupon_code) }}
+            <div id="coupon_code_status"
+                 class="small alert--small alert--success">
+            </div>
+          </div>
+        {% endif %}
 
         {{ form.name.label }}
         {{ f.field(form.name) }}

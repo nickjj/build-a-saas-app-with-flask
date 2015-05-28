@@ -7,6 +7,36 @@ class Stripe(object):
     pass
 
 
+class StripeCoupon(Stripe):
+    @classmethod
+    def create(cls, **kwargs):
+        """
+        Create a new coupon, it expects the following call signature:
+          kwargs = {
+            'code': '10PCTOFF',       # Random one will be generated if skipped
+            'duration': 'forever',    # Default
+            'amount_off': 0,          # Amount_off or percent_off, not both
+            'percent_off: 10,         # Amount_off or percent_off, not both
+            'currency': 'usd',        # Only required if amount_off is set
+            'duration_in_months',     # Applicable if duration is not forever
+            'max_redemptions': null,
+            'redeem_by': null         # Unix timestamp
+          }
+          StripeCoupon.create(params)
+
+        API Documentation:
+          https://stripe.com/docs/api#create_coupon
+
+        :param params: Parameters requested by the Stripe API
+        :type params: dict
+        :return: Stripe coupon object
+        """
+        kwargs['id'] = kwargs['code']
+        del kwargs['code']
+
+        return stripe.Coupon.create(**kwargs)
+
+
 class StripeEvent(Stripe):
     @classmethod
     def retrieve(cls, event_id):
@@ -54,6 +84,7 @@ class StripeSubscription(Stripe):
           params = {
             'source': 'the_stripe_token',
             'email': 'foo@bar.com',
+            'coupon': '10PCTOFF',         # Optional
             'plan': 'gold'
           }
           StripeSubscription.create(params)
@@ -68,24 +99,32 @@ class StripeSubscription(Stripe):
         return stripe.Customer.create(**params)
 
     @classmethod
-    def update(cls, customer_id=None, plan_id=None):
+    def update(cls, params):
         """
-        Update an existing subscription.
+        Update a subscription, it expects the following call signature:
+          params = {
+            'customer_id': 'the_stripe_token',
+            'plan': 'gold',
+            'coupon': '10PCTOFF',              # Optional
+          }
+          StripeSubscription.update(params)
 
         API Documentation:
           https://stripe.com/docs/api/python#update_subscription
 
-        :param customer_id: Stripe customer id
-        :type customer_id: int
-        :param plan_id: Stripe plan
-        :type plan_id: str
+        :param params: Parameters requested by the Stripe API
+        :type params: dict
         :return: Stripe subscription object
         """
-        customer = stripe.Customer.retrieve(customer_id)
+        customer = stripe.Customer.retrieve(params['customer_id'])
         subscription_id = customer.subscriptions.data[0].id
         subscription = customer.subscriptions.retrieve(subscription_id)
 
-        subscription.plan = plan_id
+        subscription.plan = params['plan']
+
+        if params['coupon']:
+            subscription.coupon = params['coupon']
+
         return subscription.save()
 
     @classmethod

@@ -9,8 +9,8 @@
           <strong class="button--secondary pricing--secondary">Current
             plan</strong>
         {% else %}
-          <a href="{{ url_for('billing.update', plan=plan.id) }}"
-             class="button--primary pricing--primary">Change plan</a>
+          <button id="submit_{{ plan.id }}" name="submit_{{ plan.id }}"
+             class="button--primary pricing--primary">Change plan</button>
         {% endif %}
       {% else %}
         <a href="{{ url_for('billing.create', plan=plan.id) }}"
@@ -24,4 +24,21 @@
     <p class="small color--muted">${{ plan.amount | format_currency }}
       / {{ plan.interval }}</p>
   </div>
-{% endmacro %}
+{%- endmacro %}
+
+{% macro coupon_data(coupon) -%}
+  {% if coupon.amount_off %}
+    {% set discount = '$' + coupon.amount_off | format_currency %}
+  {% else %}
+    {% set discount = coupon.percent_off | string + '%' %}
+  {% endif %}
+  {% if coupon.duration == 'forever' %}
+    {% set label = 'It is saving you ' + discount + ' per month forever.' %}
+  {% elif coupon.duration == 'once' %}
+    {% set label = 'It saved you ' + discount + ' this month.' %}
+  {% else %}
+    {% set label = 'It is saving you ' + discount + ' for the next ' + coupon.duration_in_months | string + ' months.' %}
+  {% endif %}
+
+  {{ label }}
+{%- endmacro %}

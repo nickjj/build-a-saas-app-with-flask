@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-05-27 15:21-0700\n"
+"POT-Creation-Date: 2015-05-28 12:25-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,47 +115,59 @@ msgid "Plan"
 msgstr ""
 
 #: catwatch/blueprints/billing/forms.py:12
-msgid "Name on card"
+msgid "Do you have a discount code?"
 msgstr ""
 
 #: catwatch/blueprints/billing/forms.py:14
+msgid "Name on card"
+msgstr ""
+
+#: catwatch/blueprints/billing/forms.py:16
 msgid "Process payment"
 msgstr ""
 
-#: catwatch/blueprints/billing/forms.py:18
+#: catwatch/blueprints/billing/forms.py:20
 msgid "Cancel it"
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:32
+#: catwatch/blueprints/billing/views/billing.py:35
+msgid "Discount code cannot be processed."
+msgstr ""
+
+#: catwatch/blueprints/billing/views/billing.py:39
+msgid "Discount code not found."
+msgstr ""
+
+#: catwatch/blueprints/billing/views/billing.py:49
 msgid "You already have an active subscription."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:55
+#: catwatch/blueprints/billing/views/billing.py:72
 msgid "Awesome, thanks for subscribing!"
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:57
-#: catwatch/blueprints/billing/views/billing.py:151
+#: catwatch/blueprints/billing/views/billing.py:74
+#: catwatch/blueprints/billing/views/billing.py:168
 msgid "You must enable Javascript for this request."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:91
+#: catwatch/blueprints/billing/views/billing.py:108
 msgid "Your subscription has been updated."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:104
+#: catwatch/blueprints/billing/views/billing.py:121
 msgid "You do not have an active subscription."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:114
+#: catwatch/blueprints/billing/views/billing.py:131
 msgid "Sorry to see you go, your subscription has been cancelled."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:128
+#: catwatch/blueprints/billing/views/billing.py:145
 msgid "You do not have a payment method on file."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:149
+#: catwatch/blueprints/billing/views/billing.py:166
 msgid "Your payment method has been updated."
 msgstr ""
 

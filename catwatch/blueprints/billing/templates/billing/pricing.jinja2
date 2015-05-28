@@ -1,4 +1,5 @@
 {% extends 'layouts/app.jinja2' %}
+{% import 'macros/form.jinja2' as f with context %}
 {% import 'billing/macros/billing.jinja2' as billing with context %}
 
 {% block title %}You can't put a price on {{ _('Cat watch') }}{% endblock %}
@@ -6,7 +7,8 @@
   {% if current_user.subscription %}
     <h2 class="centered bottom-margin">You're about to change plans</h2>
     <div class="alert--warn centered bottom-margin">
-      Your plan will change <strong>immediately</strong> after clicking 'Change plan'.
+      Your plan will change <strong>immediately</strong> after clicking 'Change
+      plan'.
     </div>
   {% else %}
     <h2 class="centered">You're moments away</h2>
@@ -17,45 +19,56 @@
 {% endblock %}
 
 {% block body %}
-  <div class="clear subsection-title centered">
-    {% call billing.plan(plans['0']) %}
-      <dl>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin strike">Dicta optio cumque dolore</dd>
-        <dd class="no-margin strike">Dicta optio cumque dolor</dd>
-        <dd class="no-margin strike">Dicta optio cumque dolor</dd>
-        <dd class="no-margin strike">Consequuntur voluptatum</dd>
-        <dd class="no-margin strike">Consequuntur voluptatum</dd>
-        <dd class="no-margin strike">Consequuntur voluptatum</dd>
-      </dl>
-    {% endcall %}
-    {% call billing.plan(plans['1']) %}
-      <dl>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin">Dicta optio cumque dolore</dd>
-        <dd class="no-margin">Dicta optio cumque dolor</dd>
-        <dd class="no-margin">Dicta optio cumque dolor</dd>
-        <dd class="no-margin strike">Consequuntur voluptatum</dd>
-        <dd class="no-margin strike">Consequuntur voluptatum</dd>
-        <dd class="no-margin strike">Consequuntur voluptatum</dd>
-      </dl>
-    {% endcall %}
-    {% call billing.plan(plans['2'], last=True) %}
-      <dl>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-        <dd class="no-margin">Dicta optio cumque dolore</dd>
-        <dd class="no-margin">Dicta optio cumque dolor</dd>
-        <dd class="no-margin">Dicta optio cumque dolor</dd>
-        <dd class="no-margin">Consequuntur voluptatum</dd>
-        <dd class="no-margin">Consequuntur voluptatum</dd>
-        <dd class="no-margin">Consequuntur voluptatum</dd>
-      </dl>
-    {% endcall %}
-  </div>
+  {% call f.form_tag('billing.update', class='clear') %}
+    {% if current_user.subscription %}
+    <div class="coupon-code">
+      {{ form.coupon_code.label }}
+      {{ f.field(form.coupon_code) }}
+      <div id="coupon_code_status"
+           class="small alert--small alert--success">
+      </div>
+    </div>
+    {% endif %}
+    <div class="clear subsection-title centered">
+      {% call billing.plan(plans['0']) %}
+        <dl>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin strike">Dicta optio cumque dolore</dd>
+          <dd class="no-margin strike">Dicta optio cumque dolor</dd>
+          <dd class="no-margin strike">Dicta optio cumque dolor</dd>
+          <dd class="no-margin strike">Consequuntur voluptatum</dd>
+          <dd class="no-margin strike">Consequuntur voluptatum</dd>
+          <dd class="no-margin strike">Consequuntur voluptatum</dd>
+        </dl>
+      {% endcall %}
+      {% call billing.plan(plans['1']) %}
+        <dl>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin">Dicta optio cumque dolore</dd>
+          <dd class="no-margin">Dicta optio cumque dolor</dd>
+          <dd class="no-margin">Dicta optio cumque dolor</dd>
+          <dd class="no-margin strike">Consequuntur voluptatum</dd>
+          <dd class="no-margin strike">Consequuntur voluptatum</dd>
+          <dd class="no-margin strike">Consequuntur voluptatum</dd>
+        </dl>
+      {% endcall %}
+      {% call billing.plan(plans['2'], last=True) %}
+        <dl>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
+          <dd class="no-margin">Dicta optio cumque dolore</dd>
+          <dd class="no-margin">Dicta optio cumque dolor</dd>
+          <dd class="no-margin">Dicta optio cumque dolor</dd>
+          <dd class="no-margin">Consequuntur voluptatum</dd>
+          <dd class="no-margin">Consequuntur voluptatum</dd>
+          <dd class="no-margin">Consequuntur voluptatum</dd>
+        </dl>
+      {% endcall %}
+    </div>
+  {% endcall %}
 {% endblock %}

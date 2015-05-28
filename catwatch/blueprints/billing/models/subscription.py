@@ -19,6 +19,7 @@ class Subscription(ResourceMixin, db.Model):
 
     # Subscription details.
     plan = db.Column(db.String(128))
+    coupon = db.Column(db.String(32))
 
     def __init__(self, **kwargs):
         """
@@ -27,6 +28,7 @@ class Subscription(ResourceMixin, db.Model):
             'user': User object (ie. current_user),
             'name': 'Mr or Mrs. Foo',
             'plan': 'gold',
+            'coupon': '10PCTOFF',
             'source': 'the_stripe_token'
           }
           subscription = Subscription(**params)
@@ -66,8 +68,12 @@ class Subscription(ResourceMixin, db.Model):
         if kwargs.get('plan', None):
             self.plan = kwargs['plan']
 
+        if kwargs.get('coupon', None):
+            self.coupon = kwargs['coupon']
+
         super(Subscription, self).__init__(user_id=self.user_id,
-                                           plan=self.plan)
+                                           plan=self.plan,
+                                           coupon=self.coupon)
 
     @classmethod
     def get_plan_by_stripe_id(cls, id):
@@ -99,7 +105,8 @@ class Subscription(ResourceMixin, db.Model):
         stripe_params = {
             'source': self.params['stripe_token'],
             'email': user.email,
-            'plan': self.plan
+            'plan': self.plan,
+            'coupon': self.coupon
         }
         customer = StripeSubscription.create(stripe_params)
 
@@ -128,10 +135,19 @@ class Subscription(ResourceMixin, db.Model):
         """
         user = self.params['user']
 
-        StripeSubscription.update(customer_id=user.stripe_customer_id,
-                                  plan_id=self.plan)
+        # Update the subscription on Stripe's end
+        stripe_params = {
+            'customer_id': user.stripe_customer_id,
+            'plan': self.plan,
+            'coupon': self.coupon
+        }
+
+        StripeSubscription.update(stripe_params)
 
         user.subscription.plan = self.plan
+        if self.coupon:
+            user.subscription.coupon = self.coupon
+
         db.session.add(user.subscription)
         db.session.commit()
 
