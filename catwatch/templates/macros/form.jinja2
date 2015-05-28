@@ -23,7 +23,6 @@
 {% macro form_tag(endpoint, id='', class='', method='post') -%}
   <form action="{{ url_for(endpoint, **kwargs) }}" method="{{ method }}"
         id="{{ id }}" class="{{ class }}" role="form">
-    {{ form.csrf_token }}
     {{ form.hidden_tag() }}
     {{ caller () }}
   </form>
