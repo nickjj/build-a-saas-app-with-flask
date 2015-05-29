@@ -17,7 +17,7 @@
 {% block body %}
   <div class="g--half g--centered subsection-title">
     <div class="login--background">
-      {% call f.form_tag(endpoint, id='payment_form', class='clear') %}
+      {% call f.form_tag(endpoint, fid='payment_form', class='clear') %}
         <legend class="centered large">
           {% if plan_name %}
             {{ plan_name | title }} subscription<br>
