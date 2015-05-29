@@ -50,4 +50,5 @@ tmtags
 
 # App ignores.
 instance/
+celerybeat.pid
 celerybeat-schedule
