@@ -98,7 +98,7 @@ class CreditCard(ResourceMixin, db.Model):
             'brand': card_data.brand,
             'last4': card_data.last4,
             'exp_date': exp_date,
-            'is_expiring': CreditCard.is_expiring_soon(exp_date)
+            'is_expiring': CreditCard.is_expiring_soon(exp_date=exp_date)
         }
 
         return card
