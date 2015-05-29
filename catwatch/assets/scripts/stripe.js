@@ -112,6 +112,10 @@ var stripe = function () {
             }, lookupDelayInMS);
         });
 
+        $body.on('submit', $('form').closest('button'), function () {
+            $spinner.show();
+        });
+
         $form.submit(function () {
             var $form = $(this);
             var $name = $('#name');

@@ -10,7 +10,11 @@
             plan</strong>
         {% else %}
           <button id="submit_{{ plan.id }}" name="submit_{{ plan.id }}"
-             class="button--primary pricing--primary">Change plan</button>
+             class="button--primary pricing--primary">
+            <img src="{{ asset_url_for('images/spinner.gif') }}"
+                 class="spinner"
+                 width="16" height="11" alt="Spinner"/>
+            Change plan</button>
         {% endif %}
       {% else %}
         <a href="{{ url_for('billing.create', plan=plan.id) }}"
