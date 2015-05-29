@@ -19,7 +19,7 @@ billing = Blueprint('billing', __name__, template_folder='../templates',
 
 @billing.route('/pricing')
 def pricing():
-    if current_user.subscription:
+    if current_user.is_authenticated() and current_user.subscription:
         return redirect(url_for('billing.update'))
 
     form = UpdateSubscriptionForm()
