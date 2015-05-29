@@ -80,6 +80,24 @@ class Coupon(ResourceMixin, db.Model):
 
         return short_code
 
+    @classmethod
+    def expire_old_coupons(cls, compare_datetime=None):
+        """
+        Invalidate coupons that are past their redeem date.
+
+        :param compare_datetime: Time to compare at
+        :type compare_datetime: date
+        :return: The result of updating the records
+        """
+        if compare_datetime is None:
+            compare_datetime = datetime.datetime.today()
+
+        condition = Coupon.redeem_by <= compare_datetime
+        Coupon.query.filter(condition)\
+            .update({Coupon.valid: not Coupon.valid})
+
+        return db.session.commit()
+
     def create(self):
         """
         Return whether or not the coupon was created successfully.

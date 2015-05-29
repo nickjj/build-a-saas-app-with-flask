@@ -1,5 +1,6 @@
 import datetime
 
+from catwatch.lib.util_datetime import timedelta_months
 from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
 
@@ -55,19 +56,31 @@ class CreditCard(ResourceMixin, db.Model):
         """
         Determine whether or not this credit card is expiring soon.
 
-        :param compare_date: Time to compare at
+        :param compare_date: Date to compare at
         :type compare_date: date
         :param exp_date: Expiration date
         :type exp_date: date
         :return: bool
         """
-        if compare_date is None:
-            compare_date = datetime.date.today()
+        return exp_date <= timedelta_months(
+            CreditCard.IS_EXPIRING_THRESHOLD_MONTHS, compare_date=compare_date)
 
-        delta = CreditCard.IS_EXPIRING_THRESHOLD_MONTHS * 365 / 12
-        compare_date_with_delta = compare_date + datetime.timedelta(delta)
+    @classmethod
+    def mark_old_credit_cards(cls, compare_date=None):
+        """
+        Mark credit cards that are going to expire soon or have expired.
 
-        return exp_date <= compare_date_with_delta
+        :param compare_date: Date to compare at
+        :type compare_date: date
+        :return: The result of updating the records
+        """
+        today_with_delta = timedelta_months(
+            CreditCard.IS_EXPIRING_THRESHOLD_MONTHS, compare_date)
+
+        CreditCard.query.filter(CreditCard.exp_date <= today_with_delta) \
+            .update({CreditCard.is_expiring: True})
+
+        return db.session.commit()
 
     @classmethod
     def extract_card_params(cls, stripe_customer):
