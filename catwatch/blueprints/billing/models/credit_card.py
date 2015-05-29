@@ -51,19 +51,23 @@ class CreditCard(ResourceMixin, db.Model):
         super(CreditCard, self).__init__(**kwargs)
 
     @classmethod
-    def is_expiring_soon(cls, exp_date):
+    def is_expiring_soon(cls, compare_date=None, exp_date=None):
         """
         Determine whether or not this credit card is expiring soon.
 
+        :param compare_date: Time to compare at
+        :type compare_date: date
         :param exp_date: Expiration date
         :type exp_date: date
         :return: bool
         """
-        today = datetime.date.today()
-        delta = CreditCard.IS_EXPIRING_THRESHOLD_MONTHS * 365 / 12
-        today_with_delta = today + datetime.timedelta(delta)
+        if compare_date is None:
+            compare_date = datetime.date.today()
 
-        return exp_date <= today_with_delta
+        delta = CreditCard.IS_EXPIRING_THRESHOLD_MONTHS * 365 / 12
+        compare_date_with_delta = compare_date + datetime.timedelta(delta)
+
+        return exp_date <= compare_date_with_delta
 
     @classmethod
     def extract_card_params(cls, stripe_customer):
