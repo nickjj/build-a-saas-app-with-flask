@@ -55,7 +55,8 @@ def users(page):
     paginated_users = User.query \
         .filter(User.search(request.args.get('q', ''),
                             ('email', 'name'))) \
-        .order_by(User.role.desc(), text(order_values)) \
+        .order_by(User.role.desc(), User.stripe_customer_id,
+                  text(order_values)) \
         .paginate(page, 20, True)
 
     return render_template('admin/user/index.jinja2',
