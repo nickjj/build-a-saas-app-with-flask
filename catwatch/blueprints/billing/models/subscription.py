@@ -4,6 +4,7 @@ from config import settings
 from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
 from catwatch.blueprints.billing.models.credit_card import CreditCard
+from catwatch.blueprints.billing.models.coupon import Coupon
 from catwatch.blueprints.billing.services import StripeCard, StripeSubscription
 
 
@@ -119,6 +120,11 @@ class Subscription(ResourceMixin, db.Model):
         credit_card = CreditCard(user_id=user.id,
                                  **CreditCard.extract_card_params(customer))
 
+        # Redeem the coupon.
+        if self.coupon:
+            coupon = Coupon.query.filter(Coupon.code == self.coupon).first()
+            coupon.redeem()
+
         db.session.add(user)
         db.session.add(credit_card)
         db.session.add(self)
@@ -147,6 +153,8 @@ class Subscription(ResourceMixin, db.Model):
         user.subscription.plan = self.plan
         if self.coupon:
             user.subscription.coupon = self.coupon
+            coupon = Coupon.query.filter(Coupon.code == self.coupon).first()
+            coupon.redeem()
 
         db.session.add(user.subscription)
         db.session.commit()
