@@ -1,8 +1,12 @@
-{% macro role_icon_for(role) -%}
-  {% if role == 'admin' %}
+{% macro role_icon_for(user) -%}
+  {% if user.role == 'admin' %}
     <i class="fa fa-2x fa-fw fa-shield" title="Admin"></i>
-  {% elif role == 'member' %}
-    <i class="fa fa-2x fa-fw fa-user" title="Member"></i>
+  {% elif user.role == 'member' %}
+    {% if user.subscription %}
+    <i class="fa fa-2x fa-fw fa-star" title="Paid member"></i>
+    {% else %}
+    <i class="fa fa-2x fa-fw fa-user faded" title="Member"></i>
+    {% endif %}
   {% else %}
     <i class="fa fa-2x fa-fw" title="Guest"></i>
   {% endif %}

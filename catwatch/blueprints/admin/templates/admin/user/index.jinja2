@@ -51,7 +51,7 @@
                      type="checkbox" value="{{ user.id }}">
             </td>
             <td>
-              {{ account.role_icon_for(user.role) }}
+              {{ account.role_icon_for(user) }}
               <a href="{{ url_for('admin.users_edit', id=user.id) }}">
                 <h5 class="medium admin--table-label">{{ user.name }}</h5>
 
