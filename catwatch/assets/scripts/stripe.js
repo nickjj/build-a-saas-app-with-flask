@@ -14,7 +14,9 @@ var stripe = function () {
     };
 
     // This identifies your website in the createToken call below.
-    Stripe.setPublishableKey($stripeKey.val());
+    if ($stripeKey.val()) {
+        Stripe.setPublishableKey($stripeKey.val());
+    }
 
     var stripeResponseHandler = function (status, response) {
         $paymentErrors.hide();
