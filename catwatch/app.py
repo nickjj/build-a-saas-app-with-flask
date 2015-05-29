@@ -39,7 +39,8 @@ def create_celery_app(app=None):
     app = app or create_app()
 
     task_list = [
-        'catwatch.blueprints.user.tasks'
+        'catwatch.blueprints.user.tasks',
+        'catwatch.blueprints.billing.tasks',
     ]
 
     celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'],

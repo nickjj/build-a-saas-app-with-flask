@@ -1,6 +1,8 @@
 from os import path
 from datetime import timedelta
 
+from celery.schedules import crontab
+
 
 # This should be the name of the database you want to create
 APP_NAME = 'catwatch'
@@ -109,6 +111,18 @@ CACHE_KEY_PREFIX = APP_NAME
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_REDIS_MAX_CONNECTIONS = 5
+
+# Celery recurring scheduled tasks.
+CELERYBEAT_SCHEDULE = {
+    'mark-soon-to-expire-credit-cards': {
+        'task': 'catwatch.blueprints.billing.tasks.mark_old_credit_cards',
+        'schedule': crontab(hour=12, minute=1)
+    },
+    'mark-invalid-coupons': {
+        'task': 'catwatch.blueprints.billing.tasks.expire_old_coupons',
+        'schedule': crontab(hour=12, minute=2)
+    },
+}
 
 # Login.
 REMEMBER_COOKIE_DURATION = timedelta(days=90)
