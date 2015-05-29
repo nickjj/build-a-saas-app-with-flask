@@ -48,6 +48,10 @@
 
 {% block header %}{% endblock %}
 
+{% if current_user.is_authenticated() and current_user.subscription and current_user.credit_card.is_expiring %}
+  {% include 'billing/_expiring_soon.jinja2' with context %}
+{% endif %}
+
 <main>
   {% block flash_message %}
     {% with messages = get_flashed_messages(with_categories=True) %}
