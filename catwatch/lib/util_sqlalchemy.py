@@ -95,7 +95,7 @@ class ResourceMixin(object):
 
         :return: db.session.commit()'s result
         """
-        db.session.add(self)
+        db.session.delete(self)
         return db.session.commit()
 
     def __str__(self):
