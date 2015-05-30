@@ -10,10 +10,13 @@ var rootAssetPath = './catwatch/assets';
 module.exports = {
     context: path.join(__dirname, '../'),
     entry: {
-        app_js: [rootAssetPath + '/scripts/entry.js'],
+        app_js: [
+            rootAssetPath + '/scripts/entry.js'
+        ],
         app_css: [
             rootAssetPath + '/styles/main.scss',
-            rootAssetPath + '/styles/vendor/font-awesome.4.3.0.css'
+            rootAssetPath + '/styles/vendor/font-awesome.4.3.0.css',
+            rootAssetPath + '/styles/vendor/rome.2.1.17.css'
         ]
     },
     output: {
