@@ -16,6 +16,11 @@
   <div class="login--background">
     {% call f.form_tag(endpoint, class='clear', **form_kwargs) %}
       <legend class="centered medium bottom-margin">{{ legend }}</legend>
+        <label for="">Created on</label>
+        <h5 class="bottom-margin">
+          {{ issue.created_on.strftime('%B %d, %Y %I:%M %p') }}
+        </h5>
+
       {{ form.label.label }}
       {{ f.field(form.label) }}
 
