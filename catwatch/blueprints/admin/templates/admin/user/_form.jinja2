@@ -52,6 +52,17 @@
     </div>
   </div>
   <div class="g--half g--last">
+    {% if user.subscription and user.credit_card %}
+    <h3>Subscription details</h3>
+    <dl>
+      <dt><strong>Plan</strong></dt>
+      <dd class="no-margin bottom-margin">{{ user.subscription.plan | title }}</dd>
+      <dt><strong>Credit card</strong></dt>
+      <dd class="no-margin bottom-margin">
+        {{ user.credit_card.brand }} ****{{ user.credit_card.last4 }} ({{ user.credit_card.exp_date.strftime('%m/%Y') }})
+      </dd>
+    </dl>
+    {% endif %}
     <h3>Login activity</h3>
     <dl>
       <dt><strong>Sign in count</strong></dt>
