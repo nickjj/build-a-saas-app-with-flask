@@ -11,8 +11,19 @@
     <div class="editorial-header">
       <div class="g-wide--1">
         <h3>Billing stats</h3>
-
-        <p>Coming soon!</p>
+        {% for item in group_and_count_plans %}
+          <dl>
+            <dt><strong>{{ item[1] | title }}</strong></dt>
+            <dd class="no-margin bottom-margin">{{ item[0] }}</dd>
+          </dl>
+        {% endfor %}
+        <dl>
+          <dt><strong>Coupon usage</strong></dt>
+          <dd class="no-margin bottom-margin">
+            {{ group_and_count_coupons[0] }} / {{ group_and_count_coupons[1] }}
+            ({{ group_and_count_coupons[2] }}%)
+          </dd>
+        </dl>
       </div>
       <div class="g-wide--1">
         <h3>User stats</h3>
