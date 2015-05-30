@@ -41,15 +41,15 @@ var stripe = function () {
         }
     };
 
-    var discountType = function (percent_off, amount_off) {
-        if (percent_off) {
-            return `${percent_off}%`;
+    var discountType = function (percentOff, amountOff) {
+        if (percentOff) {
+            return `${percentOff}%`;
         }
 
-        return `$${amount_off}`;
+        return `$${amountOff}`;
     };
 
-    var discountDuration = function (duration, duration_in_months) {
+    var discountDuration = function (duration, durationInMonths) {
         switch (duration) {
             case 'forever':
             {
@@ -61,7 +61,7 @@ var stripe = function () {
             }
             default:
             {
-                return `for ${duration_in_months} months`;
+                return `for ${durationInMonths} months`;
             }
         }
     };
