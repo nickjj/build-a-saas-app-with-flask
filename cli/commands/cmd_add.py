@@ -117,8 +117,7 @@ def coupons():
 
         # Create a fake unix timestamp in the future.
         redeem_by = fake.date_time_between(start_date='now',
-                                           end_date='+1y')\
-            .date().strftime('%s')
+                                           end_date='+1y').strftime('%s')
 
         # Bulk inserts need the same columns, so let's setup a few nulls.
         params = {
@@ -146,12 +145,16 @@ def coupons():
             duration_in_months = random.randint(1, 12)
             params['duration_in_months'] = duration_in_months
 
-        StripeCoupon.create(**params)
+        StripeCoupon.create(params)
 
         # Our database requires a Date object, not a unix timestamp.
         if redeem_by:
             params['redeem_by'] = datetime.utcfromtimestamp(float(redeem_by))\
-                .strftime('%Y-%m-%d')
+                .strftime('%Y-%m-%d %H:%M:%S')
+
+        if 'id' in params:
+            params['code'] = params['id']
+            del params['id']
 
         data.append(params)
 
