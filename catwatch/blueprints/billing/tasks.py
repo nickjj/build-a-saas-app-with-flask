@@ -23,3 +23,15 @@ def expire_old_coupons():
     :return: The result of updating the records
     """
     return Coupon.expire_old_coupons()
+
+
+@celery.task()
+def delete_coupons(ids):
+    """
+    Delete coupons both on Stripe and locally.
+
+    :param ids: List of ids to be deleted
+    :type ids: list
+    :return: The number of deleted coupons.
+    """
+    return Coupon.bulk_delete(ids)

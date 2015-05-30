@@ -9,10 +9,10 @@ class Stripe(object):
 
 class StripeCoupon(Stripe):
     @classmethod
-    def create(cls, **kwargs):
+    def create(cls, params):
         """
         Create a new coupon, it expects the following call signature:
-          kwargs = {
+          params = {
             'code': '10PCTOFF',       # Random one will be generated if skipped
             'duration': 'forever',    # Default
             'amount_off': 0,          # Amount_off or percent_off, not both
@@ -31,10 +31,26 @@ class StripeCoupon(Stripe):
         :type params: dict
         :return: Stripe coupon object
         """
-        kwargs['id'] = kwargs['code']
-        del kwargs['code']
+        params['id'] = params['code']
+        del params['code']
 
-        return stripe.Coupon.create(**kwargs)
+        return stripe.Coupon.create(**params)
+
+    @classmethod
+    def delete(cls, id):
+        """
+        Delete a coupon.
+
+        API Documentation:
+          https://stripe.com/docs/api#delete_coupon
+
+        :param id: Coupon code
+        :type id: str
+        :return: Stripe object
+        """
+        coupon = stripe.Coupon.retrieve(id)
+
+        return coupon.delete()
 
 
 class StripeEvent(Stripe):

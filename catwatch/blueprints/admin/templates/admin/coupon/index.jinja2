@@ -1,0 +1,90 @@
+{% extends 'layouts/app.jinja2' %}
+{% import 'macros/items.jinja2' as items %}
+{% import 'macros/form.jinja2' as f with context %}
+{% import 'billing/macros/billing.jinja2' as billing with context %}
+
+{% block title %}Admin - Coupons / List{% endblock %}
+
+{% block body %}
+  <div class="clear">
+    <div class="g--half">
+      {{ f.search('admin.coupons') }}
+    </div>
+    <div class="g--half g--last top-margin aligned-right">
+      <a href="{{ url_for('admin.coupons_new') }}" class="button--secondary">
+        Create coupon
+      </a>
+    </div>
+  </div>
+
+  {% if coupons.total == 0 %}
+    <h3>No results found</h3>
+    {% if request.args.get('q') %}
+      <p>Try limiting or removing your search terms.</p>
+    {% else %}
+      <p>There are no coupons present, you should <a
+          href="{{ url_for('admin.coupons_new') }}">create one</a>.</p>
+    {% endif %}
+  {% else %}
+    {% call f.form_tag('admin.coupons_bulk_delete') %}
+      <table>
+        <thead>
+        <tr>
+          <th>
+            <label for="select_all"></label>
+            <input id="select_all" name="select_all" type="checkbox">
+          </th>
+          <th class="col-header">
+            {{ items.sort('created_on', 'Date') }}
+          </th>
+          <th class="col-header">
+            {{ items.sort('code') }}
+          </th>
+          <th class="col-header">
+            {{ items.sort('duration') }}
+          </th>
+          <th class="col-header">
+            {{ items.sort('redeem_by', 'Expires') }}
+          </th>
+          <th class="col-header">
+            {{ items.sort('times_redeemed', 'Redeemed') }}
+          </th>
+          <th id="bulk_actions" colspan="5">
+            {{ f.field(bulk_form.scope, inline=True) }}
+            <button type="submit"
+                    class="rounded button--small button--primary">
+              Delete items
+            </button>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for coupon in coupons.items %}
+          <tr class="{{ 'faded' if not coupon.valid }}">
+            <td>
+              <label for="bulk_ids"></label>
+              <input class="checkbox-item" id="bulk_ids" name="bulk_ids"
+                     type="checkbox" value="{{ coupon.id }}">
+            </td>
+            <td>{{ coupon.created_on.strftime('%B %d, %Y') }}</td>
+            <td>
+              <h5 class="medium admin--table-label">{{ coupon.code }}</h5>
+
+              <p class="small color--muted admin--table--sublabel">
+                {{ billing.coupon_discount(coupon.amount_off, coupon.percent_off) }}
+                discount
+              </p>
+            </td>
+            <td>{{ billing.coupon_duration_tag_for(coupon) }}</td>
+            <td>{{ billing.coupon_expiration(coupon) }}</td>
+            <td>{{ billing.coupon_redeemed(coupon.times_redeemed, coupon.max_redemptions) }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endcall %}
+
+    {{ items.paginate(coupons) }}
+  {% endif %}
+{% endblock %}
+

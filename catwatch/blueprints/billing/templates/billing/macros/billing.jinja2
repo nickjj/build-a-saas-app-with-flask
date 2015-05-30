@@ -46,3 +46,39 @@
 
   {{ label }}
 {%- endmacro %}
+
+{% macro coupon_duration_tag_for(coupon) -%}
+  {% if coupon.duration == 'forever' %}
+    <span class="alert--interesting alert--small">Forever</span>
+  {% elif coupon.duration == 'once' %}
+    <span class="alert--warn alert--small">Once</span>
+  {% else %}
+    <span class="alert--info alert--small">
+      {{ coupon.duration_in_months }} months
+    </span>
+  {% endif %}
+{% endmacro %}
+
+{% macro coupon_expiration(coupon) -%}
+  {% if coupon.redeem_by %}
+    {{ coupon.redeem_by.strftime('%B %d, %Y %I:%M %p') }}
+  {% elif coupon.duration_in_months %}
+    &mdash;
+  {% else %}
+    Never
+  {% endif %}
+{% endmacro %}
+
+{% macro coupon_redeemed(times_redeemed, max_redemptions) -%}
+  {% set total = max_redemptions if max_redemptions else '&infin;' %}
+  {{ times_redeemed }} / {{ total }}
+{% endmacro %}
+
+{% macro coupon_discount(amount_off, percent_off) -%}
+  {% if amount_off %}
+    ${{ amount_off | format_currency }}
+  {% else %}
+    {{ percent_off }}%
+  {% endif %}
+{% endmacro %}
+

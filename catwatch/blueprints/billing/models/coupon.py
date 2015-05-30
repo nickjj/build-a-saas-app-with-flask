@@ -6,11 +6,13 @@ from string import maketrans
 from os import urandom
 from binascii import hexlify
 
+from sqlalchemy import or_, and_
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
 from catwatch.blueprints.billing.models.credit_card import Money
+from catwatch.blueprints.billing.services import StripeCoupon
 
 
 class Coupon(ResourceMixin, db.Model):
@@ -55,10 +57,29 @@ class Coupon(ResourceMixin, db.Model):
 
         :return: SQLAlchemy query object
         """
-        is_redeemable = self.redeem_by is None or \
-            self.redeem_by >= datetime.datetime.utcnow()
+        is_redeemable = or_(self.redeem_by.is_(None),
+                            self.redeem_by >= datetime.datetime.utcnow())
 
-        return self.valid and is_redeemable
+        return and_(self.valid, is_redeemable)
+
+    @classmethod
+    def search(cls, query, fields):
+        """
+        Search a resource by 1 or more fields.
+
+        :param query: Search query
+        :type query: str
+        :param fields: Fields to search
+        :type fields: tuple
+        :return: SQLAlchemy filter
+        """
+        if not query:
+            return ''
+
+        # TODO: Refactor this to dynamically search on any model by any filter.
+        search_query = '%{0}%'.format(query)
+
+        return or_(Coupon.code.ilike(search_query))
 
     @classmethod
     def random_coupon_code(cls):
@@ -98,13 +119,59 @@ class Coupon(ResourceMixin, db.Model):
 
         return db.session.commit()
 
-    def create(self):
+    @classmethod
+    def create(cls, params):
         """
         Return whether or not the coupon was created successfully.
 
         :return: bool
         """
+        stripe_params = params
+
+        if stripe_params['amount_off']:
+            stripe_params['amount_off'] = \
+                Money.dollars_to_cents(stripe_params['amount_off'])
+
+        StripeCoupon.create(stripe_params)
+
+        if 'id' in stripe_params:
+            stripe_params['code'] = stripe_params['id']
+            del stripe_params['id']
+
+        coupon = Coupon(**stripe_params)
+
+        db.session.add(coupon)
+        db.session.commit()
+
         return True
+
+    @classmethod
+    def bulk_delete(cls, ids):
+        """
+        Override the general bulk_delete method because we need to delete them
+        one at a time while also deleting them on Stripe.
+
+        :param ids: List of ids to be deleted
+        :type ids: list
+        :return: Number of deleted instances
+        """
+        delete_count = 0
+
+        for id in ids:
+            coupon = Coupon.query.get(id)
+
+            if coupon is None:
+                return 0
+
+            # Delete on Stripe.
+            stripe_response = StripeCoupon.delete(coupon.code)
+
+            # If successful, delete it locally.
+            if stripe_response.get('deleted'):
+                coupon.delete()
+                delete_count += 1
+
+        return delete_count
 
     def redeem(self):
         """
@@ -141,147 +208,147 @@ class Coupon(ResourceMixin, db.Model):
 
 
 class Currency(object):
-    TYPES = {
-        'usd': 'United States Dollar',
-        'aed': 'United Arab Emirates Dirham',
-        'afn': 'Afghan Afghani',
-        'all': 'Albanian Lek',
-        'amd': 'Armenian Dram',
-        'ang': 'Netherlands Antillean Gulden',
-        'aoa': 'Angolan Kwanza',
-        'ars': 'Argentine Peso',
-        'aud': 'Australian Dollar',
-        'awg': 'Aruban Florin',
-        'azn': 'Azerbaijani Manat',
-        'bam': 'Bosnia & Herzegovina Convertible Mark',
-        'bbd': 'Barbadian Dollar',
-        'bdt': 'Bangladeshi Taka',
-        'bgn': 'Bulgarian Lev',
-        'bif': 'Burundian Franc',
-        'bmd': 'Bermudian Dollar',
-        'bnd': 'Brunei Dollar',
-        'bob': 'Bolivian Boliviano',
-        'brl': 'Brazilian Real',
-        'bsd': 'Bahamian Dollar',
-        'bwp': 'Botswana Pula',
-        'bzd': 'Belize Dollar',
-        'cad': 'Canadian Dollar',
-        'cdf': 'Congolese Franc',
-        'chf': 'Swiss Franc',
-        'clp': 'Chilean Peso',
-        'cny': 'Chinese Renminbi Yuan',
-        'cop': 'Colombian Peso',
-        'crc': 'Costa Rican Colón',
-        'cve': 'Cape Verdean Escudo',
-        'czk': 'Czech Koruna',
-        'djf': 'Djiboutian Franc',
-        'dkk': 'Danish Krone',
-        'dop': 'Dominican Peso',
-        'dzd': 'Algerian Dinar',
-        'eek': 'Estonian Kroon',
-        'egp': 'Egyptian Pound',
-        'etb': 'Ethiopian Birr',
-        'eur': 'Euro',
-        'fjd': 'Fijian Dollar',
-        'fkp': 'Falkland Islands Pound',
-        'gbp': 'British Pound',
-        'gel': 'Georgian Lari',
-        'gip': 'Gibraltar Pound',
-        'gmd': 'Gambian Dalasi',
-        'gnf': 'Guinean Franc',
-        'gtq': 'Guatemalan Quetzal',
-        'gyd': 'Guyanese Dollar',
-        'hkd': 'Hong Kong Dollar',
-        'hnl': 'Honduran Lempira',
-        'hrk': 'Croatian Kuna',
-        'htg': 'Haitian Gourde',
-        'huf': 'Hungarian Forint',
-        'idr': 'Indonesian Rupiah',
-        'ils': 'Israeli New Sheqel',
-        'inr': 'Indian Rupee',
-        'isk': 'Icelandic Króna',
-        'jmd': 'Jamaican Dollar',
-        'jpy': 'Japanese Yen',
-        'kes': 'Kenyan Shilling',
-        'kgs': 'Kyrgyzstani Som',
-        'khr': 'Cambodian Riel',
-        'kmf': 'Comorian Franc',
-        'krw': 'South Korean Won',
-        'kyd': 'Cayman Islands Dollar',
-        'kzt': 'Kazakhstani Tenge',
-        'lak': 'Lao Kip',
-        'lbp': 'Lebanese Pound',
-        'lkr': 'Sri Lankan Rupee',
-        'lrd': 'Liberian Dollar',
-        'lsl': 'Lesotho Loti',
-        'ltl': 'Lithuanian Litas',
-        'lvl': 'Latvian Lats',
-        'mad': 'Moroccan Dirham',
-        'mdl': 'Moldovan Leu',
-        'mga': 'Malagasy Ariary',
-        'mkd': 'Macedonian Denar',
-        'mnt': 'Mongolian Tögrög',
-        'mop': 'Macanese Pataca',
-        'mro': 'Mauritanian Ouguiya',
-        'mur': 'Mauritian Rupee',
-        'mvr': 'Maldivian Rufiyaa',
-        'mwk': 'Malawian Kwacha',
-        'mxn': 'Mexican Peso',
-        'myr': 'Malaysian Ringgit',
-        'mzn': 'Mozambican Metical',
-        'nad': 'Namibian Dollar',
-        'ngn': 'Nigerian Naira',
-        'nio': 'Nicaraguan Córdoba',
-        'nok': 'Norwegian Krone',
-        'npr': 'Nepalese Rupee',
-        'nzd': 'New Zealand Dollar',
-        'pab': 'Panamanian Balboa',
-        'pen': 'Peruvian Nuevo Sol',
-        'pgk': 'Papua New Guinean Kina',
-        'php': 'Philippine Peso',
-        'pkr': 'Pakistani Rupee',
-        'pln': 'Polish Złoty',
-        'pyg': 'Paraguayan Guaraní',
-        'qar': 'Qatari Riyal',
-        'ron': 'Romanian Leu',
-        'rsd': 'Serbian Dinar',
-        'rub': 'Russian Ruble',
-        'rwf': 'Rwandan Franc',
-        'sar': 'Saudi Riyal',
-        'sbd': 'Solomon Islands Dollar',
-        'scr': 'Seychellois Rupee',
-        'sek': 'Swedish Krona',
-        'sgd': 'Singapore Dollar',
-        'shp': 'Saint Helenian Pound',
-        'sll': 'Sierra Leonean Leone',
-        'sos': 'Somali Shilling',
-        'srd': 'Surinamese Dollar',
-        'std': 'São Tomé and Príncipe Dobra',
-        'svc': 'Salvadoran Colón',
-        'szl': 'Swazi Lilangeni',
-        'thb': 'Thai Baht',
-        'tjs': 'Tajikistani Somoni',
-        'top': 'Tongan Paʻanga',
-        'try': 'Turkish Lira',
-        'ttd': 'Trinidad and Tobago Dollar',
-        'twd': 'New Taiwan Dollar',
-        'tzs': 'Tanzanian Shilling',
-        'uah': 'Ukrainian Hryvnia',
-        'ugx': 'Ugandan Shilling',
-        'uyu': 'Uruguayan Peso',
-        'uzs': 'Uzbekistani Som',
-        'vef': 'Venezuelan Bolívar',
-        'vnd': 'Vietnamese Đồng',
-        'vuv': 'Vanuatu Vatu',
-        'wst': 'Samoan Tala',
-        'xaf': 'Central African Cfa Franc',
-        'xcd': 'East Caribbean Dollar',
-        'xof': 'West African Cfa Franc',
-        'xpf': 'Cfp Franc',
-        'yer': 'Yemeni Rial',
-        'zar': 'South African Rand',
-        'zmw': 'Zambian Kwacha'
-    }
+    TYPES = OrderedDict([
+        ('usd', u'United States Dollar'),
+        ('aed', u'United Arab Emirates Dirham'),
+        ('afn', u'Afghan Afghani'),
+        ('all', u'Albanian Lek'),
+        ('amd', u'Armenian Dram'),
+        ('ang', u'Netherlands Antillean Gulden'),
+        ('aoa', u'Angolan Kwanza'),
+        ('ars', u'Argentine Peso'),
+        ('aud', u'Australian Dollar'),
+        ('awg', u'Aruban Florin'),
+        ('azn', u'Azerbaijani Manat'),
+        ('bam', u'Bosnia & Herzegovina Convertible Mark'),
+        ('bbd', u'Barbadian Dollar'),
+        ('bdt', u'Bangladeshi Taka'),
+        ('bgn', u'Bulgarian Lev'),
+        ('bif', u'Burundian Franc'),
+        ('bmd', u'Bermudian Dollar'),
+        ('bnd', u'Brunei Dollar'),
+        ('bob', u'Bolivian Boliviano'),
+        ('brl', u'Brazilian Real'),
+        ('bsd', u'Bahamian Dollar'),
+        ('bwp', u'Botswana Pula'),
+        ('bzd', u'Belize Dollar'),
+        ('cad', u'Canadian Dollar'),
+        ('cdf', u'Congolese Franc'),
+        ('chf', u'Swiss Franc'),
+        ('clp', u'Chilean Peso'),
+        ('cny', u'Chinese Renminbi Yuan'),
+        ('cop', u'Colombian Peso'),
+        ('crc', u'Costa Rican Colón'),
+        ('cve', u'Cape Verdean Escudo'),
+        ('czk', u'Czech Koruna'),
+        ('djf', u'Djiboutian Franc'),
+        ('dkk', u'Danish Krone'),
+        ('dop', u'Dominican Peso'),
+        ('dzd', u'Algerian Dinar'),
+        ('eek', u'Estonian Kroon'),
+        ('egp', u'Egyptian Pound'),
+        ('etb', u'Ethiopian Birr'),
+        ('eur', u'Euro'),
+        ('fjd', u'Fijian Dollar'),
+        ('fkp', u'Falkland Islands Pound'),
+        ('gbp', u'British Pound'),
+        ('gel', u'Georgian Lari'),
+        ('gip', u'Gibraltar Pound'),
+        ('gmd', u'Gambian Dalasi'),
+        ('gnf', u'Guinean Franc'),
+        ('gtq', u'Guatemalan Quetzal'),
+        ('gyd', u'Guyanese Dollar'),
+        ('hkd', u'Hong Kong Dollar'),
+        ('hnl', u'Honduran Lempira'),
+        ('hrk', u'Croatian Kuna'),
+        ('htg', u'Haitian Gourde'),
+        ('huf', u'Hungarian Forint'),
+        ('idr', u'Indonesian Rupiah'),
+        ('ils', u'Israeli New Sheqel'),
+        ('inr', u'Indian Rupee'),
+        ('isk', u'Icelandic Króna'),
+        ('jmd', u'Jamaican Dollar'),
+        ('jpy', u'Japanese Yen'),
+        ('kes', u'Kenyan Shilling'),
+        ('kgs', u'Kyrgyzstani Som'),
+        ('khr', u'Cambodian Riel'),
+        ('kmf', u'Comorian Franc'),
+        ('krw', u'South Korean Won'),
+        ('kyd', u'Cayman Islands Dollar'),
+        ('kzt', u'Kazakhstani Tenge'),
+        ('lak', u'Lao Kip'),
+        ('lbp', u'Lebanese Pound'),
+        ('lkr', u'Sri Lankan Rupee'),
+        ('lrd', u'Liberian Dollar'),
+        ('lsl', u'Lesotho Loti'),
+        ('ltl', u'Lithuanian Litas'),
+        ('lvl', u'Latvian Lats'),
+        ('mad', u'Moroccan Dirham'),
+        ('mdl', u'Moldovan Leu'),
+        ('mga', u'Malagasy Ariary'),
+        ('mkd', u'Macedonian Denar'),
+        ('mnt', u'Mongolian Tögrög'),
+        ('mop', u'Macanese Pataca'),
+        ('mro', u'Mauritanian Ouguiya'),
+        ('mur', u'Mauritian Rupee'),
+        ('mvr', u'Maldivian Rufiyaa'),
+        ('mwk', u'Malawian Kwacha'),
+        ('mxn', u'Mexican Peso'),
+        ('myr', u'Malaysian Ringgit'),
+        ('mzn', u'Mozambican Metical'),
+        ('nad', u'Namibian Dollar'),
+        ('ngn', u'Nigerian Naira'),
+        ('nio', u'Nicaraguan Córdoba'),
+        ('nok', u'Norwegian Krone'),
+        ('npr', u'Nepalese Rupee'),
+        ('nzd', u'New Zealand Dollar'),
+        ('pab', u'Panamanian Balboa'),
+        ('pen', u'Peruvian Nuevo Sol'),
+        ('pgk', u'Papua New Guinean Kina'),
+        ('php', u'Philippine Peso'),
+        ('pkr', u'Pakistani Rupee'),
+        ('pln', u'Polish Złoty'),
+        ('pyg', u'Paraguayan Guaraní'),
+        ('qar', u'Qatari Riyal'),
+        ('ron', u'Romanian Leu'),
+        ('rsd', u'Serbian Dinar'),
+        ('rub', u'Russian Ruble'),
+        ('rwf', u'Rwandan Franc'),
+        ('sar', u'Saudi Riyal'),
+        ('sbd', u'Solomon Islands Dollar'),
+        ('scr', u'Seychellois Rupee'),
+        ('sek', u'Swedish Krona'),
+        ('sgd', u'Singapore Dollar'),
+        ('shp', u'Saint Helenian Pound'),
+        ('sll', u'Sierra Leonean Leone'),
+        ('sos', u'Somali Shilling'),
+        ('srd', u'Surinamese Dollar'),
+        ('std', u'São Tomé and Príncipe Dobra'),
+        ('svc', u'Salvadoran Colón'),
+        ('szl', u'Swazi Lilangeni'),
+        ('thb', u'Thai Baht'),
+        ('tjs', u'Tajikistani Somoni'),
+        ('top', u'Tongan Paʻanga'),
+        ('try', u'Turkish Lira'),
+        ('ttd', u'Trinidad and Tobago Dollar'),
+        ('twd', u'New Taiwan Dollar'),
+        ('tzs', u'Tanzanian Shilling'),
+        ('uah', u'Ukrainian Hryvnia'),
+        ('ugx', u'Ugandan Shilling'),
+        ('uyu', u'Uruguayan Peso'),
+        ('uzs', u'Uzbekistani Som'),
+        ('vef', u'Venezuelan Bolívar'),
+        ('vnd', u'Vietnamese Đồng'),
+        ('vuv', u'Vanuatu Vatu'),
+        ('wst', u'Samoan Tala'),
+        ('xaf', u'Central African Cfa Franc'),
+        ('xcd', u'East Caribbean Dollar'),
+        ('xof', u'West African Cfa Franc'),
+        ('xpf', u'Cfp Franc'),
+        ('yer', u'Yemeni Rial'),
+        ('zar', u'South African Rand'),
+        ('zmw', u'Zambian Kwacha')
+    ])
 
     @classmethod
     def lookup(cls, currency_code):

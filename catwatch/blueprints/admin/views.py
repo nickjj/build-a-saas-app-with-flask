@@ -14,9 +14,11 @@ from catwatch.blueprints.admin.models import Dashboard
 from catwatch.blueprints.user.decorators import role_required
 from catwatch.blueprints.user.models import User
 from catwatch.blueprints.issue.models import Issue
+from catwatch.blueprints.billing.decorators import handle_stripe_exceptions
+from catwatch.blueprints.billing.models.coupon import Coupon
 from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.admin.forms import SearchForm, BulkDeleteForm, \
-    UserForm, UserCancelSubscriptionForm, IssueForm
+    UserForm, UserCancelSubscriptionForm, IssueForm, CouponForm
 
 
 admin = Blueprint('admin', __name__,
@@ -192,3 +194,75 @@ def issues_bulk_delete():
         flash(_('No issues were deleted, something went wrong.'), 'error')
 
     return redirect(url_for('admin.issues'))
+
+
+# Coupons ---------------------------------------------------------------------
+@admin.route('/coupons', defaults={'page': 1})
+@admin.route('/coupons/page/<int:page>')
+def coupons(page):
+    search_form = SearchForm()
+    bulk_form = BulkDeleteForm()
+
+    sort_by = Coupon.sort_by(request.args.get('sort', 'created_on'),
+                             request.args.get('direction', 'asc'))
+    order_values = '{0} {1}'.format(sort_by[0], sort_by[1])
+
+    paginated_coupons = Coupon.query \
+        .filter(Coupon.search(request.args.get('q', ''), ('code'))) \
+        .order_by(text(order_values)) \
+        .paginate(page, 20, True)
+
+    return render_template('admin/coupon/index.jinja2',
+                           form=search_form, bulk_form=bulk_form,
+                           coupons=paginated_coupons)
+
+
+@admin.route('/coupons/new', methods=['GET', 'POST'])
+@handle_stripe_exceptions
+def coupons_new():
+    coupon = Coupon()
+    form = CouponForm(obj=coupon)
+
+    if form.validate_on_submit():
+        form.populate_obj(coupon)
+
+        params = {
+            'code': coupon.code,
+            'duration': coupon.duration,
+            'percent_off': coupon.percent_off,
+            'amount_off': coupon.amount_off,
+            'currency': coupon.currency,
+            'redeem_by': coupon.redeem_by,
+            'max_redemptions': coupon.max_redemptions,
+            'duration_in_months': coupon.duration_in_months,
+        }
+
+        if Coupon.create(params):
+            flash(_('Coupon has been created successfully.'), 'success')
+            return redirect(url_for('admin.coupons'))
+
+    return render_template('admin/coupon/new.jinja2', form=form, coupon=coupon)
+
+
+@admin.route('/coupons/bulk_delete', methods=['POST'])
+@handle_stripe_exceptions
+def coupons_bulk_delete():
+    form = BulkDeleteForm()
+
+    if form.validate_on_submit():
+        ids = Issue.get_bulk_action_ids(request.form.get('scope', None),
+                                        request.form.getlist('bulk_ids'),
+                                        query=request.args.get('q', ''),
+                                        query_fields=('code'))
+
+        # Prevent circular imports.
+        from catwatch.blueprints.billing.tasks import delete_coupons
+        delete_coupons.delay(ids)
+
+        flash(_n('%(num)d coupon was scheduled to be deleted.',
+                 '%(num)d coupons were scheduled to be deleted.',
+                 num=len(ids)), 'success')
+    else:
+        flash(_('No coupons were deleted, something went wrong.'), 'error')
+
+    return redirect(url_for('admin.coupons'))

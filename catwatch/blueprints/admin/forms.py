@@ -2,14 +2,16 @@ from collections import OrderedDict
 
 from flask_wtf import Form
 from wtforms import SelectField, StringField, BooleanField, SubmitField, \
-    TextAreaField
-from wtforms.validators import DataRequired, Length, Optional, Regexp
-from wtforms_components import Unique, EmailField
+    TextAreaField, FloatField, DateTimeField
+from wtforms.validators import DataRequired, Length, Optional, Regexp, \
+    NumberRange
+from wtforms_components import Unique, EmailField, IntegerField
 from flask_babel import lazy_gettext as _
 
 from catwatch.lib.util_wtforms import ModelForm, choices_from_dict
 from catwatch.blueprints.user.models import db, User
 from catwatch.blueprints.issue.models import Issue
+from catwatch.blueprints.billing.models.coupon import Coupon, Currency
 
 
 class SearchForm(Form):
@@ -63,3 +65,50 @@ class IssueForm(Form):
                          choices=choices_from_dict(Issue.STATUS,
                                                    prepend_blank=False))
     submit = SubmitField(_('Save'))
+
+
+class CouponForm(Form):
+    percent_off = IntegerField(_('Percent off'), [Optional(),
+                                                  NumberRange(min=1, max=100)])
+    amount_off = FloatField(_('Amount off'), [Optional(),
+                                              NumberRange(min=0.01,
+                                                          max=21474836.47)])
+    code = StringField(_('Code'), [DataRequired(), Length(1, 32)])
+    currency = SelectField(_('Currency'), [DataRequired()],
+                           choices=choices_from_dict(Currency.TYPES,
+                                                     prepend_blank=False))
+    duration = SelectField(_('Duration'), [DataRequired()],
+                           choices=choices_from_dict(Coupon.DURATION,
+                                                     prepend_blank=False))
+    duration_in_months = IntegerField(_('Duration in months'), [Optional(),
+                                                                NumberRange(
+                                                                    min=1,
+                                                                    max=12)])
+    max_redemptions = IntegerField(_('Max Redemptions'),
+                                   [Optional(),
+                                    NumberRange(min=1)])
+    redeem_by = DateTimeField(_('Redeem by'), [Optional()],
+                              format='%Y-%m-%d %H:%M:%S')
+
+    submit = SubmitField(_('Save'))
+
+    def validate(self):
+        if not Form.validate(self):
+            return False
+        result = True
+
+        percent_off = self.percent_off.data
+        amount_off = self.amount_off.data
+
+        if percent_off is None and amount_off is None:
+            self.percent_off.errors.append(_('Pick at least one.'))
+            self.amount_off.errors.append(_('Pick at least one.'))
+            result = False
+        elif percent_off and amount_off:
+            self.percent_off.errors.append(_('Cannot pick both.'))
+            self.amount_off.errors.append(_('Cannot pick both.'))
+            result = False
+        else:
+            result = True
+
+        return result

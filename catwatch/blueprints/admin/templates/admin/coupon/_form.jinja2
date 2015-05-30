@@ -1,0 +1,71 @@
+{% import 'macros/form.jinja2' as f with context %}
+
+{% if request.endpoint.endswith('new') %}
+  {% set endpoint = 'admin.coupons_new' %}
+  {% set form_kwargs = {} %}
+  {% set legend = 'Add a new coupon' %}
+  {% set button = 'Add' %}
+{% else %}
+  {% set endpoint = 'admin.coupons_edit' %}
+  {% set form_kwargs = {'id': coupon.id} %}
+  {% set legend = 'Update this coupon' %}
+  {% set button = 'Save' %}
+{% endif %}
+
+<div class="g--half g--centered subsection-title">
+  <div class="login--background">
+    {% call f.form_tag(endpoint, class='clear', **form_kwargs) %}
+      <legend class="centered medium bottom-margin">{{ legend }}</legend>
+
+      <p class="small color--blue">
+        You may pick either a percent <strong>or</strong> amount off.
+      </p>
+
+      <div class="g--half">
+        {{ form.percent_off.label }} <span
+          class="small color--muted">(%)</span>
+        {{ f.field(form.percent_off) }}
+      </div>
+      <div class="g--half g--last">
+        {{ form.amount_off.label }} <span
+          class="small color--muted">($)</span>
+        {{ f.field(form.amount_off) }}
+      </div>
+
+      {{ form.code.label }}
+      {{ f.field(form.code) }}
+
+      {{ form.currency.label }}
+      {{ f.field(form.currency) }}
+
+      {{ form.duration.label }}
+      {{ f.field(form.duration) }}
+
+      <div id="duration-in-months">
+        {{ form.duration_in_months.label }}
+        {{ f.field(form.duration_in_months) }}
+      </div>
+
+      {{ form.max_redemptions.label(class='faded') }}
+      {{ f.field(form.max_redemptions) }}
+
+      {{ form.redeem_by.label(class='faded') }}
+      {{ f.field(form.redeem_by, class='input') }}
+      <hr>
+      <div class="g--half">
+        <button type="submit" class="full-width rounded button--primary">
+          <img src="{{ asset_url_for('images/spinner.gif') }}"
+               class="spinner"
+               width="16" height="11" alt="Spinner"/>
+          {{ button }}
+        </button>
+      </div>
+      <div class="g--half g--last">
+        <a href="{{ url_for('admin.coupons') }}"
+           class="login--register full-width rounded button--secondary">
+          Cancel
+        </a>
+      </div>
+    {% endcall %}
+  </div>
+</div>
