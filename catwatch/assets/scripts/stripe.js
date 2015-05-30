@@ -66,38 +66,48 @@ var stripe = function () {
         }
     };
 
+    var protectAgainstInvalidCoupon = function (coupon, couponStatus) {
+        if (couponStatus.is(':visible')
+            && !couponStatus.hasClass('alert--success')) {
+            coupon.select();
+            return false;
+        }
+
+        return true;
+    };
+
     var checkCouponCode = function (csrfToken) {
         return $.ajax({
-                type: 'POST',
-                url: '/subscription/coupon_code',
-                data: {coupon_code: $('#coupon_code').val()},
-                dataType: 'json',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                    return $couponCodeStatus.text('')
-                        .removeClass('alert--success alert--warn alert--error').hide();
-                }
-            }).done(function (data, status, xhr) {
-                var code = xhr.responseJSON.data;
-                var amount = `${discountType(code.percent_off,
-                                             code.amount_off)} off`;
-                var duration = discountDuration(code.duration,
-                                                code.duration_in_months);
+            type: 'POST',
+            url: '/subscription/coupon_code',
+            data: {coupon_code: $('#coupon_code').val()},
+            dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                return $couponCodeStatus.text('')
+                    .removeClass('alert--success alert--warn alert--error').hide();
+            }
+        }).done(function (data, status, xhr) {
+            var code = xhr.responseJSON.data;
+            var amount = `${discountType(code.percent_off,
+                code.amount_off)} off`;
+            var duration = discountDuration(code.duration,
+                code.duration_in_months);
 
-                return $couponCodeStatus.addClass('alert--success')
-                    .text(`${amount} ${duration}`);
-            }).fail(function (xhr, status, error) {
-                var status_class = 'alert--error';
-                if (xhr.status === 404) {
-                    status_class = 'alert--warn';
-                }
+            return $couponCodeStatus.addClass('alert--success')
+                .text(`${amount} ${duration}`);
+        }).fail(function (xhr, status, error) {
+            var status_class = 'alert--error';
+            if (xhr.status === 404) {
+                status_class = 'alert--warn';
+            }
 
-                return $couponCodeStatus.addClass(status_class)
-                    .text(xhr.responseJSON.error);
-            }).always(function (xhr, status, error) {
-                $couponCodeStatus.show();
-                return $couponCode.val();
-            });
+            return $couponCodeStatus.addClass(status_class)
+                .text(xhr.responseJSON.error);
+        }).always(function (xhr, status, error) {
+            $couponCodeStatus.show();
+            return $couponCode.val();
+        });
     };
 
     jQuery(function ($) {
@@ -106,21 +116,33 @@ var stripe = function () {
 
         $body.on('keyup', '#coupon_code', function () {
             if ($couponCode.val().length === 0) {
+                $couponCodeStatus.hide();
                 return false;
             }
 
-            typewatch(function() {
+            typewatch(function () {
                 checkCouponCode(csrfToken);
             }, lookupDelayInMS);
         });
 
         $body.on('submit', $('form').closest('button'), function () {
+            if (!protectAgainstInvalidCoupon($couponCode,
+                                            $couponCodeStatus)) {
+                return false;
+            }
+
             $spinner.show();
         });
 
         $form.submit(function () {
             var $form = $(this);
             var $name = $('#name');
+
+            if (!protectAgainstInvalidCoupon($couponCode,
+                                            $couponCodeStatus)) {
+                return false;
+            }
+
             $spinner.show();
             $paymentErrors.hide();
 
