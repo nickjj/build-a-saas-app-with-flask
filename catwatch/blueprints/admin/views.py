@@ -14,8 +14,9 @@ from catwatch.blueprints.admin.models import Dashboard
 from catwatch.blueprints.user.decorators import role_required
 from catwatch.blueprints.user.models import User
 from catwatch.blueprints.issue.models import Issue
+from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.admin.forms import SearchForm, BulkDeleteForm, \
-    UserForm, IssueForm
+    UserForm, UserCancelSubscriptionForm, IssueForm
 
 
 admin = Blueprint('admin', __name__,
@@ -111,6 +112,27 @@ def users_bulk_delete():
                  num=delete_count), 'success')
     else:
         flash(_('No users were deleted, something went wrong.'), 'error')
+
+    return redirect(url_for('admin.users'))
+
+
+@admin.route('/users/cancel_subscription', methods=['POST'])
+def users_cancel_subscription():
+    form = UserCancelSubscriptionForm()
+
+    if form.validate_on_submit():
+        user = User.query.get(request.form.get('id', None))
+
+        if user:
+            params = {'user': user}
+
+            subscription = Subscription(**params)
+            if subscription.cancel():
+                flash(_('Subscription has been cancelled for %(user)s.',
+                        user=user.name), 'success')
+        else:
+            flash(_('No subscription was cancelled, something went wrong.'),
+                  'error')
 
     return redirect(url_for('admin.users'))
 

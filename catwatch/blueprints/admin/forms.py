@@ -48,6 +48,10 @@ class UserForm(ModelForm):
     submit = SubmitField(_('Save'))
 
 
+class UserCancelSubscriptionForm(Form):
+    submit = SubmitField(_('Cancel subscription'))
+
+
 class IssueForm(Form):
     label = SelectField(_('What do you need help with?'), [DataRequired()],
                         choices=choices_from_dict(Issue.LABEL))
