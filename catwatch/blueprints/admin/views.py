@@ -250,10 +250,10 @@ def coupons_bulk_delete():
     form = BulkDeleteForm()
 
     if form.validate_on_submit():
-        ids = Issue.get_bulk_action_ids(request.form.get('scope', None),
-                                        request.form.getlist('bulk_ids'),
-                                        query=request.args.get('q', ''),
-                                        query_fields=('code'))
+        ids = Coupon.get_bulk_action_ids(request.form.get('scope', None),
+                                         request.form.getlist('bulk_ids'),
+                                         query=request.args.get('q', ''),
+                                         query_fields=('code'))
 
         # Prevent circular imports.
         from catwatch.blueprints.billing.tasks import delete_coupons
