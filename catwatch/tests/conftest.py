@@ -257,6 +257,9 @@ def subscriptions(db):
     :param db: Pytest fixture
     :return: SQLAlchemy database session
     """
+    subscriber = User.find_by_identity('subscriber@localhost.com')
+    if subscriber:
+        subscriber.delete()
     db.session.query(Subscription).delete()
 
     params = {
@@ -311,4 +314,79 @@ def mock_stripe():
     StripeSubscription.create = Mock(return_value={})
     StripeSubscription.update = Mock(return_value={})
     StripeSubscription.cancel = Mock(return_value={})
-    StripeInvoice.upcoming = Mock(return_value={})
+
+    upcoming_api = {
+        'date': 1433018770,
+        'id': 'in_000',
+        'period_start': 1433018770,
+        'period_end': 1433018770,
+        'lines': {
+            'data': [
+                {
+                    'id': 'sub_000',
+                    'object': 'line_item',
+                    'type': 'subscription',
+                    'livemode': True,
+                    'amount': 0,
+                    'currency': 'usd',
+                    'proration': False,
+                    'period': {
+                        'start': 1433161742,
+                        'end': 1434371342
+                    },
+                    'subscription': None,
+                    'quantity': 1,
+                    'plan': {
+                        'interval': 'month',
+                        'name': 'Gold',
+                        'created': 1424879591,
+                        'amount': 500,
+                        'currency': 'usd',
+                        'id': 'gold',
+                        'object': 'plan',
+                        'livemode': False,
+                        'interval_count': 1,
+                        'trial_period_days': 14,
+                        'metadata': {
+                        },
+                        'statement_descriptor': 'GOLD MONTHLY'
+                    },
+                    'description': None,
+                    'discountable': True,
+                    'metadata': {
+                    }
+                }
+            ],
+            'total_count': 1,
+            'object': 'list',
+            'url': '/v1/invoices/in_000/lines'
+        },
+        'subtotal': 0,
+        'total': 0,
+        'customer': 'cus_000',
+        'object': 'invoice',
+        'attempted': True,
+        'closed': True,
+        'forgiven': False,
+        'paid': True,
+        'livemode': False,
+        'attempt_count': 0,
+        'amount_due': 500,
+        'currency': 'usd',
+        'starting_balance': 0,
+        'ending_balance': 0,
+        'next_payment_attempt': None,
+        'webhooks_delivered_at': None,
+        'charge': None,
+        'discount': None,
+        'application_fee': None,
+        'subscription': 'sub_000',
+        'tax_percent': None,
+        'tax': None,
+        'metadata': {
+        },
+        'statement_descriptor': None,
+        'description': None,
+        'receipt_number': None
+    }
+    StripeInvoice.upcoming = Mock(return_value=upcoming_api)

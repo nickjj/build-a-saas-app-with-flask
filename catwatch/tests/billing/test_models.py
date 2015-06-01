@@ -207,84 +207,9 @@ class TestInvoice(object):
         assert parsed_payload['tax_percent'] is None
         assert parsed_payload['total'] == 500
 
-    def test_parse_paypload_from_upcoming(self):
+    def test_invoice_upcoming(self, mock_stripe):
         """ Parse out the data correctly from a Stripe invoice payload. """
-        api_payload = {
-            'date': 1433018770,
-            'id': 'in_000',
-            'period_start': 1433018770,
-            'period_end': 1433018770,
-            'lines': {
-                'data': [
-                    {
-                        'id': 'sub_000',
-                        'object': 'line_item',
-                        'type': 'subscription',
-                        'livemode': True,
-                        'amount': 0,
-                        'currency': 'usd',
-                        'proration': False,
-                        'period': {
-                            'start': 1433161742,
-                            'end': 1434371342
-                        },
-                        'subscription': None,
-                        'quantity': 1,
-                        'plan': {
-                            'interval': 'month',
-                            'name': 'Gold',
-                            'created': 1424879591,
-                            'amount': 500,
-                            'currency': 'usd',
-                            'id': 'gold',
-                            'object': 'plan',
-                            'livemode': False,
-                            'interval_count': 1,
-                            'trial_period_days': 14,
-                            'metadata': {
-                            },
-                            'statement_descriptor': 'GOLD MONTHLY'
-                        },
-                        'description': None,
-                        'discountable': True,
-                        'metadata': {
-                        }
-                    }
-                ],
-                'total_count': 1,
-                'object': 'list',
-                'url': '/v1/invoices/in_000/lines'
-            },
-            'subtotal': 0,
-            'total': 0,
-            'customer': 'cus_000',
-            'object': 'invoice',
-            'attempted': True,
-            'closed': True,
-            'forgiven': False,
-            'paid': True,
-            'livemode': False,
-            'attempt_count': 0,
-            'amount_due': 500,
-            'currency': 'usd',
-            'starting_balance': 0,
-            'ending_balance': 0,
-            'next_payment_attempt': None,
-            'webhooks_delivered_at': None,
-            'charge': None,
-            'discount': None,
-            'application_fee': None,
-            'subscription': 'sub_000',
-            'tax_percent': None,
-            'tax': None,
-            'metadata': {
-            },
-            'statement_descriptor': None,
-            'description': None,
-            'receipt_number': None
-        }
-
-        parsed_payload = Invoice.parse_from_api(api_payload)
+        parsed_payload = Invoice.upcoming('cus_000')
 
         assert parsed_payload['plan'] == 'Gold'
         assert parsed_payload['description'] == 'GOLD MONTHLY'
