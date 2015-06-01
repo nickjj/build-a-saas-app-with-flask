@@ -37,12 +37,12 @@ def coupon_code():
                            {'error': _('Discount code cannot be processed.')})
 
     formatted_code = code.upper()
-    code = Coupon.query.filter(Coupon.redeemable,
-                               Coupon.code == formatted_code).first()
-    if code is None:
+    coupon = Coupon.query.filter(Coupon.redeemable,
+                                 Coupon.code == formatted_code).first()
+    if coupon is None:
         return render_json(404, {'error': _('Discount code not found.')})
 
-    return render_json(200, {'data': code.serialize()})
+    return render_json(200, {'data': coupon.serialize()})
 
 
 @billing.route('/create', methods=['GET', 'POST'])
