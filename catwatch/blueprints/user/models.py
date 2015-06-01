@@ -58,11 +58,6 @@ class User(UserMixin, ResourceMixin, db.Model):
         # Call Flask-SQLAlchemy's constructor.
         super(User, self).__init__(**kwargs)
 
-        # Transform a few fields.
-        self.username = kwargs.get('username', None)
-        if self.username is not None:
-            self.username = self.username.lower()
-
         self.password = User.encrypt_password(kwargs.get('password', ''))
 
     @classmethod
