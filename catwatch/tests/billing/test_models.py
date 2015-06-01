@@ -1,11 +1,10 @@
 import datetime
 
-from catwatch.lib.util_datetime import timedelta_months
 from catwatch.blueprints.billing.models.credit_card import CreditCard, Money
 from catwatch.blueprints.billing.models.coupon import Coupon
 
 
-class TestMoney:
+class TestMoney(object):
     def test_cents_convert_to_dollars(self):
         """ Cents become dollars. """
         assert Money.cents_to_dollars(0) == 0.0
@@ -21,7 +20,7 @@ class TestMoney:
         assert Money.dollars_to_cents(-0) == 0
 
 
-class TestCreditCard:
+class TestCreditCard(object):
     def test_credit_card_expiring_soon(self):
         """ Credit card is expiring soon. """
         may_29_2015 = datetime.date(2015, 05, 29)
@@ -46,55 +45,29 @@ class TestCreditCard:
         for date in exp_dates:
             assert CreditCard.is_expiring_soon(may_29_2015, date) is False
 
-    def test_mark_old_credit_cards(self, db):
+    def test_mark_old_credit_cards(self, session, credit_cards):
         """ Credit cards that are about to expire should get marked. """
         may_29_2015 = datetime.date(2015, 05, 29)
         june_29_2015 = datetime.date(2015, 06, 29)
 
-        params_expiring = {
-            'user_id': 1,
-            'brand': 'Visa',
-            'last4': 4242,
-            'exp_date': june_29_2015,
-        }
-
-        card = CreditCard(**params_expiring)
-
-        db.session.add(card)
-        db.session.commit()
-
         CreditCard.mark_old_credit_cards(may_29_2015)
 
-        assert True == CreditCard.query.first().is_expiring
+        card = CreditCard.query.filter(CreditCard.exp_date == june_29_2015)
+        assert True == card.first().is_expiring
 
-        db.session.delete(card)
-        db.session.commit()
-
-    def test_avoid_marking_old_credit_cards(self, db):
+    def test_avoid_marking_up_to_date_credit_cards(self, session,
+                                                   credit_cards):
         """ Credit cards that are not expiring should not be marked. """
         may_29_2015 = datetime.date(2015, 05, 29)
-
-        params_not_expiring = {
-            'user_id': 1,
-            'brand': 'Visa',
-            'last4': 4242,
-            'exp_date': timedelta_months(12, may_29_2015),
-        }
-
-        card = CreditCard(**params_not_expiring)
-
-        db.session.add(card)
-        db.session.commit()
+        may_28_2016 = datetime.date(2016, 05, 28)
 
         CreditCard.mark_old_credit_cards(may_29_2015)
 
-        assert False == CreditCard.query.first().is_expiring
-
-        db.session.delete(card)
-        db.session.commit()
+        card = CreditCard.query.filter(CreditCard.exp_date == may_28_2016)
+        assert False == card.first().is_expiring
 
 
-class TestCoupon:
+class TestCoupon(object):
     def test_random_coupon_code(self):
         """ Random coupon code is created. """
         from catwatch.blueprints.billing.tasks import expire_old_coupons
@@ -102,67 +75,32 @@ class TestCoupon:
         expire_old_coupons.delay()
 
         random_coupon = Coupon.random_coupon_code()
-        assert 14 == len(random_coupon)
+        assert len(random_coupon) == 14
         assert random_coupon.isupper()
 
-    def test_coupon_should_get_invalidated(self, db):
+    def test_coupon_should_get_invalidated(self, session, coupons):
         """ Coupons that are not redeemable should expire. """
-        may_29_2015 = datetime.datetime(2015, 05, 29)
+        may_29_2015 = datetime.date(2015, 05, 29)
         june_29_2015 = datetime.datetime(2015, 06, 29)
-
-        params_expiring = {
-            'amount_off': 1,
-            'redeem_by': may_29_2015
-        }
-
-        coupon = Coupon(**params_expiring)
-
-        db.session.add(coupon)
-        db.session.commit()
 
         Coupon.expire_old_coupons(june_29_2015)
 
-        assert False == Coupon.query.first().valid
+        coupon = Coupon.query.filter(Coupon.redeem_by == may_29_2015)
+        assert coupon.first().valid is False
 
-        db.session.delete(coupon)
-        db.session.commit()
-
-    def test_coupon_should_not_get_invalidated(self, db):
+    def test_coupon_should_not_get_invalidated(self, session, coupons):
         """ Coupons that haven't expired should remain valid. """
         may_29_2015 = datetime.datetime(2015, 05, 29)
         june_29_2015 = datetime.datetime(2015, 06, 29)
 
-        params_not_expiring = {
-            'amount_off': 1,
-            'redeem_by': june_29_2015
-        }
-
-        coupon = Coupon(**params_not_expiring)
-
-        db.session.add(coupon)
-        db.session.commit()
-
         Coupon.expire_old_coupons(may_29_2015)
 
-        assert True == Coupon.query.first().valid
+        coupon = Coupon.query.filter(Coupon.redeem_by == june_29_2015)
+        assert coupon.first().valid is True
 
-        db.session.delete(coupon)
-        db.session.commit()
-
-    def test_coupon_without_redeem_by_should_be_valid(self, db):
+    def test_coupon_without_redeem_by_should_be_valid(self, session, coupons):
         """ Coupons that do not expire should be valid. """
-        params_not_expiring = {
-            'amount_off': 1,
-        }
-
-        coupon = Coupon(**params_not_expiring)
-
-        db.session.add(coupon)
-        db.session.commit()
-
         Coupon.expire_old_coupons()
 
-        assert True == Coupon.query.first().valid
-
-        db.session.delete(coupon)
-        db.session.commit()
+        coupon = Coupon.query.filter(Coupon.redeem_by.is_(None))
+        assert coupon.first().valid is True

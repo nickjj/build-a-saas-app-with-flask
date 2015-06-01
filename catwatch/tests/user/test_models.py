@@ -1,7 +1,7 @@
 from catwatch.blueprints.user.models import User
 
 
-class TestLogin:
+class TestUser(object):
     def test_serialize_token(self, token):
         """ Token serializer serializes a JWS correctly. """
         assert token.count('.') == 2
@@ -16,16 +16,16 @@ class TestLogin:
         user = User.deserialize_token('{0}1337'.format(token))
         assert user is None
 
-    def test_is_last_admin_yes(self, token):
+    def test_is_last_admin_yes(self, users, token):
         """ Last admin should not be able to change himself. """
         user = User.find_by_identity('admin@localhost.com')
 
-        assert True is User.is_last_admin(user, 'member', 'y')
-        assert False is User.is_last_admin(user, 'admin', 'y')
-        assert True is User.is_last_admin(user, 'admin', None)
-        assert False is User.is_last_admin(user, 'admin', 'y')
+        assert User.is_last_admin(user, 'member', 'y') is True
+        assert User.is_last_admin(user, 'admin', 'y') is False
+        assert User.is_last_admin(user, 'admin', None) is True
+        assert User.is_last_admin(user, 'member', None) is True
 
-    def test_is_last_admin_no(self, token):
+    def test_is_last_admin_no(self, users, token):
         """ Not the last admin should be able to change himself. """
         user = User.find_by_identity('admin@localhost.com')
 
@@ -38,6 +38,6 @@ class TestLogin:
         new_user = User(**params)
         new_user.save()
 
-        assert False is User.is_last_admin(user, 'member', 'y')
-        assert False is User.is_last_admin(user, 'admin', None)
-        assert False is User.is_last_admin(user, 'member', None)
+        assert User.is_last_admin(user, 'member', 'y') is False
+        assert User.is_last_admin(user, 'admin', None) is False
+        assert User.is_last_admin(user, 'member', None) is False

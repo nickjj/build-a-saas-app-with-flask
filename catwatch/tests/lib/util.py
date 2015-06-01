@@ -1,4 +1,33 @@
+import pytest
 from flask import url_for
+
+
+class ViewTestMixin(object):
+    """
+    Automatically load in a session and client, this is common for a lot of
+    tests that work with views.
+    """
+
+    @pytest.fixture(autouse=True)
+    def set_common_fixtures(self, session, client):
+        self.session = session
+        self.client = client
+
+    def login(self, identity='admin@localhost.com', password='password'):
+        """
+        Login a specific user.
+
+        Return: Flask response
+        """
+        return login(self.client, identity, password)
+
+    def logout(self):
+        """
+        Login a specific user.
+
+        Return: Flask response
+        """
+        return logout(self.client)
 
 
 def login(client, username='', password=''):
