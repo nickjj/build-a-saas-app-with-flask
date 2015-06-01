@@ -259,8 +259,6 @@ def subscriptions(db):
     """
     db.session.query(Subscription).delete()
 
-    # Create a single subscribed user because a lot of tests do not mutate
-    # this user. It will result in quite a bit faster tests.
     params = {
         'role': 'admin',
         'email': 'subscriber@localhost.com',
