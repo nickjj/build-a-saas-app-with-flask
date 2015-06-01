@@ -2,6 +2,7 @@ import datetime
 
 from catwatch.blueprints.billing.models.credit_card import CreditCard, Money
 from catwatch.blueprints.billing.models.coupon import Coupon
+from catwatch.blueprints.billing.models.invoice import Invoice
 
 
 class TestMoney(object):
@@ -104,3 +105,189 @@ class TestCoupon(object):
 
         coupon = Coupon.query.filter(Coupon.redeem_by.is_(None))
         assert coupon.first().valid is True
+
+
+class TestInvoice(object):
+    def test_parse_payload_from_event(self):
+        """ Parse out the data correctly from a Stripe event paypload. """
+        event_payload = {
+            'created': 1326853478,
+            'livemode': False,
+            'id': 'evt_000',
+            'type': 'invoice.created',
+            'object': 'event',
+            'request': None,
+            'pending_webhooks': 1,
+            'api_version': '2015-04-07',
+            'data': {
+                'object': {
+                    'date': 1433018770,
+                    'id': 'in_000',
+                    'period_start': 1433018770,
+                    'period_end': 1433018770,
+                    'lines': {
+                        'data': [
+                            {
+                                'id': 'sub_000',
+                                'object': 'line_item',
+                                'type': 'subscription',
+                                'livemode': True,
+                                'amount': 0,
+                                'currency': 'usd',
+                                'proration': False,
+                                'period': {
+                                    'start': 1433162255,
+                                    'end': 1434371855
+                                },
+                                'subscription': None,
+                                'quantity': 1,
+                                'plan': {
+                                    'interval': 'month',
+                                    'name': 'Gold',
+                                    'created': 1424879591,
+                                    'amount': 500,
+                                    'currency': 'usd',
+                                    'id': 'gold',
+                                    'object': 'plan',
+                                    'livemode': False,
+                                    'interval_count': 1,
+                                    'trial_period_days': 14,
+                                    'metadata': {},
+                                    'statement_descriptor': 'GOLD MONTHLY'
+                                },
+                                'description': None,
+                                'discountable': True,
+                                'metadata': {}
+                            }
+                        ],
+                        'total_count': 1,
+                        'object': 'list',
+                        'url': '/v1/invoices/in_000/lines'
+                    },
+                    'subtotal': 0,
+                    'total': 500,
+                    'customer': 'cus_000',
+                    'object': 'invoice',
+                    'attempted': False,
+                    'closed': True,
+                    'forgiven': False,
+                    'paid': True,
+                    'livemode': False,
+                    'attempt_count': 0,
+                    'amount_due': 0,
+                    'currency': 'usd',
+                    'starting_balance': 0,
+                    'ending_balance': 0,
+                    'next_payment_attempt': None,
+                    'webhooks_delivered_at': None,
+                    'charge': None,
+                    'discount': None,
+                    'application_fee': None,
+                    'subscription': 'sub_000',
+                    'tax_percent': None,
+                    'tax': None,
+                    'metadata': {},
+                    'statement_descriptor': None,
+                    'description': None,
+                    'receipt_number': '0009000'
+                }
+            }
+        }
+
+        parsed_payload = Invoice.parse_from_event(event_payload)
+
+        assert parsed_payload['stripe_customer_id'] == 'cus_000'
+        assert parsed_payload['plan'] == 'Gold'
+        assert parsed_payload['receipt_number'] == '0009000'
+        assert parsed_payload['description'] == 'GOLD MONTHLY'
+        assert parsed_payload['period_start_on'] == datetime.date(2015, 6, 1)
+        assert parsed_payload['period_end_on'] == datetime.date(2015, 6, 15)
+        assert parsed_payload['currency'] == 'usd'
+        assert parsed_payload['tax'] is None
+        assert parsed_payload['tax_percent'] is None
+        assert parsed_payload['total'] == 500
+
+    def test_parse_paypload_from_upcoming(self):
+        """ Parse out the data correctly from a Stripe invoice payload. """
+        api_payload = {
+            'date': 1433018770,
+            'id': 'in_000',
+            'period_start': 1433018770,
+            'period_end': 1433018770,
+            'lines': {
+                'data': [
+                    {
+                        'id': 'sub_000',
+                        'object': 'line_item',
+                        'type': 'subscription',
+                        'livemode': True,
+                        'amount': 0,
+                        'currency': 'usd',
+                        'proration': False,
+                        'period': {
+                            'start': 1433161742,
+                            'end': 1434371342
+                        },
+                        'subscription': None,
+                        'quantity': 1,
+                        'plan': {
+                            'interval': 'month',
+                            'name': 'Gold',
+                            'created': 1424879591,
+                            'amount': 500,
+                            'currency': 'usd',
+                            'id': 'gold',
+                            'object': 'plan',
+                            'livemode': False,
+                            'interval_count': 1,
+                            'trial_period_days': 14,
+                            'metadata': {
+                            },
+                            'statement_descriptor': 'GOLD MONTHLY'
+                        },
+                        'description': None,
+                        'discountable': True,
+                        'metadata': {
+                        }
+                    }
+                ],
+                'total_count': 1,
+                'object': 'list',
+                'url': '/v1/invoices/in_000/lines'
+            },
+            'subtotal': 0,
+            'total': 0,
+            'customer': 'cus_000',
+            'object': 'invoice',
+            'attempted': True,
+            'closed': True,
+            'forgiven': False,
+            'paid': True,
+            'livemode': False,
+            'attempt_count': 0,
+            'amount_due': 500,
+            'currency': 'usd',
+            'starting_balance': 0,
+            'ending_balance': 0,
+            'next_payment_attempt': None,
+            'webhooks_delivered_at': None,
+            'charge': None,
+            'discount': None,
+            'application_fee': None,
+            'subscription': 'sub_000',
+            'tax_percent': None,
+            'tax': None,
+            'metadata': {
+            },
+            'statement_descriptor': None,
+            'description': None,
+            'receipt_number': None
+        }
+
+        parsed_payload = Invoice.parse_from_api(api_payload)
+
+        assert parsed_payload['plan'] == 'Gold'
+        assert parsed_payload['description'] == 'GOLD MONTHLY'
+        assert parsed_payload['next_bill_on'] == 'May 30, 2015'
+        assert parsed_payload['amount_due'] == 500
+        assert parsed_payload['interval'] == 'month'
