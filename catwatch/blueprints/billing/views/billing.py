@@ -197,9 +197,14 @@ def update_payment_method():
 def billing_history():
     invoices = Invoice.query.filter(Invoice.user_id == current_user.id).limit(
         12)
-    upcoming = Invoice.upcoming(current_user.stripe_customer_id)
-    coupon = Coupon.query\
-        .filter(Coupon.code == current_user.subscription.coupon).first()
+
+    if current_user.subscription:
+        upcoming = Invoice.upcoming(current_user.stripe_customer_id)
+        coupon = Coupon.query\
+            .filter(Coupon.code == current_user.subscription.coupon).first()
+    else:
+        upcoming = None
+        coupon = None
 
     return render_template('billing/billing_history.jinja2',
                            invoices=invoices, upcoming=upcoming, coupon=coupon)

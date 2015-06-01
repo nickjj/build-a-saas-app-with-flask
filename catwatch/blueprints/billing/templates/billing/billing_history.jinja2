@@ -13,27 +13,32 @@
     <span class="small">{{ billing.coupon_data(coupon) }}</span>
     <br class="bottom-margin">
   {% endif %}
-  <table class="bottom-margin">
-    <thead>
-    <tr>
-      <th>Subscription</th>
-      <th>Description</th>
-      <th>Next billing date</th>
-      <th>Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>{{ upcoming.plan }}</td>
-      <td>{{ upcoming.description }}</td>
-      <td>{{ upcoming.next_bill_on }}</td>
-      <td>
-        ${{ upcoming.amount_due | format_currency }}
-        <span class="color--muted">/{{ upcoming.interval }}</span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  {% if upcoming == None %}
+    <h3>No upcoming payments</h3>
+    <p>You are not currently subscribed, so there's nothing to see here.</p>
+  {% else %}
+    <table class="bottom-margin">
+      <thead>
+      <tr>
+        <th>Subscription</th>
+        <th>Description</th>
+        <th>Next billing date</th>
+        <th>Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{ upcoming.plan }}</td>
+        <td>{{ upcoming.description }}</td>
+        <td>{{ upcoming.next_bill_on }}</td>
+        <td>
+          ${{ upcoming.amount_due | format_currency }}
+          <span class="color--muted">/{{ upcoming.interval }}</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  {% endif %}
   <h2 class="bottom-margin">Recent billing history</h2>
   {% if invoices.count() == 0 %}
     <h3>No invoices found</h3>
