@@ -6,10 +6,9 @@ from flask_login import LoginManager
 from flask_bouncer import Bouncer
 from flask_babel import Babel
 from flask_cache import Cache
+from flask_webpack import Webpack
 from flask_debugtoolbar import DebugToolbarExtension
 from celery import Celery
-
-from lib.flask_webpack import Webpack
 
 
 db = SQLAlchemy()

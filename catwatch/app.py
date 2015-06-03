@@ -156,7 +156,6 @@ def register_extensions(app):
 
     :return: None
     """
-
     db.init_app(app)
     bcrypt.init_app(app)
     mail.init_app(app)
