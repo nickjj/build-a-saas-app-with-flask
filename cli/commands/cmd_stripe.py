@@ -1,3 +1,5 @@
+import logging
+
 import click
 import stripe
 
@@ -20,7 +22,6 @@ def sync_plans():
     """
     Sync (upsert) STRIPE_PLANS to Stripe.
     """
-
     plans = settings.STRIPE_PLANS
 
     for _, value in plans.iteritems():
@@ -46,7 +47,7 @@ def list_plans():
     """
     List all existing plans on Stripe.
     """
-    print(StripePlan.list())
+    logging.info(StripePlan.list())
 
 
 cli.add_command(sync_plans)

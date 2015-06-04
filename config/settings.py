@@ -87,6 +87,28 @@ STRIPE_PLANS = {
     }
 }
 
+# Twitter information.
+#
+# API keys, NOTE: you should NOT supply them in this config, put them
+# in an instance config file, such as: instance/settings.py
+#
+# They are only listed below to act as documentation since the instance folder
+# is not in version control.
+TWITTER_CONSUMER_KEY = None
+TWITTER_CONSUMER_SECRET = None
+TWITTER_ACCESS_TOKEN = None
+TWITTER_ACCESS_SECRET = None
+
+# Broadcast information.
+#
+# NOTE: you should NOT supply them in this config, put them
+# in an instance config file, such as: instance/settings.py
+#
+# They are only listed below to act as documentation since the instance folder
+# is not in version control.
+BROADCAST_URL = None
+BROADCAST_AUTH_TOKEN = None
+
 # Assets.
 WEBPACK_MANIFEST_PATH = APP_ROOT + '/build/manifest.json'
 
