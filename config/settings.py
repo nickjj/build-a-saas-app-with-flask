@@ -88,7 +88,7 @@ STRIPE_PLANS = {
 }
 
 # Assets.
-WEBPACK_STATS_PATH = APP_ROOT + '/build/manifest.json'
+WEBPACK_MANIFEST_PATH = APP_ROOT + '/build/manifest.json'
 
 # Babel i18n translations.
 ACCEPT_LANGUAGES = ['en']
