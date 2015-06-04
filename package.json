@@ -16,7 +16,7 @@
     "url-loader": "^0.5.6",
     "markdown-loader": "^0.1.2",
     "extract-text-webpack-plugin": "^0.8.1",
-    "manifest-revision-webpack-plugin": "^0.0.4",
+    "manifest-revision-webpack-plugin": "^0.0.5",
     "webpack": "^1.9.10",
     "webpack-dev-server": "^1.9.0"
   }
