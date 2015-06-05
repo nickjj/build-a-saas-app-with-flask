@@ -107,7 +107,7 @@ TWITTER_ACCESS_SECRET = None
 # They are only listed below to act as documentation since the instance folder
 # is not in version control.
 BROADCAST_URL = None
-BROADCAST_AUTH_TOKEN = None
+BROADCAST_PUSH_TOKEN = None
 
 # Assets.
 WEBPACK_MANIFEST_PATH = APP_ROOT + '/build/manifest.json'

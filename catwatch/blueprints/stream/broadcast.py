@@ -6,7 +6,7 @@ from catwatch.blueprints.stream.tasks import broadcast_message
 
 class Broadcast(object):
     @classmethod
-    def message(cls, channel, data, url=None, auth_token=None):
+    def message(cls, channel, data, url=None, push_token=None):
         """
         Put together a message that will be sent over websockets.
 
@@ -16,15 +16,15 @@ class Broadcast(object):
         :type data: JSON
         :param url: Full websocket URL
         :type url: str
-        :param auth_token: Auth token used when broadcasting the message
-        :type auth_token: str
+        :param push_token: Push token used when broadcasting the message
+        :type push_token: str
         :return: Dict of what's being sent
         """
         faye_protocol = {
             'channel': channel,
             'data': data,
             'ext': {
-                'pushToken': auth_token
+                'pushToken': push_token
             }
         }
 

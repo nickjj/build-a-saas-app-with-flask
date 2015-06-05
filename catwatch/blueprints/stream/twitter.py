@@ -9,12 +9,12 @@ from catwatch.blueprints.stream.broadcast import Broadcast
 
 class CatStream(StreamListener):
     def __init__(self, broadcast=False, broadcast_url=None,
-                 broadcast_auth_token=None):
+                 broadcast_push_token=None):
         super(CatStream, self).__init__()
 
         self.broadcast = broadcast
         self.broadcast_url = broadcast_url
-        self.broadcast_auth_token = broadcast_auth_token
+        self.broadcast_push_token = broadcast_push_token
 
     def on_data(self, data):
         """
@@ -38,7 +38,7 @@ class CatStream(StreamListener):
         if self.broadcast:
             Broadcast.message('/cats', params,
                               url=self.broadcast_url,
-                              auth_token=self.broadcast_auth_token)
+                              push_token=self.broadcast_push_token)
 
         return True
 
@@ -78,7 +78,7 @@ class CatStream(StreamListener):
 class TwitterStream(object):
     def __init__(self, consumer_key=None, consumer_secret=None,
                  access_token=None, access_secret=None,
-                 broadcast_url=None, broadcast_auth_token=None,
+                 broadcast_url=None, broadcast_push_token=None,
                  broadcast=False):
         auth = OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_secret)
@@ -86,7 +86,7 @@ class TwitterStream(object):
         self.auth = auth
         self.cat_stream = CatStream(broadcast=broadcast,
                                     broadcast_url=broadcast_url,
-                                    broadcast_auth_token=broadcast_auth_token)
+                                    broadcast_push_token=broadcast_push_token)
 
     def listen(self):
         """

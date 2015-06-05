@@ -14,7 +14,7 @@ TWITTER_ACCESS_TOKEN = app.config.get('TWITTER_ACCESS_TOKEN', None)
 TWITTER_ACCESS_SECRET = app.config.get('TWITTER_ACCESS_SECRET', None)
 
 BROADCAST_URL = app.config.get('BROADCAST_URL', None)
-BROADCAST_AUTH_TOKEN = app.config.get('BROADCAST_AUTH_TOKEN', None)
+BROADCAST_PUSH_TOKEN = app.config.get('BROADCAST_PUSH_TOKEN', None)
 
 
 @click.group()
@@ -40,9 +40,9 @@ def broadcast():
     """
     Listen on and broadcast the Twitter stream.
     """
-    if BROADCAST_URL is None or BROADCAST_AUTH_TOKEN is None:
+    if BROADCAST_URL is None or BROADCAST_PUSH_TOKEN is None:
         logging.error('Unable to broadcast, missing BROADCAST_HOST and/or '
-                      'BROADCAST_AUTH_TOKEN')
+                      'BROADCAST_PUSH_TOKEN')
         exit(1)
 
     twitter_stream = TwitterStream(consumer_key=TWITTER_CONSUMER_KEY,
@@ -51,7 +51,7 @@ def broadcast():
                                    access_secret=TWITTER_ACCESS_SECRET,
                                    broadcast=True,
                                    broadcast_url=BROADCAST_URL,
-                                   broadcast_auth_token=BROADCAST_AUTH_TOKEN)
+                                   broadcast_push_token=BROADCAST_PUSH_TOKEN)
     twitter_stream.listen()
 
 
