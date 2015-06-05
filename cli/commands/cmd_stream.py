@@ -1,6 +1,10 @@
+import datetime
 import logging
+import random
+from time import sleep
 
 import click
+from faker import Faker
 
 try:
     from instance import settings
@@ -10,6 +14,7 @@ except ImportError:
 
 from catwatch.app import create_app
 from catwatch.blueprints.stream.twitter import TwitterStream
+from catwatch.blueprints.stream.tasks import broadcast_message
 
 app = create_app()
 
@@ -61,5 +66,37 @@ def broadcast():
     stream.listen()
 
 
+@click.command()
+def fake_broadcast():
+    """
+    Broadcast fake events (useful for testing).
+    """
+    fake = Faker()
+
+    while True:
+        random_types = ('tweet', 'retweet', 'favorite')
+        random_tweet = fake.text(max_nb_chars=140)
+
+        data = {
+            'created_at': str(datetime.datetime.utcnow()),
+            'type': random.choice(random_types),
+            'tweet': random_tweet,
+            'user': fake.user_name()
+        }
+
+        faye_protocol = {
+            'channel': '/cats',
+            'data': data,
+            'ext': {
+                'pushToken': BROADCAST_PUSH_TOKEN
+            }
+        }
+
+        broadcast_message.delay(BROADCAST_INTERNAL_URL, faye_protocol)
+        logging.info(data)
+        sleep(1)
+
+
 cli.add_command(listen)
 cli.add_command(broadcast)
+cli.add_command(fake_broadcast)
