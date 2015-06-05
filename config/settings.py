@@ -12,7 +12,7 @@ APP_ROOT = path.join(path.dirname(path.abspath(__file__)), '..')
 SECRET_KEY = 'pickabettersecret'
 DEBUG = True
 TESTING = False
-LOG_LEVEL = 'info'
+LOG_LEVEL = 'DEBUG'
 
 # You will need to disable this to get Stripe's webhooks to work because you'll
 # likely end up using tunneling tooling such as ngrok so the endpoints are
