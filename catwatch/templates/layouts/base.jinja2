@@ -42,6 +42,11 @@
   {% if request.endpoint in ('billing.create', 'billing.update', 'billing.cancel', 'billing.update_payment_method') %}
     <script src="https://js.stripe.com/v2/"></script>
   {% endif %}
+
+  {% if request.endpoint == 'stream.live_stream' %}
+    <script id="faye" data-faye-public-url="{{ faye.public_url }}"
+            src="{{ faye.public_url }}/client.js"></script>
+  {% endif %}
 </head>
 <body>
 {% if current_user.role == 'admin' %}

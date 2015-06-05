@@ -20,7 +20,7 @@
     <div class="container">
       <ul class="nav--main">
         {% if current_user.is_authenticated() %}
-          <li><a href="#">Live stream</a></li>
+          <li><a href="{{ url_for('stream.live_stream') }}">Live stream</a></li>
         {% else %}
           <li><a href="{{ url_for('pages.learn_more') }}">Learn more</a></li>
           <li><a href="{{ url_for('billing.pricing') }}">Pricing</a></li>

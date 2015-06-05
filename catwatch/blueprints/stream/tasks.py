@@ -3,10 +3,11 @@ from catwatch.app import create_celery_app
 celery = create_celery_app()
 
 
-@celery.task()
+@celery.task(rate_limit='10/m')
 def broadcast_message(internal_url, data):
     """
-    Broadcast the message to anyone listening.
+    Broadcast the message to anyone listening. We are rate limiting the tweets
+    because otherwise it's nearly impossible to read.
 
     :param internal_url: Full internal websocket URL
     :type internal_url: str

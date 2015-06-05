@@ -1,0 +1,27 @@
+{% extends 'layouts/app.jinja2' %}
+
+{% block title %}See who's talking about cats{% endblock %}
+{% block heading %}
+  <h2>Real time tweets about cats</h2>
+{% endblock %}
+
+{% block body %}
+  <script type="text/template" id="tweetTemplate">
+    <div class="tweet">
+      <hr>
+      <h5 class="medium admin--table-label">@{0}</h5>
+
+      <p class="small color--muted admin--table--sublabel">
+        {1}
+      </p>
+      {2}
+    </div>
+  </script>
+
+  <section class="styleguide__editorial-header">
+    <div class="editorial-header">
+      <p id="empty_stream">There is currently no activity.</p>
+      <div id="broadcast"></div>
+    </div>
+  </section>
+{% endblock %}

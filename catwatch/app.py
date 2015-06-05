@@ -22,9 +22,10 @@ from catwatch.blueprints.user.models import User
 from catwatch.blueprints.admin import admin
 from catwatch.blueprints.pages import pages
 from catwatch.blueprints.user import user
+from catwatch.blueprints.issue import issue
+from catwatch.blueprints.stream import stream
 from catwatch.blueprints.billing.views.billing import billing
 from catwatch.blueprints.billing.views.stripe_webhook import stripe_webhook
-from catwatch.blueprints.issue import issue
 from catwatch.blueprints.billing.template_processors import format_currency
 
 
@@ -142,6 +143,7 @@ def register_blueprints(app):
         user,
         issue,
         billing,
+        stream,
         stripe_webhook
     ]
 
