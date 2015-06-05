@@ -24,4 +24,3 @@ def cli():
     for key in sorted(output):
         logging.info('{0: >{1}}: {2}'.format(key, endpoint_padding,
                                              output[key]))
-
