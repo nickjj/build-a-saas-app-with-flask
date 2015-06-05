@@ -2,19 +2,25 @@ import logging
 
 import click
 
+try:
+    from instance import settings
+except ImportError:
+    logging.error('Your instance/ folder must contain an __init__.py file')
+    exit(1)
+
 from catwatch.app import create_app
 from catwatch.blueprints.stream.twitter import TwitterStream
 
 app = create_app()
 
 # Configuration.
-TWITTER_CONSUMER_KEY = app.config.get('TWITTER_CONSUMER_KEY', None)
-TWITTER_CONSUMER_SECRET = app.config.get('TWITTER_CONSUMER_SECRET', None)
-TWITTER_ACCESS_TOKEN = app.config.get('TWITTER_ACCESS_TOKEN', None)
-TWITTER_ACCESS_SECRET = app.config.get('TWITTER_ACCESS_SECRET', None)
+TWITTER_CONSUMER_KEY = settings.TWITTER_CONSUMER_KEY
+TWITTER_CONSUMER_SECRET = settings.TWITTER_CONSUMER_SECRET
+TWITTER_ACCESS_TOKEN = settings.TWITTER_ACCESS_TOKEN
+TWITTER_ACCESS_SECRET = settings.TWITTER_ACCESS_SECRET
 
-BROADCAST_URL = app.config.get('BROADCAST_URL', None)
-BROADCAST_PUSH_TOKEN = app.config.get('BROADCAST_PUSH_TOKEN', None)
+BROADCAST_URL = settings.BROADCAST_URL
+BROADCAST_PUSH_TOKEN = settings.BROADCAST_PUSH_TOKEN
 
 
 @click.group()
