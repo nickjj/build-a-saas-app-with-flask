@@ -43,7 +43,6 @@ class Broadcast(object):
         :type data: JSON
         :return: urllib2 response object
         """
-        print internal_url
         request = urllib2.Request(internal_url, data,
                                   {'Content-Type': 'application/json'})
 
