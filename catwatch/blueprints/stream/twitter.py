@@ -84,9 +84,9 @@ class TwitterStream(object):
         auth.set_access_token(access_token, access_secret)
 
         self.auth = auth
-        self.cat_stream = CatStream(broadcast=broadcast,
-                                    broadcast_internal_url=broadcast_internal_url,
-                                    broadcast_push_token=broadcast_push_token)
+        self.stream = CatStream(broadcast=broadcast,
+                                broadcast_internal_url=broadcast_internal_url,
+                                broadcast_push_token=broadcast_push_token)
 
     def listen(self):
         """
@@ -94,5 +94,5 @@ class TwitterStream(object):
 
         :return: None
         """
-        stream = Stream(self.auth, self.cat_stream)
+        stream = Stream(self.auth, self.stream)
         stream.filter(track=['cats'])

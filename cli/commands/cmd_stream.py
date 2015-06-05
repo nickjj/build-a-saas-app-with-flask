@@ -34,11 +34,11 @@ def listen():
     """
     Listen on the Twitter stream.
     """
-    twitter_stream = TwitterStream(consumer_key=TWITTER_CONSUMER_KEY,
-                                   consumer_secret=TWITTER_CONSUMER_SECRET,
-                                   access_token=TWITTER_ACCESS_TOKEN,
-                                   access_secret=TWITTER_ACCESS_SECRET)
-    twitter_stream.listen()
+    stream = TwitterStream(consumer_key=TWITTER_CONSUMER_KEY,
+                           consumer_secret=TWITTER_CONSUMER_SECRET,
+                           access_token=TWITTER_ACCESS_TOKEN,
+                           access_secret=TWITTER_ACCESS_SECRET)
+    stream.listen()
 
 
 @click.command()
@@ -51,14 +51,14 @@ def broadcast():
                       'and/or BROADCAST_PUSH_TOKEN')
         exit(1)
 
-    twitter_stream = TwitterStream(consumer_key=TWITTER_CONSUMER_KEY,
-                                   consumer_secret=TWITTER_CONSUMER_SECRET,
-                                   access_token=TWITTER_ACCESS_TOKEN,
-                                   access_secret=TWITTER_ACCESS_SECRET,
-                                   broadcast=True,
-                                   broadcast_internal_url=BROADCAST_INTERNAL_URL,
-                                   broadcast_push_token=BROADCAST_PUSH_TOKEN)
-    twitter_stream.listen()
+    stream = TwitterStream(consumer_key=TWITTER_CONSUMER_KEY,
+                           consumer_secret=TWITTER_CONSUMER_SECRET,
+                           access_token=TWITTER_ACCESS_TOKEN,
+                           access_secret=TWITTER_ACCESS_SECRET,
+                           broadcast=True,
+                           broadcast_internal_url=BROADCAST_INTERNAL_URL,
+                           broadcast_push_token=BROADCAST_PUSH_TOKEN)
+    stream.listen()
 
 
 cli.add_command(listen)
