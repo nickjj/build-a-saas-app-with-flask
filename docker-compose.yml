@@ -9,8 +9,17 @@ postgres:
     - ~/.docker-volumes/catwatch/postgresql/data:/var/lib/postgresql/data
 
 redis:
-  image: redis:2.8.19
+  image: redis:2.8.21
   ports:
     - 6379:6379
   volumes:
     - ~/.docker-volumes/catwatch/redis/data:/var/lib/redis/data
+
+faye:
+  image: nickjj/faye
+  links:
+    - redis
+  ports:
+    - 4242:4242
+  environment:
+    FAYE_PUSH_TOKEN: 123notsecure
