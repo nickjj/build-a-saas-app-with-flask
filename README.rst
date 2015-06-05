@@ -152,6 +152,16 @@ of your local network. It does this by setting up a tunnel.
 Also make sure to look at the comments in ``config/settings.py`` for the
 ``SERVER_NAME`` setting.
 
+How can I test the Twitter stream?
+''''''''''''''''''''''''''''''''''
+
+After everything is running and your settings are configured just type ``run stream broadcast``
+and it will start reading in events from Twitter and broadcast the messages to the
+websocket server.
+
+You can bypass broadcasting and simply listen it on the stream by typing
+``run stream listen`` instead.
+
 Learn more
 ^^^^^^^^^^
 
