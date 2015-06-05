@@ -4,16 +4,16 @@ celery = create_celery_app()
 
 
 @celery.task()
-def broadcast_message(url, data):
+def broadcast_message(internal_url, data):
     """
     Broadcast the message to anyone listening.
 
-    :param url: Full websocket URL
-    :type url: str
+    :param internal_url: Full internal websocket URL
+    :type internal_url: str
     :param data: Final data to be sent to the websocket server
     :type data: JSON
     :return: None
     """
     # Fix circular import issues.
     from catwatch.blueprints.stream.broadcast import Broadcast
-    Broadcast.send_to_websocket_server(url, data)
+    Broadcast.send_to_websocket_server(internal_url, data)

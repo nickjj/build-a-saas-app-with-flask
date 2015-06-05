@@ -106,7 +106,8 @@ TWITTER_ACCESS_SECRET = None
 #
 # They are only listed below to act as documentation since the instance folder
 # is not in version control.
-BROADCAST_URL = None
+BROADCAST_PUBLIC_URL = None
+BROADCAST_INTERNAL_URL = None
 BROADCAST_PUSH_TOKEN = None
 
 # Assets.

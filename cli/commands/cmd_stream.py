@@ -19,7 +19,7 @@ TWITTER_CONSUMER_SECRET = settings.TWITTER_CONSUMER_SECRET
 TWITTER_ACCESS_TOKEN = settings.TWITTER_ACCESS_TOKEN
 TWITTER_ACCESS_SECRET = settings.TWITTER_ACCESS_SECRET
 
-BROADCAST_URL = settings.BROADCAST_URL
+BROADCAST_INTERNAL_URL = settings.BROADCAST_INTERNAL_URL
 BROADCAST_PUSH_TOKEN = settings.BROADCAST_PUSH_TOKEN
 
 
@@ -46,9 +46,9 @@ def broadcast():
     """
     Listen on and broadcast the Twitter stream.
     """
-    if BROADCAST_URL is None or BROADCAST_PUSH_TOKEN is None:
-        logging.error('Unable to broadcast, missing BROADCAST_HOST and/or '
-                      'BROADCAST_PUSH_TOKEN')
+    if BROADCAST_INTERNAL_URL is None or BROADCAST_PUSH_TOKEN is None:
+        logging.error('Unable to broadcast, missing BROADCAST_INTERNAL_URL '
+                      'and/or BROADCAST_PUSH_TOKEN')
         exit(1)
 
     twitter_stream = TwitterStream(consumer_key=TWITTER_CONSUMER_KEY,
@@ -56,7 +56,7 @@ def broadcast():
                                    access_token=TWITTER_ACCESS_TOKEN,
                                    access_secret=TWITTER_ACCESS_SECRET,
                                    broadcast=True,
-                                   broadcast_url=BROADCAST_URL,
+                                   broadcast_internal_url=BROADCAST_INTERNAL_URL,
                                    broadcast_push_token=BROADCAST_PUSH_TOKEN)
     twitter_stream.listen()
 
