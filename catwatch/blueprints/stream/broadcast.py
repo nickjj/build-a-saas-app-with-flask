@@ -24,7 +24,7 @@ class Broadcast(object):
             'channel': channel,
             'data': data,
             'ext': {
-                'authToken': auth_token
+                'pushToken': auth_token
             }
         }
 
