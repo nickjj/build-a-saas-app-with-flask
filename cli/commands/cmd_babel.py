@@ -1,12 +1,24 @@
+import logging
 import subprocess
 
 import click
 
-from config import settings
+try:
+    from instance import settings
+    APP_ROOT = settings.APP_ROOT
+    BABEL_I18N_PATH = settings.BABEL_I18N_PATH
+except ImportError:
+    logging.error('Your instance/ folder must contain an __init__.py file')
+    exit(1)
+except AttributeError:
+    from config import settings
+    APP_ROOT = settings.APP_ROOT
+    BABEL_I18N_PATH = settings.BABEL_I18N_PATH
 
 
-MESSAGES_PATH = settings.APP_ROOT + '/catwatch/i18n/messages.pot'
-TRANSLATION_PATH = settings.APP_ROOT + '/catwatch/i18n/translations'
+MESSAGES_PATH = '{0}{1}/{2}'.format(APP_ROOT, BABEL_I18N_PATH, '/messages.pot')
+TRANSLATION_PATH = '{0}{1}/{2}'.format(APP_ROOT, BABEL_I18N_PATH,
+                                       '/translations')
 
 
 @click.group()
@@ -22,7 +34,7 @@ def extract():
     """
     babel_cmd = 'pybabel extract -F babel.cfg -k lazy_gettext ' \
                 '-o {0} catwatch'.format(MESSAGES_PATH)
-    subprocess.call(babel_cmd, shell=True)
+    return subprocess.call(babel_cmd, shell=True)
 
 
 @click.option('--language', default=None, help='The output language, ex. de')
@@ -34,7 +46,7 @@ def init(language=None):
     babel_cmd = 'pybabel init -i {0} -d {1} -l {2}'.format(MESSAGES_PATH,
                                                            TRANSLATION_PATH,
                                                            language)
-    subprocess.call(babel_cmd, shell=True)
+    return subprocess.call(babel_cmd, shell=True)
 
 
 @click.command()
@@ -43,7 +55,7 @@ def compile():
     Compile new translations.
     """
     babel_cmd = 'pybabel compile -d {0}'.format(TRANSLATION_PATH)
-    subprocess.call(babel_cmd, shell=True)
+    return subprocess.call(babel_cmd, shell=True)
 
 
 @click.command()
@@ -53,7 +65,7 @@ def update():
     """
     babel_cmd = 'pybabel update -i {0} -d {1}'.format(MESSAGES_PATH,
                                                       TRANSLATION_PATH)
-    subprocess.call(babel_cmd, shell=True)
+    return subprocess.call(babel_cmd, shell=True)
 
 
 cli.add_command(extract)

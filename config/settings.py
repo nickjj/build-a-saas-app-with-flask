@@ -4,7 +4,7 @@ from datetime import timedelta
 from celery.schedules import crontab
 
 
-# This should be the name of the database you want to create
+# This should be the name of the database you want to create.
 APP_NAME = 'catwatch'
 
 # App settings.
@@ -114,6 +114,7 @@ BROADCAST_PUSH_TOKEN = None
 WEBPACK_MANIFEST_PATH = APP_ROOT + '/build/manifest.json'
 
 # Babel i18n translations.
+BABEL_I18N_PATH = '/{0}/i18n'.format(APP_NAME)
 ACCEPT_LANGUAGES = ['en']
 LANGUAGES = {
     'en': u'English'
