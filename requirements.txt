@@ -5,11 +5,11 @@ Flask-Mail==0.9.1
 # Database and migrations
 psycopg2==2.6
 Flask-SQLAlchemy==2.0
-alembic==0.7.4
+alembic==0.7.6
 
 # Background worker and cache
 redis==2.10.3
-celery==3.1.17
+celery==3.1.18
 Flask-Cache==0.13.1
 
 # Authentication and authorization
@@ -25,17 +25,17 @@ Flask-Webpack==0.0.3
 Flask-Babel==0.9
 
 # Billing
-stripe==1.22.2
+stripe==1.22.3
 
 # Twitter
-tweepy==3.2.0
+tweepy==3.3.0
 
 # Forms
 Flask-WTF==0.11
 WTForms-Components==0.9.7
 
 # Testing
-pytest==2.7.0
+pytest==2.7.1
 pytest-cov==1.8.1
 mock==1.0.1
 
@@ -46,7 +46,7 @@ click==4.0
 gunicorn==19.3.0
 
 # Generate fake data
-fake-factory==0.5.0
+fake-factory==0.5.1
 
 # Debug toolbar
 Flask-DebugToolbar==0.10.0
