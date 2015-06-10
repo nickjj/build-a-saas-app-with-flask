@@ -1,5 +1,5 @@
 postgres:
-  image: postgres:9.4.1
+  image: postgres:9.4.3
   environment:
     POSTGRES_USER: catwatch
     POSTGRES_PASSWORD: bestpassword
