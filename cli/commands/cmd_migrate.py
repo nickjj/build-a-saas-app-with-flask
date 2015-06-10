@@ -60,7 +60,8 @@ def history(rev_range=None):
 def revision(message=None, autogenerate=False, sql=False):
     """ Create a new revision file. """
     config = _get_config()
-    return command.revision(config, message, autogenerate=autogenerate, sql=sql)
+    return command.revision(config, message, autogenerate=autogenerate,
+                            sql=sql)
 
 
 @click.command()

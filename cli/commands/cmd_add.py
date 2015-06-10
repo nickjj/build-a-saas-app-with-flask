@@ -52,6 +52,7 @@ def _bulk_insert(model, data, label):
 
     return None
 
+
 @click.group()
 def cli():
     """ Populate your db with generated data. """
