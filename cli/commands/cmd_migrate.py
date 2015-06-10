@@ -1,8 +1,9 @@
-import click
 from alembic import command
 from alembic.config import Config
+import click
 
-from catwatch.app import db, create_app
+from catwatch.app import create_app
+from catwatch.extensions import db
 
 
 # Create a context for the database connection.
@@ -31,14 +32,14 @@ def cli():
 def init():
     """ Initialize a new database migration. """
     config = _get_config()
-    command.init(config, 'migrations', 'alembic')
+    return command.init(config, 'migrations', 'alembic')
 
 
 @click.command()
 def current():
     """ Display revisions for each database. """
     config = _get_config()
-    command.current(config)
+    return command.current(config)
 
 
 @click.command()
@@ -47,7 +48,7 @@ def current():
 def history(rev_range=None):
     """ List changes in chronological order. """
     config = _get_config()
-    command.history(config, rev_range)
+    return command.history(config, rev_range)
 
 
 @click.command()
@@ -59,7 +60,7 @@ def history(rev_range=None):
 def revision(message=None, autogenerate=False, sql=False):
     """ Create a new revision file. """
     config = _get_config()
-    command.revision(config, message, autogenerate=autogenerate, sql=sql)
+    return command.revision(config, message, autogenerate=autogenerate, sql=sql)
 
 
 @click.command()
@@ -69,7 +70,7 @@ def revision(message=None, autogenerate=False, sql=False):
 def auto(message=None, sql=False):
     """ Alias for 'revision --autogenerate'. """
     config = _get_config()
-    command.revision(config, message, autogenerate=True, sql=sql)
+    return command.revision(config, message, autogenerate=True, sql=sql)
 
 
 @click.command()
@@ -81,7 +82,7 @@ def auto(message=None, sql=False):
 def stamp(revision='head', sql=False, tag=None):
     """ Stamp the revision table but don't migrate."""
     config = _get_config()
-    command.stamp(config, revision, sql=sql, tag=tag)
+    return command.stamp(config, revision, sql=sql, tag=tag)
 
 
 @click.command()
@@ -93,7 +94,7 @@ def stamp(revision='head', sql=False, tag=None):
 def upgrade(revision='head', sql=False, tag=None):
     """ Update to a later revision. """
     config = _get_config()
-    command.upgrade(config, revision, sql=sql, tag=tag)
+    return command.upgrade(config, revision, sql=sql, tag=tag)
 
 
 @click.command()
@@ -106,7 +107,7 @@ def upgrade(revision='head', sql=False, tag=None):
 def downgrade(revision='-1', sql=False, tag=None):
     """ Revert to a previous revision. """
     config = _get_config()
-    command.downgrade(config, revision, sql=sql, tag=tag)
+    return command.downgrade(config, revision, sql=sql, tag=tag)
 
 
 @click.command()
@@ -115,7 +116,7 @@ def branches():
     List revision history.
     """
     config = _get_config()
-    command.branches(config)
+    return command.branches(config)
 
 
 cli.add_command(init)

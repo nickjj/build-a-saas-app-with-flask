@@ -1,8 +1,8 @@
 from datetime import datetime
 import random
 
-import click
 from faker import Faker
+import click
 
 from catwatch.app import create_app
 from catwatch.extensions import db
@@ -20,24 +20,26 @@ def _log_status(count, model_label):
     """
     Log the output of how many records were created.
 
-    :param count: The amount created
+    :param count: Amount created
     :type count: int
-    :param model_label: The name of the model
+    :param model_label: Name of the model
     :type model_label: str
     :return: None
     """
     click.echo('Created {0} {1}'.format(count, model_label))
+
+    return None
 
 
 def _bulk_insert(model, data, label):
     """
     Bulk insert data to a specific model and log it.
 
-    :param model: The model
+    :param model: Model being affected
     :type model: SQLAlchemy
-    :param data: The data to be saved
+    :param data: Data to be saved
     :type data: list
-    :param label: The label for the output
+    :param label: Label for the output
     :type label: str
     :return: None
     """
@@ -48,6 +50,7 @@ def _bulk_insert(model, data, label):
 
         _log_status(model.query.count(), label)
 
+    return None
 
 @click.group()
 def cli():
@@ -81,7 +84,7 @@ def users():
 
         data.append(params)
 
-    _bulk_insert(User, data, 'users')
+    return _bulk_insert(User, data, 'users')
 
 
 @click.command()
@@ -101,7 +104,7 @@ def issues():
 
         data.append(params)
 
-    _bulk_insert(Issue, data, 'issues')
+    return _bulk_insert(Issue, data, 'issues')
 
 
 @click.command()
@@ -158,7 +161,7 @@ def coupons():
 
         data.append(params)
 
-    _bulk_insert(Coupon, data, 'coupons')
+    return _bulk_insert(Coupon, data, 'coupons')
 
 
 @click.command()
@@ -173,6 +176,8 @@ def all(ctx):
     ctx.invoke(users)
     ctx.invoke(issues)
     ctx.invoke(coupons)
+
+    return None
 
 
 cli.add_command(users)

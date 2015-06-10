@@ -3,6 +3,9 @@ import subprocess
 
 import click
 
+APP_ROOT = None
+BABEL_I18N_PATH = None
+
 try:
     from instance import settings
     APP_ROOT = settings.APP_ROOT
@@ -12,8 +15,11 @@ except ImportError:
     exit(1)
 except AttributeError:
     from config import settings
-    APP_ROOT = settings.APP_ROOT
-    BABEL_I18N_PATH = settings.BABEL_I18N_PATH
+
+    if APP_ROOT is None:
+        APP_ROOT = settings.APP_ROOT
+    if BABEL_I18N_PATH is None:
+        BABEL_I18N_PATH = settings.BABEL_I18N_PATH
 
 
 MESSAGES_PATH = '{0}{1}/{2}'.format(APP_ROOT, BABEL_I18N_PATH, '/messages.pot')
@@ -31,6 +37,8 @@ def cli():
 def extract():
     """
     Extract strings into a pot file.
+
+    :return: Subprocess call result
     """
     babel_cmd = 'pybabel extract -F babel.cfg -k lazy_gettext ' \
                 '-o {0} catwatch'.format(MESSAGES_PATH)
@@ -42,6 +50,8 @@ def extract():
 def init(language=None):
     """
     Map translations to a different language.
+
+    :return: Subprocess call result
     """
     babel_cmd = 'pybabel init -i {0} -d {1} -l {2}'.format(MESSAGES_PATH,
                                                            TRANSLATION_PATH,
@@ -53,6 +63,8 @@ def init(language=None):
 def compile():
     """
     Compile new translations.
+
+    :return: Subprocess call result
     """
     babel_cmd = 'pybabel compile -d {0}'.format(TRANSLATION_PATH)
     return subprocess.call(babel_cmd, shell=True)
@@ -62,6 +74,8 @@ def compile():
 def update():
     """
     Update existing translations.
+
+    :return: Subprocess call result
     """
     babel_cmd = 'pybabel update -i {0} -d {1}'.format(MESSAGES_PATH,
                                                       TRANSLATION_PATH)

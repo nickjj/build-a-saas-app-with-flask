@@ -5,6 +5,10 @@ import click
 
 @click.command()
 def cli():
-    """ Stop all services. """
+    """
+    Stop all services.
+
+    :return: Subprocess call result
+    """
     cmd = 'pkill honcho && docker-compose stop'
-    subprocess.call(cmd, shell=True)
+    return subprocess.call(cmd, shell=True)

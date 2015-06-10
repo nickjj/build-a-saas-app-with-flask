@@ -49,3 +49,4 @@ class CLI(click.MultiCommand):
 @click.command(cls=CLI)
 def cli():
     """ Commands to help manage your project. """
+    pass

@@ -7,4 +7,4 @@ import click
 def cli():
     """ Start all services. """
     cmd = 'honcho start'
-    subprocess.call(cmd, shell=True)
+    return subprocess.call(cmd, shell=True)

@@ -31,6 +31,8 @@ def _parse_database_uri(uri):
     """
     Parse a SQLAlchemy database URI.
 
+    :param uri: Postgres URI
+    :type uri: str
     :return: Dict filled with the URI information
     """
     db_engine = {}
@@ -55,50 +57,59 @@ def _create_database_user(user, password, database):
     """
     Execute a database command to create a new user.
 
-    :param user: The user.
-    :param password: The password.
-    :param password: The database.
-    :return: None
+    :param user: Database user
+    :type user: str
+    :param password: Database password
+    :type password: str
+    :param database: Database name
+    :type database: str
+    :return: Subprocess call result
     """
     _drop_database_user(database)
     pg = 'CREATE USER {0} WITH PASSWORD \'{1}\';'.format(user, password)
 
-    subprocess.call(_execute_psql(pg), shell=True)
+    return subprocess.call(_execute_psql(pg), shell=True)
 
 
 def _grant_user_privileges(user, database):
     """
     Execute a database command to grant all privileges to a user.
 
-    :param user: The database user.
-    :param database: The database name.
-    :return: None
+    :param user: Database user
+    :type user: str
+    :param database: Database name
+    :type database: str
+    :return: Subprocess call result
     """
     pg = 'GRANT ALL PRIVILEGES ON DATABASE {0} to {1};'.format(database, user)
 
-    subprocess.call(_execute_psql(pg), shell=True)
+    return subprocess.call(_execute_psql(pg), shell=True)
 
 
 def _drop_database_user(database):
     """
     Execute a database command to drop a user.
 
-    :param database: The database name.
-    :return: None
+    :param database: Database name
+    :type database: str
+    :return: Subprocess call result
     """
     pg = 'DROP USER IF EXISTS {0};'.format(database)
 
-    subprocess.call(_execute_psql(pg), shell=True)
+    return subprocess.call(_execute_psql(pg), shell=True)
 
 
 def _interact_with_database(command, database, if_exists=True):
     """
     Execute a database command to perform a specific action against it.
 
-    :param command: The name of the command to run.
-    :param database: The database name.
-    :param if_exists: Should we check if it exists or not?
-    :return: None
+    :param command: Name of the command to run.
+    :type command: str
+    :param database: Database name
+    :type database: str
+    :param if_exists: Should we check if it exists or not
+    :type if_exists: bool
+    :return: Subprocess call result
     """
     if if_exists:
         if_exists_flag = '--if-exists'
@@ -108,7 +119,7 @@ def _interact_with_database(command, database, if_exists=True):
     cmd = 'docker exec -it website_postgres_1 {0} -U postgres -e {1} {2}' \
         .format(command, if_exists_flag, database)
 
-    subprocess.call(cmd, shell=True)
+    return subprocess.call(cmd, shell=True)
 
 
 @click.group()
@@ -122,6 +133,8 @@ def cli():
 def create(databases):
     """
     Create a user/database.
+
+    :return: db session create_all result
     """
     db_config = _parse_database_uri(settings.SQLALCHEMY_DATABASE_URI)
 
@@ -137,7 +150,7 @@ def create(databases):
         _grant_user_privileges(db_config['username'], database)
 
     # We also do a create all to load the initial schema from our models.
-    db.create_all()
+    return db.create_all()
 
 
 @click.command()
@@ -145,6 +158,8 @@ def create(databases):
 def drop(databases):
     """
     Drop a user/database.
+
+    :return: None
     """
     db_config = _parse_database_uri(settings.SQLALCHEMY_DATABASE_URI)
 
@@ -159,6 +174,8 @@ def drop(databases):
         # TODO: Only do this if no DBs exist,
         # drop_database_user(db_config['username'])
 
+    return None
+
 
 @click.command()
 @click.argument('databases', nargs=-1)
@@ -166,10 +183,14 @@ def drop(databases):
 def reset(ctx, databases):
     """
     Run drop, create and seed automatically.
+
+    :return: None
     """
     ctx.invoke(drop, databases=databases)
     ctx.invoke(create, databases=databases)
     ctx.invoke(seed)
+
+    return None
 
 
 @click.command()
@@ -177,7 +198,7 @@ def seed():
     """
     Seed the database with your own data.
     """
-    seed_database()
+    return seed_database()
 
 
 cli.add_command(create)

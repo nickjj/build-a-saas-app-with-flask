@@ -14,15 +14,15 @@ def serve():
     """
     Serve assets in development.
     """
-    subprocess.call('npm start', shell=True)
+    return subprocess.call('npm start', shell=True)
 
 
 @click.command()
 def build():
     """
-    Build assets for production.
+    Build assets to disk to the configured build path in the webpack config.
     """
-    subprocess.call('npm run-script build', shell=True)
+    return subprocess.call('npm run-script build', shell=True)
 
 
 cli.add_command(serve)
