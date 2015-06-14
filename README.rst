@@ -1,17 +1,11 @@
-|Build status|
+|Build status| |Flattr this git repo|
 
 What is this project?
 ^^^^^^^^^^^^^^^^^^^^^
 
-This is the source code for the **Build a SAAS app with Flask** project. It is
-currently on Kickstarter. Join me in making an awesome community resource:
-
-https://www.kickstarter.com/projects/nickjj/build-a-saas-app-with-flask-and-deploy-it-with-doc
-
-Want to donate but can't use Kickstarter?
-'''''''''''''''''''''''''''''''''''''''''
-
-|Flattr this git repo|
+This is the source code for the **Build a SAAS app with Flask** project that
+was funded on `Kickstarter <https://www.kickstarter.com/projects/nickjj/build-a-saas-app-with-flask-and-deploy-it-with-doc>`_ thanks to the awesome community. For
+more information please visit http://buildasaaswithflask.com.
 
 Installation instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^
