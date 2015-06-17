@@ -49,7 +49,7 @@ docs/_build/
 tmtags
 
 # App ignores.
-instance/
+instance/settings.py
 celerybeat.pid
 celerybeat-schedule
 core

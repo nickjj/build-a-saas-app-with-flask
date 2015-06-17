@@ -4,11 +4,14 @@ from datetime import timedelta
 from celery.schedules import crontab
 
 
-# This should be the name of the database you want to create.
+# This value is used for the following properties,
+# it really should be your module's name.
+#   Database name
+#   Cache redis prefix
 APP_NAME = 'catwatch'
-
-# App settings.
 APP_ROOT = path.join(path.dirname(path.abspath(__file__)), '..')
+
+# App settings, most settings you see here will change in production.
 SECRET_KEY = 'pickabettersecret'
 DEBUG = True
 TESTING = False
@@ -26,17 +29,65 @@ LOG_LEVEL = 'DEBUG'
 # A better solution will turn up in the future.
 SERVER_NAME = 'localhost:8000'
 
-# Stripe information.
+# Flask-Webpack (assets) settings.
+WEBPACK_MANIFEST_PATH = path.join(APP_ROOT, 'build/manifest.json')
+
+# Babel i18n translations.
+ACCEPT_LANGUAGES = ['en']
+LANGUAGES = {
+    'en': 'English'
+}
+
+# Database settings,
+# The username and password must match what's in docker-compose.yml for dev.
+db_uri = 'postgresql://catwatch:bestpassword@localhost:5432/{0}'
+SQLALCHEMY_DATABASE_URI = db_uri.format(APP_NAME)
+SQLALCHEMY_POOL_SIZE = 5
+
+# Cache settings.
+CACHE_TYPE = 'redis'
+CACHE_REDIS_URL = 'redis://localhost:6379/0'
+CACHE_KEY_PREFIX = APP_NAME
+
+# Celery settings.
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_REDIS_MAX_CONNECTIONS = 5
+
+# Celery recurring scheduled tasks.
+CELERYBEAT_SCHEDULE = {
+    'mark-soon-to-expire-credit-cards': {
+        'task': 'catwatch.blueprints.billing.tasks.mark_old_credit_cards',
+        'schedule': crontab(hour=12, minute=1)
+    },
+    'mark-invalid-coupons': {
+        'task': 'catwatch.blueprints.billing.tasks.expire_old_coupons',
+        'schedule': crontab(hour=12, minute=2)
+    },
+}
+
+# Login settings.
+REMEMBER_COOKIE_DURATION = timedelta(days=90)
+
+# Mail settings.
+MAIL_DEFAULT_SENDER = 'support@catwatch.com'
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USE_SSL = False
+MAIL_USERNAME = 'you@gmail.com'
+MAIL_PASSWORD = 'awesomepassword'
+
+# Stripe settings.
 #
 # API keys, NOTE: you should NOT supply them in this config, put them
 # in an instance config file, such as: instance/settings.py
 #
-# They are only listed below to act as documentation since the instance folder
-# is not in version control.
+# They are only listed below to act as documentation.
 STRIPE_SECRET_KEY = None
 STRIPE_PUBLISHABLE_KEY = None
 
-# The Stripe API version to use. More information can be found at their docs:
+# The Stripe API version to use. More information can be found on their docs:
 #  https://stripe.com/docs/api/python#versioning
 STRIPE_API_VERSION = '2015-04-07'
 
@@ -44,7 +95,7 @@ STRIPE_API_VERSION = '2015-04-07'
 #  https://stripe.com/docs/api#create_plan
 #
 # After supplying both API keys and plans, you must sync the plans by running:
-#   run stripe plans
+#   run stripe sync_plans
 #
 # If you are using TEST keys then the plans will be set to livemode: False
 # If you are using REAL keys then the plans be set to livemode: True
@@ -87,75 +138,21 @@ STRIPE_PLANS = {
     }
 }
 
-# Twitter information.
+# Twitter settings.
 #
 # API keys, NOTE: you should NOT supply them in this config, put them
 # in an instance config file, such as: instance/settings.py
 #
-# They are only listed below to act as documentation since the instance folder
-# is not in version control.
+# They are only listed below to act as documentation.
 TWITTER_CONSUMER_KEY = None
 TWITTER_CONSUMER_SECRET = None
 TWITTER_ACCESS_TOKEN = None
 TWITTER_ACCESS_SECRET = None
 
-# Broadcast information.
+# Broadcast (websocket server) settings.
 #
-# NOTE: you should NOT supply them in this config, put them
+# NOTE: you should NOT supply the PUSH_TOKEN here, put it
 # in an instance config file, such as: instance/settings.py
-#
-# They are only listed below to act as documentation since the instance folder
-# is not in version control.
-BROADCAST_PUBLIC_URL = None
-BROADCAST_INTERNAL_URL = None
+BROADCAST_PUBLIC_URL = 'http://localhost:4242/stream'
+BROADCAST_INTERNAL_URL = 'http://localhost:4242/stream'
 BROADCAST_PUSH_TOKEN = None
-
-# Assets.
-WEBPACK_MANIFEST_PATH = APP_ROOT + '/build/manifest.json'
-
-# Babel i18n translations.
-BABEL_I18N_PATH = '/{0}/i18n'.format(APP_NAME)
-ACCEPT_LANGUAGES = ['en']
-LANGUAGES = {
-    'en': u'English'
-}
-
-# Database.
-# The username and password must match what's in docker-compose.yml.
-db_uri = 'postgresql://catwatch:bestpassword@localhost:5432/{0}'
-SQLALCHEMY_DATABASE_URI = db_uri.format(APP_NAME)
-SQLALCHEMY_POOL_SIZE = 5
-
-# Cache.
-CACHE_TYPE = 'redis'
-CACHE_REDIS_URL = 'redis://localhost:6379/0'
-CACHE_KEY_PREFIX = APP_NAME
-
-# Celery background worker.
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_REDIS_MAX_CONNECTIONS = 5
-
-# Celery recurring scheduled tasks.
-CELERYBEAT_SCHEDULE = {
-    'mark-soon-to-expire-credit-cards': {
-        'task': 'catwatch.blueprints.billing.tasks.mark_old_credit_cards',
-        'schedule': crontab(hour=12, minute=1)
-    },
-    'mark-invalid-coupons': {
-        'task': 'catwatch.blueprints.billing.tasks.expire_old_coupons',
-        'schedule': crontab(hour=12, minute=2)
-    },
-}
-
-# Login.
-REMEMBER_COOKIE_DURATION = timedelta(days=90)
-
-# Mail.
-MAIL_DEFAULT_SENDER = 'support@catwatch.com'
-MAIL_SERVER = 'smtp.gmail.com'
-MAIL_PORT = 587
-MAIL_USE_TLS = True
-MAIL_USE_SSL = False
-MAIL_USERNAME = 'you@gmail.com'
-MAIL_PASSWORD = 'awesomepassword'
