@@ -1,8 +1,8 @@
 from functools import wraps
 
+import stripe
 from flask import redirect, url_for, flash
 from flask_babel import gettext as _
-import stripe
 
 
 def handle_stripe_exceptions(f):
@@ -11,7 +11,7 @@ def handle_stripe_exceptions(f):
 
     :param f:
     :type f: Function
-    :return: f
+    :return: Function
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):

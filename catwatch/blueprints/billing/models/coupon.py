@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from collections import OrderedDict
 import datetime
+from collections import OrderedDict
 from string import maketrans
 from os import urandom
 from binascii import hexlify
