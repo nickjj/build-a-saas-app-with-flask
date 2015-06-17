@@ -20,7 +20,7 @@ from catwatch.extensions import (
 )
 from catwatch.blueprints.user.models import User
 from catwatch.blueprints.admin import admin
-from catwatch.blueprints.pages import pages
+from catwatch.blueprints.page import page
 from catwatch.blueprints.user import user
 from catwatch.blueprints.issue import issue
 from catwatch.blueprints.stream import stream
@@ -37,7 +37,7 @@ CELERY_TASK_LIST = [
 
 FLASK_BLUEPRINTS = [
     admin,
-    pages,
+    page,
     user,
     issue,
     billing,

@@ -7,7 +7,7 @@
           src="{{ asset_url_for('images/hamburger.svg') }}"
           alt="Menu"></button>
       <h1 class="logo">
-        <a href="{{ url_for('pages.home') }}">
+        <a href="{{ url_for('page.home') }}">
           Cat <strong>watch</strong>
         </a>
       </h1>
@@ -22,7 +22,7 @@
         {% if current_user.is_authenticated() %}
           <li><a href="{{ url_for('stream.live_stream') }}">Live stream</a></li>
         {% else %}
-          <li><a href="{{ url_for('pages.learn_more') }}">Learn more</a></li>
+          <li><a href="{{ url_for('page.learn_more') }}">Learn more</a></li>
           <li><a href="{{ url_for('billing.pricing') }}">Pricing</a></li>
         {% endif %}
       </ul>
@@ -43,8 +43,8 @@
 {% endblock %}
 
 {% block footer %}
-  <li><a href="{{ url_for('pages.faq') }}">FAQ</a></li>
+  <li><a href="{{ url_for('page.faq') }}">FAQ</a></li>
   <li><a href="{{ url_for('issue.support') }}">Support</a></li>
-  <li><a href="{{ url_for('pages.privacy') }}">Privacy policy</a></li>
-  <li><a href="{{ url_for('pages.terms') }}">Terms of service</a></li>
+  <li><a href="{{ url_for('page.privacy') }}">Privacy policy</a></li>
+  <li><a href="{{ url_for('page.terms') }}">Terms of service</a></li>
 {% endblock %}
