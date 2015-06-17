@@ -12,6 +12,7 @@ from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.blueprints.billing.models.credit_card import CreditCard
 from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.billing.models.invoice import Invoice
+from catwatch.blueprints.billing.services import StripeSubscription
 from catwatch.extensions import db, bcrypt
 
 
@@ -148,6 +149,38 @@ class User(UserMixin, ResourceMixin, db.Model):
                 return True
 
         return False
+
+    @classmethod
+    def bulk_delete(cls, ids):
+        """
+        Override the general bulk_delete method because we need to delete them
+        one at a time while also deleting them on Stripe.
+
+        :param ids: List of ids to be deleted
+        :type ids: list
+        :return: Number of deleted instances
+        """
+        delete_count = 0
+
+        for id in ids:
+            user = User.query.get(id)
+
+            if user is None:
+                return 0
+
+            if user.stripe_customer_id is None:
+                user.delete()
+            else:
+                stripe_response = StripeSubscription.cancel(
+                    user.stripe_customer_id)
+
+                # If successful, delete it locally.
+                if stripe_response.get('canceled_at'):
+                    user.delete()
+
+            delete_count += 1
+
+        return delete_count
 
     def is_active(self):
         """
