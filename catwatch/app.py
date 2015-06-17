@@ -31,6 +31,7 @@ from catwatch.blueprints.billing.template_processors import format_currency
 
 CELERY_TASK_LIST = [
     'catwatch.blueprints.user.tasks',
+    'catwatch.blueprints.issue.tasks',
     'catwatch.blueprints.billing.tasks',
     'catwatch.blueprints.stream.tasks',
 ]

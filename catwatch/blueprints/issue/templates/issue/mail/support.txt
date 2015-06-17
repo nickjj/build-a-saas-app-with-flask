@@ -1,0 +1,14 @@
+{{ issue.email }} has issued a support request,
+
+---
+
+Issued on: {{ issue.created_on }}
+Label: {{ issue.label }}
+
+Question:
+{{ issue.question }}
+
+---
+
+Good luck,
+Support dispatcher
