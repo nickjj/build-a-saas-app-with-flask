@@ -144,7 +144,7 @@ class StripeSubscription(Stripe):
         return subscription.save()
 
     @classmethod
-    def cancel(cls, customer_id=None, at_period_end=False):
+    def cancel(cls, customer_id=None):
         """
         Cancel an existing subscription.
 
@@ -153,9 +153,6 @@ class StripeSubscription(Stripe):
 
         :param customer_id: Stripe customer id
         :type customer_id: int
-        :param at_period_end: If true, delay the cancellation until the end of
-                              the billing cycle
-        :type at_period_end: bool
         :return: Stripe subscription object
         """
         customer = stripe.Customer.retrieve(customer_id)
