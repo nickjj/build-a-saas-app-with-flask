@@ -72,7 +72,7 @@ def begin_password_reset():
         u = User.find_by_identity(request.form.get('identity', None))
         reset_token = u.serialize_token()
 
-        # This prevents circular imports. Let's send the e-mail with celery.
+        # This prevents circular imports.
         from catwatch.blueprints.user.tasks import deliver_password_reset_email
         deliver_password_reset_email.delay(u.id, reset_token)
 

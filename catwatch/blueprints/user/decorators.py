@@ -9,9 +9,9 @@ def anonymous_required(url='/settings'):
     """
     Redirect a user to a specified location if they are already signed in.
 
-    :param url: The url to be redirected to
+    :param url: URL to be redirected to if invalid
     :type url: str
-    :return: f
+    :return: Function
     """
     def decorator(f):
         @wraps(f)
@@ -31,7 +31,7 @@ def role_required(*roles):
     Does a user have permission to view this page?
 
     :param *roles: 1 or more allowed roles
-    :return: f
+    :return: Function
     """
     def decorator(f):
         @wraps(f)

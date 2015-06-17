@@ -1,5 +1,5 @@
-from collections import OrderedDict
 import datetime
+from collections import OrderedDict
 from hashlib import md5
 
 from flask import current_app
@@ -88,7 +88,7 @@ class User(UserMixin, ResourceMixin, db.Model):
 
         :param identity: Email or username
         :type identity: str
-        :return: A user instance
+        :return: User instance
         """
         return User.query.filter((User.email == identity)
                                  | (User.username == identity)).first()
@@ -98,7 +98,7 @@ class User(UserMixin, ResourceMixin, db.Model):
         """
         Hash a plaintext string using bcrypt.
 
-        :param plaintext_password: A password
+        :param plaintext_password: Password in plain text
         :type plaintext_password: str
         :return: str
         """
@@ -112,9 +112,9 @@ class User(UserMixin, ResourceMixin, db.Model):
         """
         Obtain a user from de-serializing a signed token.
 
-        :param token: A signed token
+        :param token: Signed token.
         :type token: str
-        :return: A user instance or None
+        :return: User instance or None
         """
         private_key = TimedJSONWebSignatureSerializer(
             current_app.config['SECRET_KEY'])
@@ -163,7 +163,7 @@ class User(UserMixin, ResourceMixin, db.Model):
         Return the user's auth token. Use their password as part of the token
         because if the user changes their password we will want to invalidate
         all of their logins across devices. It is completely fine to use
-        # md5 here as nothing leaks.
+        md5 here as nothing leaks.
 
         # This satisfies Flask-Login by providing a means to create a token.
 
@@ -178,7 +178,7 @@ class User(UserMixin, ResourceMixin, db.Model):
 
     def authenticated(self, with_password=True, password=''):
         """
-        Ensure a user is authenticated, and optionally checking their password.
+        Ensure a user is authenticated, and optionally check their password.
 
         :param with_password: Optionally check their password
         :type with_password: bool
@@ -196,7 +196,7 @@ class User(UserMixin, ResourceMixin, db.Model):
         Sign and create a token that can be used for things such as resetting
         a password or other tasks that involve a one off token.
 
-        :param expiration: seconds until it expires, defaults to 1 hour
+        :param expiration: Seconds until it expires, defaults to 1 hour
         :type expiration: int
         :return: JSON
         """
@@ -212,7 +212,7 @@ class User(UserMixin, ResourceMixin, db.Model):
 
         :param ip_address: IP address
         :type ip_address: str
-        :return: The result of updating the record
+        :return: SQLAlchemy commit results
         """
         self.sign_in_count += 1
 
