@@ -16,7 +16,6 @@ issue = Blueprint('issue', __name__, template_folder='templates')
 
 @issue.route('/support', methods=['GET', 'POST'])
 def support():
-    # Pre-populate the email field if the user is signed in.
     form = SupportForm(obj=current_user)
 
     if form.validate_on_submit():
