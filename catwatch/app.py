@@ -1,8 +1,8 @@
+import stripe
 from flask import Flask, request
 from werkzeug.contrib.fixers import ProxyFix
 from itsdangerous import URLSafeTimedSerializer
 from celery import Celery
-import stripe
 
 from catwatch.lib.http_method_override_middleware import \
     HTTPMethodOverrideMiddleware
@@ -29,6 +29,23 @@ from catwatch.blueprints.billing.views.stripe_webhook import stripe_webhook
 from catwatch.blueprints.billing.template_processors import format_currency
 
 
+CELERY_TASK_LIST = [
+    'catwatch.blueprints.user.tasks',
+    'catwatch.blueprints.billing.tasks',
+    'catwatch.blueprints.stream.tasks',
+]
+
+FLASK_BLUEPRINTS = [
+    admin,
+    pages,
+    user,
+    issue,
+    billing,
+    stream,
+    stripe_webhook
+]
+
+
 def create_celery_app(app=None):
     """
     Create a new celery object and tie together the celery config to the app's
@@ -39,14 +56,8 @@ def create_celery_app(app=None):
     """
     app = app or create_app()
 
-    task_list = [
-        'catwatch.blueprints.user.tasks',
-        'catwatch.blueprints.billing.tasks',
-        'catwatch.blueprints.stream.tasks',
-    ]
-
     celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'],
-                    include=task_list)
+                    include=CELERY_TASK_LIST)
     celery.conf.update(app.config)
     TaskBase = celery.Task
 
@@ -66,10 +77,9 @@ def create_app(application_name=__name__, settings_override=None):
     Create an application using the Flask app factory pattern:
     http://flask.pocoo.org/docs/0.10/patterns/appfactories
 
-    :param application_name: The name of the application
+    :param application_name: Name of the application
     :param settings_override: Override settings
     :type settings_override: dict
-
     :return: Flask app
     """
     app = Flask(application_name, instance_relative_config=True)
@@ -88,19 +98,20 @@ def create_app(application_name=__name__, settings_override=None):
 
 def configure_settings(app, settings_override=None):
     """
-    Create the settings of the application (mutates the app passed in).
+    Modify the settings of the application (mutates the app passed in).
 
     :param app: Flask application instance
     :param settings_override: Override settings
     :type settings_override: dict
-
-    :return: None
+    :return: Add configuration settings
     """
     app.config.from_object('config.settings')
     app.config.from_pyfile('settings.py', silent=True)
 
     if settings_override:
         app.config.update(settings_override)
+
+    return app.config
 
 
 def register_api_keys(app):
@@ -111,6 +122,7 @@ def register_api_keys(app):
     :return: None
     """
     stripe.api_key = app.config.get('STRIPE_SECRET_KEY', None)
+    return None
 
 
 def register_middleware(app):
@@ -118,15 +130,15 @@ def register_middleware(app):
     Register 0 or more middleware (mutates the app passed in).
 
     :param app: Flask application instance
-
     :return: None
     """
-
     # Swap request.remote_addr with the real IP address even if behind a proxy.
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
     # Allow modern HTTP verbs such as PATCH and DELETE.
     app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
+
+    return None
 
 
 def register_blueprints(app):
@@ -134,21 +146,12 @@ def register_blueprints(app):
     Register 0 or more blueprints (mutates the app passed in).
 
     :param app: Flask application instance
-
     :return: None
     """
-    blueprints = [
-        admin,
-        pages,
-        user,
-        issue,
-        billing,
-        stream,
-        stripe_webhook
-    ]
-
-    for blueprint in blueprints:
+    for blueprint in FLASK_BLUEPRINTS:
         app.register_blueprint(blueprint)
+
+    return None
 
 
 def register_extensions(app):
@@ -156,7 +159,6 @@ def register_extensions(app):
     Register 0 or more extensions (mutates the app passed in).
 
     :param app: Flask application instance
-
     :return: None
     """
     db.init_app(app)
@@ -170,17 +172,20 @@ def register_extensions(app):
     webpack.init_app(app)
     debug_toolbar.init_app(app)
 
+    return None
+
 
 def register_template_processors(app):
     """
     Register 0 or more custom template filters (mutates the app passed in).
 
     :param app: Flask application instance
-
-    :return: None
+    :return: App jinja environment
     """
     app.jinja_env.add_extension('jinja2.ext.do')
     app.jinja_env.filters['format_currency'] = format_currency
+
+    return app.jinja_env
 
 
 def initialize_authentication(app, user_model):
@@ -189,6 +194,7 @@ def initialize_authentication(app, user_model):
 
     :param app: Flask application instance
     :param user_model: Model that contains the authentication information
+    :type user_model: SQLAlchemy model
     :return: None
     """
     login_manager.login_view = 'user.login'
@@ -213,7 +219,7 @@ def initialize_locale(app):
     Initialize a locale for the current request.
 
     :param app: Flask application instance
-    :return: None
+    :return: Language
     """
     @babel.localeselector
     def get_locale():
