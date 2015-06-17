@@ -2,7 +2,6 @@ import subprocess
 
 import click
 
-from config import settings
 from catwatch.lib.db_seed import seed_database
 from catwatch.app import create_app
 from catwatch.extensions import db
@@ -11,6 +10,7 @@ from catwatch.extensions import db
 # Create a context for the database connection.
 app = create_app()
 db.app = app
+SQLALCHEMY_DATABASE_URI = app.config.get('SQLALCHEMY_DATABASE_URI', None)
 
 
 def _execute_psql(command):
@@ -136,7 +136,7 @@ def create(databases):
 
     :return: db session create_all result
     """
-    db_config = _parse_database_uri(settings.SQLALCHEMY_DATABASE_URI)
+    db_config = _parse_database_uri(SQLALCHEMY_DATABASE_URI)
 
     if databases == ():
         databases = [db_config['database']]
@@ -161,7 +161,7 @@ def drop(databases):
 
     :return: None
     """
-    db_config = _parse_database_uri(settings.SQLALCHEMY_DATABASE_URI)
+    db_config = _parse_database_uri(SQLALCHEMY_DATABASE_URI)
 
     if databases == ():
         databases = [db_config['database']]
