@@ -151,8 +151,8 @@ TWITTER_ACCESS_SECRET = None
 
 # Broadcast (websocket server) settings.
 #
-# NOTE: you should NOT supply the PUSH_TOKEN here, put it
-# in an instance config file, such as: instance/settings.py
+# NOTE: you should NOT supply the PUSH_TOKEN/BROADCAST_INTERNAL_URL here,
+# put them in an instance config file, such as: instance/settings.py
 BROADCAST_PUBLIC_URL = 'http://localhost:4242/stream'
-BROADCAST_INTERNAL_URL = 'http://localhost:4242/stream'
+BROADCAST_INTERNAL_URL = None
 BROADCAST_PUSH_TOKEN = None

@@ -1,8 +1,8 @@
 from datetime import datetime
 import random
 
-from faker import Faker
 import click
+from faker import Faker
 
 from catwatch.app import create_app
 from catwatch.extensions import db

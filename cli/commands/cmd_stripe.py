@@ -5,7 +5,6 @@ import stripe
 
 from catwatch.blueprints.billing.services import StripePlan
 
-
 STRIPE_SECRET_KEY = None
 STRIPE_PLANS = None
 

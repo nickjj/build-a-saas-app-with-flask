@@ -1,6 +1,6 @@
+import click
 from alembic import command
 from alembic.config import Config
-import click
 
 from catwatch.app import create_app
 from catwatch.extensions import db

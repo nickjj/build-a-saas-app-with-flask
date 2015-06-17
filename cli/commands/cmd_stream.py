@@ -1,33 +1,27 @@
-from time import sleep
 import datetime
 import logging
 import random
+from time import sleep
 
-
-from faker import Faker
 import click
+from faker import Faker
 
-try:
-    from instance import settings
-except ImportError:
-    logging.error('Your instance/ folder must contain an __init__.py file')
-    exit(1)
-
-from catwatch.app import create_app
 from catwatch.blueprints.stream.twitter import TwitterStream
 from catwatch.blueprints.stream.tasks import broadcast_message
 
 
-app = create_app()
+try:
+    from instance import settings
+    TWITTER_CONSUMER_KEY = settings.TWITTER_CONSUMER_KEY
+    TWITTER_CONSUMER_SECRET = settings.TWITTER_CONSUMER_SECRET
+    TWITTER_ACCESS_TOKEN = settings.TWITTER_ACCESS_TOKEN
+    TWITTER_ACCESS_SECRET = settings.TWITTER_ACCESS_SECRET
 
-# Configuration.
-TWITTER_CONSUMER_KEY = settings.TWITTER_CONSUMER_KEY
-TWITTER_CONSUMER_SECRET = settings.TWITTER_CONSUMER_SECRET
-TWITTER_ACCESS_TOKEN = settings.TWITTER_ACCESS_TOKEN
-TWITTER_ACCESS_SECRET = settings.TWITTER_ACCESS_SECRET
-
-BROADCAST_INTERNAL_URL = settings.BROADCAST_INTERNAL_URL
-BROADCAST_PUSH_TOKEN = settings.BROADCAST_PUSH_TOKEN
+    BROADCAST_INTERNAL_URL = settings.BROADCAST_INTERNAL_URL
+    BROADCAST_PUSH_TOKEN = settings.BROADCAST_PUSH_TOKEN
+except ImportError:
+    logging.error('Your instance/ folder must contain an __init__.py file')
+    exit(1)
 
 
 @click.group()
@@ -47,6 +41,7 @@ def listen():
                            consumer_secret=TWITTER_CONSUMER_SECRET,
                            access_token=TWITTER_ACCESS_TOKEN,
                            access_secret=TWITTER_ACCESS_SECRET)
+
     return stream.listen()
 
 
@@ -69,6 +64,7 @@ def broadcast():
                            broadcast=True,
                            broadcast_internal_url=BROADCAST_INTERNAL_URL,
                            broadcast_push_token=BROADCAST_PUSH_TOKEN)
+
     return stream.listen()
 
 
@@ -80,6 +76,9 @@ def fake_broadcast():
     :return: None
     """
     fake = Faker()
+
+    print BROADCAST_INTERNAL_URL
+    print BROADCAST_PUSH_TOKEN
 
     while True:
         random_types = ('tweet', 'retweet', 'favorite')
