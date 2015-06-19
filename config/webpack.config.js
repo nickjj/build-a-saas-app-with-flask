@@ -79,7 +79,8 @@ var plugins = [
 
     // https://github.com/nickjj/manifest-revision-webpack-plugin
     new ManifestRevisionPlugin(path.join('build', 'manifest.json'), {
-        rootAssetPath: path.join(rootAssetPath, assets.images.path)
+        rootAssetPath: rootAssetPath,
+        ignorePaths: ['/fonts', '/styles', '/scripts']
     })
 ];
 
