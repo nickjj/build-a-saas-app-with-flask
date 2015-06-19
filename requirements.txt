@@ -19,7 +19,7 @@ itsdangerous==0.24
 flask-bouncer==0.1.13
 
 # Asset management
-Flask-Webpack==0.0.3
+Flask-Webpack==0.0.5
 
 # I18n
 Flask-Babel==0.9
