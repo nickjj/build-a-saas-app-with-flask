@@ -29,6 +29,9 @@ LOG_LEVEL = 'DEBUG'
 # A better solution will turn up in the future.
 SERVER_NAME = 'localhost:8000'
 
+# Public build path. Files in this path will be accessible to the internet.
+PUBLIC_BUILD_PATH = path.join(APP_ROOT, 'build', 'public')
+
 # Flask-Webpack (assets) settings.
 WEBPACK_MANIFEST_PATH = path.join(APP_ROOT, 'build', 'manifest.json')
 

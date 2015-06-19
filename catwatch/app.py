@@ -1,6 +1,7 @@
 import stripe
-from flask import Flask, request
+from flask import Flask, request, render_template
 from werkzeug.contrib.fixers import ProxyFix
+from jinja2 import ChoiceLoader, FileSystemLoader
 from itsdangerous import URLSafeTimedSerializer
 from celery import Celery
 
@@ -45,6 +46,8 @@ FLASK_BLUEPRINTS = [
     stream,
     stripe_webhook
 ]
+
+CUSTOM_ERROR_PAGES = [404, 500, 502]
 
 
 def create_celery_app(app=None):
@@ -91,6 +94,7 @@ def create_app(application_name=__name__, settings_override=None):
     register_blueprints(app)
     register_extensions(app)
     register_template_processors(app)
+    register_error_handlers(app)
     initialize_authentication(app, User)
     initialize_locale(app)
 
@@ -183,10 +187,45 @@ def register_template_processors(app):
     :param app: Flask application instance
     :return: App jinja environment
     """
+    public_build_path = app.config.get('PUBLIC_BUILD_PATH', None)
+
+    if public_build_path:
+        multiple_template_loader = ChoiceLoader([
+            app.jinja_loader,
+            FileSystemLoader([public_build_path]),
+        ])
+        app.jinja_loader = multiple_template_loader
+
     app.jinja_env.add_extension('jinja2.ext.do')
     app.jinja_env.filters['format_currency'] = format_currency
 
     return app.jinja_env
+
+
+def register_error_handlers(app):
+    """
+    Register 0 or more error handlers (mutates the app passed in).
+
+    :param app: Flask application instance
+    :return: None
+    """
+    def render_error(status):
+        """
+         Render a custom template for a specific status.
+           Source: http://stackoverflow.com/a/30108946
+
+         :param status: Status as a written name
+         :type status: str
+         :return: None
+         """
+        # Get the status code from the status.
+        status_code = getattr(status, 'code')
+        return render_template('{0}.html'.format(status_code)), status_code
+
+    for error in CUSTOM_ERROR_PAGES:
+        app.errorhandler(error)(render_error)
+
+    return None
 
 
 def initialize_authentication(app, user_model):
