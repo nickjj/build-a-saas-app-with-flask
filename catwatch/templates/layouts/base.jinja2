@@ -12,20 +12,22 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="{{ self.title() }}">
   <meta name="theme-color" content="#3372DF">
-  <link rel="icon" sizes="192x192"
-        href="{{ asset_url_for('images/touch/chrome-touch-icon-192x192.png') }}">
+  <link rel="icon" sizes="192x192" href="chrome-touch-icon-192x192.png">
 
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="{{ self.title() }}">
-  <link rel="apple-touch-icon"
-        href="{{ asset_url_for('images/touch/apple-touch-icon.png') }}">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
   <!-- Tile icon for Win8 (144x144 + tile color) -->
   <meta name="msapplication-TileImage"
-        content="{{ asset_url_for('images/touch/ms-touch-icon-144x144-precomposed.png') }}">
+        content="ms-touch-icon-144x144-precomposed.png">
   <meta name="msapplication-TileColor" content="#3372DF">
+
+  <!-- Default icon -->
+  <link href="favicon.ico" rel="icon" type="image/x-icon"/>
+  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
 

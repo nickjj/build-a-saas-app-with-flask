@@ -8,7 +8,6 @@ __pycache__/
 # Distribution / packaging
 node_modules/
 bin/
-build/
 develop-eggs/
 dist/
 eggs/
@@ -49,6 +48,19 @@ docs/_build/
 tmtags
 
 # App ignores.
+build/manifest.json
+build/public/*
+!build/public/robots.txt
+!build/public/404.html
+!build/public/500.html
+!build/public/502.html
+!build/public/apple-touch-icon.png
+!build/public/chrome-touch-icon-192x192.png
+!build/public/favicon.ico
+!build/public/icon-128x128.png
+!build/public/ms-touch-icon-144x144-precomposed.png
+
+
 instance/settings.py
 celerybeat.pid
 celerybeat-schedule
