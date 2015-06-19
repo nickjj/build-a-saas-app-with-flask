@@ -30,7 +30,7 @@ LOG_LEVEL = 'DEBUG'
 SERVER_NAME = 'localhost:8000'
 
 # Flask-Webpack (assets) settings.
-WEBPACK_MANIFEST_PATH = path.join(APP_ROOT, 'build/manifest.json')
+WEBPACK_MANIFEST_PATH = path.join(APP_ROOT, 'build', 'manifest.json')
 
 # Babel i18n translations.
 ACCEPT_LANGUAGES = ['en']
