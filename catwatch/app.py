@@ -1,5 +1,9 @@
+import logging
+import time
+from logging.handlers import SMTPHandler
+
 import stripe
-from flask import Flask, request, render_template
+from flask import Flask, g, request, render_template
 from werkzeug.contrib.fixers import ProxyFix
 from jinja2 import ChoiceLoader, FileSystemLoader
 from itsdangerous import URLSafeTimedSerializer
@@ -94,7 +98,9 @@ def create_app(application_name=__name__, settings_override=None):
     register_blueprints(app)
     register_extensions(app)
     register_template_processors(app)
-    register_error_handlers(app)
+    register_logging_handler(app)
+    register_exception_handler(app)
+    register_error_templates(app)
     initialize_authentication(app, User)
     initialize_locale(app)
 
@@ -182,7 +188,7 @@ def register_extensions(app):
 
 def register_template_processors(app):
     """
-    Register 0 or more custom template filters (mutates the app passed in).
+    Register 0 or more custom template processors (mutates the app passed in).
 
     :param app: Flask application instance
     :return: App jinja environment
@@ -202,14 +208,87 @@ def register_template_processors(app):
     return app.jinja_env
 
 
-def register_error_handlers(app):
+def register_logging_handler(app):
+    """
+    Register 0 or more logger handles (mutates the app passed in).
+
+    :param app: Flask application instance
+    :return: None
+    """
+    @app.before_request
+    def before_request():
+        """
+        Save when the request started.
+
+        :return: None
+        """
+        g.start = time.time()
+
+        return None
+
+    @app.after_request
+    def after_request(response):
+        """
+        Write out a log entry for the request.
+
+        :return: Flask response
+        """
+        response_time_in_ms = int((time.time() - g.start) * 1000)
+
+        params = {
+            'method': request.method,
+            'in': response_time_in_ms,
+            'url': request.path,
+            'ip': request.environ.get('REMOTE_ADDR')
+        }
+
+        app.logger.info('%(method)s "%(url)s" in %(in)sms for %(ip)s', params)
+
+        return response
+
+    return None
+
+
+def register_exception_handler(app):
+    """
+    Register 0 or more exception handlers (mutates the app passed in).
+
+    :param app: Flask application instance
+    :return: None
+    """
+    # This will not execute when debug is set to True.
+    mail_handler = SMTPHandler((app.config.get('MAIL_SERVER'),
+                                app.config.get('MAIL_PORT')),
+                               'bugs-noreply@catwatch.com',
+                               [app.config.get('MAIL_USERNAME')],
+                               '[Exception handler] A 5xx was thrown',
+                               (app.config.get('MAIL_USERNAME'),
+                                app.config.get('MAIL_PASSWORD')),
+                               secure=())
+
+    mail_handler.setLevel(logging.ERROR)
+    mail_handler.setFormatter(logging.Formatter('''
+    Time:         %(asctime)s
+    Message type: %(levelname)s
+
+
+    Message:
+
+    %(message)s
+    '''))
+    app.logger.addHandler(mail_handler)
+
+    return None
+
+
+def register_error_templates(app):
     """
     Register 0 or more error handlers (mutates the app passed in).
 
     :param app: Flask application instance
     :return: None
     """
-    def render_error(status):
+    def render_status(status):
         """
          Render a custom template for a specific status.
            Source: http://stackoverflow.com/a/30108946
@@ -218,12 +297,13 @@ def register_error_handlers(app):
          :type status: str
          :return: None
          """
-        # Get the status code from the status.
-        status_code = getattr(status, 'code')
+        # Get the status code from the status, default to a 500 so that we
+        # catch all types of errors and treat them as a 500.
+        status_code = getattr(status, 'code', 500)
         return render_template('{0}.html'.format(status_code)), status_code
 
     for error in CUSTOM_ERROR_PAGES:
-        app.errorhandler(error)(render_error)
+        app.errorhandler(error)(render_status)
 
     return None
 
