@@ -161,20 +161,17 @@ class Subscription(ResourceMixin, db.Model):
 
         return True
 
-    def cancel(self, at_period_end=False, discard_credit_card=True):
+    def cancel(self, discard_credit_card=True):
         """
         Return whether or not the subscription was cancelled successfully.
 
-        :param at_period_end: If true, delay the cancellation until the end of
-                              the billing cycle
-        :type at_period_end: bool
         :param at_period_end: If true, delete the user's credit card
         :type at_period_end: bool
         :return: bool
         """
         user = self.params['user']
 
-        StripeSubscription.cancel(user.stripe_customer_id, at_period_end)
+        StripeSubscription.cancel(user.stripe_customer_id)
 
         # Update the user account.
         user.stripe_customer_id = None
