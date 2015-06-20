@@ -161,12 +161,12 @@ class Subscription(ResourceMixin, db.Model):
 
         return True
 
-    def cancel(self, discard_credit_card=True):
+    def cancel(self, at_period_end=False, discard_credit_card=True):
         """
         Return whether or not the subscription was cancelled successfully.
 
-        :param at_period_end: If true, delete the user's credit card
-        :type at_period_end: bool
+        :param discard_credit_card: If true, delete the user's credit card
+        :type discard_credit_card: bool
         :return: bool
         """
         user = self.params['user']
