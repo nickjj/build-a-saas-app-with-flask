@@ -36,6 +36,7 @@ class PasswordResetForm(Form):
 
 class SignupForm(ModelForm):
     email = EmailField(validators=[
+        DataRequired(),
         Email(),
         Unique(
             User.email,
