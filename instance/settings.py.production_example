@@ -4,7 +4,7 @@ SERVER_NAME = 'example.com'
 
 SECRET_KEY = 'nevergivethisoutandmakesureitiscomplexdonotusewhatyouseehereseriouslystopreadingandmakearealtoken'
 DEBUG = False
-LOG_LEVEL = 'info'
+LOG_LEVEL = 'INFO'
 
 MAIL_USERNAME = 'you@example.com'
 MAIL_PASSWORD = 'thebestpasswordyouevermade'
