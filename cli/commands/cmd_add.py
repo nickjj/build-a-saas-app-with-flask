@@ -1,8 +1,20 @@
-from datetime import datetime
+import logging
 import random
+from datetime import datetime
+
 
 import click
 from faker import Faker
+
+try:
+    from instance import settings
+    SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
+except ImportError:
+    logging.error('Your instance/ folder must contain an __init__.py file')
+    exit(1)
+except AttributeError:
+    from config import settings
+    SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
 
 from catwatch.app import create_app
 from catwatch.extensions import db
@@ -67,21 +79,29 @@ def users():
     random_emails = []
     data = []
 
-    # Ensure we get about 49 unique random emails.
+    # Ensure we get about 50 unique random emails, +1 due to the seeded email.
     for i in range(0, 49):
         random_emails.append(fake.email())
+
+    random_emails.append(SEED_ADMIN_EMAIL)
     random_emails = list(set(random_emails))
 
     while True:
         if len(random_emails) == 0:
             break
 
+        email = random_emails.pop()
+
         params = {
             'role': random.choice(User.ROLE.keys()),
-            'email': random_emails.pop(),
+            'email': email,
             'password': User.encrypt_password('password'),
             'name': fake.name()
         }
+
+        # Ensure the seeded admin is always an admin.
+        if email == SEED_ADMIN_EMAIL:
+            params['role'] = 'admin'
 
         data.append(params)
 
