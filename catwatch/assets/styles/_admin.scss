@@ -1,7 +1,20 @@
+/* Coupons.
+-------------------------------------------------- */
 #duration-in-months {
   display: none;
 }
 
+.rd-date {
+  table {
+    td {
+      padding: 5px;
+    }
+  }
+}
+
+
+/* Bulk delete.
+-------------------------------------------------- */
 #bulk_actions {
   display: none;
   padding-bottom: 8px;
@@ -15,6 +28,9 @@
   font-size: 12px;
 }
 
+
+/* Table sorting.
+-------------------------------------------------- */
 .sort:after {
   content: '\f0dc';
   font-family: FontAwesome;
