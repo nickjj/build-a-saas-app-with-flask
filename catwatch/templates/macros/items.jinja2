@@ -30,7 +30,7 @@
 
 
 {% macro paginate(pagination) -%}
-  {% set args = request.args %}
+  {% set args = request.args.to_dict() %}
 
   <ul class="pagination">
     <li class="{{ 'disabled' if pagination.page == 1 }}">
