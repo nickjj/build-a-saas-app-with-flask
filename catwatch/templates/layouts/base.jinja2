@@ -1,6 +1,7 @@
 {% import 'macros/layout/meta_tags.jinja2' as meta_tags %}
 {% import 'macros/layout/fav_icons.jinja2' as fav_icons %}
 {% import 'macros/layout/assets.jinja2' as assets with context %}
+{% import 'macros/layout/analytics.jinja2' as analytics with context %}
 {% import 'billing/macros/billing.jinja2' as billing with context %}
 {% import 'macros/layout/flash.jinja2' as flash with context %}
 
@@ -13,6 +14,8 @@
 
   {{ assets.render() }}
   {{ assets.polyfills() }}
+
+  {{ analytics.google_ua() }}
 </head>
 <body>
 {% block header %}{% endblock %}
