@@ -63,20 +63,17 @@ class Coupon(ResourceMixin, db.Model):
         return and_(self.valid, is_redeemable)
 
     @classmethod
-    def search(cls, query, fields):
+    def search(cls, query):
         """
         Search a resource by 1 or more fields.
 
         :param query: Search query
         :type query: str
-        :param fields: Fields to search
-        :type fields: tuple
         :return: SQLAlchemy filter
         """
         if not query:
             return ''
 
-        # TODO: Refactor this to dynamically search on any model by any filter.
         search_query = '%{0}%'.format(query)
 
         return or_(Coupon.code.ilike(search_query))

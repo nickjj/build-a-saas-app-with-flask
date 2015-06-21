@@ -60,8 +60,7 @@ def users(page):
     order_values = '{0} {1}'.format(sort_by[0], sort_by[1])
 
     paginated_users = User.query \
-        .filter(User.search(request.args.get('q', ''),
-                            ('email', 'name'))) \
+        .filter(User.search(request.args.get('q', ''))) \
         .order_by(User.role.desc(), User.stripe_customer_id,
                   text(order_values)) \
         .paginate(page, 20, True)
@@ -104,8 +103,7 @@ def users_bulk_delete():
         ids = User.get_bulk_action_ids(request.form.get('scope', None),
                                        request.form.getlist('bulk_ids'),
                                        omit_ids=[current_user.id],
-                                       query=request.args.get('q', ''),
-                                       query_fields=('email', 'name'))
+                                       query=request.args.get('q', ''))
 
         delete_count = User.bulk_delete(ids)
 
@@ -151,7 +149,7 @@ def issues(page):
     order_values = '{0} {1}'.format(sort_by[0], sort_by[1])
 
     paginated_issues = Issue.query \
-        .filter(Issue.search(request.args.get('q', ''), ('email'))) \
+        .filter(Issue.search(request.args.get('q', ''))) \
         .order_by(text(order_values)) \
         .paginate(page, 20, True)
 
@@ -182,8 +180,7 @@ def issues_bulk_delete():
     if form.validate_on_submit():
         ids = Issue.get_bulk_action_ids(request.form.get('scope', None),
                                         request.form.getlist('bulk_ids'),
-                                        query=request.args.get('q', ''),
-                                        query_fields=('email'))
+                                        query=request.args.get('q', ''))
 
         delete_count = Issue.bulk_delete(ids)
 
@@ -208,7 +205,7 @@ def coupons(page):
     order_values = '{0} {1}'.format(sort_by[0], sort_by[1])
 
     paginated_coupons = Coupon.query \
-        .filter(Coupon.search(request.args.get('q', ''), ('code'))) \
+        .filter(Coupon.search(request.args.get('q', ''))) \
         .order_by(text(order_values)) \
         .paginate(page, 20, True)
 
@@ -252,8 +249,7 @@ def coupons_bulk_delete():
     if form.validate_on_submit():
         ids = Coupon.get_bulk_action_ids(request.form.get('scope', None),
                                          request.form.getlist('bulk_ids'),
-                                         query=request.args.get('q', ''),
-                                         query_fields=('code'))
+                                         query=request.args.get('q', ''))
 
         # Prevent circular imports.
         from catwatch.blueprints.billing.tasks import delete_coupons
