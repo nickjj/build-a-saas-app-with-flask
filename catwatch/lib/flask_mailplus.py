@@ -1,9 +1,10 @@
 from flask import render_template
+from flask_babel import lazy_gettext as _
 
 from catwatch.extensions import mail
 
 
-def send_template_message(template=None, context=None, *args, **kwargs):
+def send_template_message(template=None, ctx=None, *args, **kwargs):
     """
     Send a templated e-mail using a similar signature as Flask-Mail:
     http://pythonhosted.org/Flask-Mail/
@@ -15,7 +16,7 @@ def send_template_message(template=None, context=None, *args, **kwargs):
     Example:
         ctx = {'user': current_user, 'reset_token': token}
         send_template_message('Password reset from Foo', ['you@example.com'],
-                              template='user/mail/password_reset', context=ctx)
+                              template='user/mail/password_reset', ctx=ctx)
 
     :param subject:
     :param recipients:
@@ -31,24 +32,25 @@ def send_template_message(template=None, context=None, *args, **kwargs):
     :param extra_headers:
     :param mail_options:
     :param rcpt_options:
-    :param template: path to a template without the extension
-    :param context: dictionary of anything you want in the template context
+    :param template: Path to a template without the extension
+    :param context: Dictionary of anything you want in the template context
     :return: None
     """
-    if context is None:
-        context = {}
+    if ctx is None:
+        ctx = {}
 
     if template is not None:
         if 'body' in kwargs:
-            raise Exception('You cannot have both a template and body arg.')
+            raise Exception(_('You cannot have both a template and body arg.'))
         elif 'html' in kwargs:
-            raise Exception('You cannot have both a template and html arg.')
+            raise Exception(_('You cannot have both a template and body arg.'))
 
-        kwargs['body'] = _try_renderer_template(template, **context)
-        kwargs['html'] = _try_renderer_template(template, ext='html',
-                                                **context)
+        kwargs['body'] = _try_renderer_template(template, **ctx)
+        kwargs['html'] = _try_renderer_template(template, ext='html', **ctx)
 
     mail.send_message(*args, **kwargs)
+
+    return None
 
 
 def _try_renderer_template(template_path, ext='txt', **kwargs):

@@ -4,6 +4,7 @@ from catwatch.extensions import db
 
 
 class ResourceMixin(object):
+    # Keep track when records are created and updated.
     created_on = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     updated_on = db.Column(db.DateTime, default=datetime.datetime.utcnow(),
                            onupdate=datetime.datetime.utcnow())
@@ -17,7 +18,7 @@ class ResourceMixin(object):
         :type field: str
         :param direction: Direction
         :type direction: str
-        :return: The field and direction
+        :return: tuple
         """
         if field not in cls.__table__.columns:
             field = 'created_on'
@@ -43,7 +44,7 @@ class ResourceMixin(object):
         :type query: str
         :param query_fields: Fields to search (if applicable)
         :type query_fields: tuple
-        :return: List of ids
+        :return: list
         """
         omit_ids = map(str, omit_ids)
 
@@ -82,7 +83,7 @@ class ResourceMixin(object):
         """
         Save a model instance.
 
-        :return: Model instance
+        :return: self
         """
         db.session.add(self)
         db.session.commit()
@@ -102,7 +103,7 @@ class ResourceMixin(object):
         """
         Create a human readable version of a class instance.
 
-        :return:
+        :return: self
         """
         obj_id = hex(id(self))
         columns = self.__table__.c.keys()

@@ -5,7 +5,7 @@ from flask_babel import lazy_gettext as _
 class ModelForm(Form):
     """
     wtforms_components exposes ModelForm but their ModelForm does not inherit
-    from flask_wtf's Form, but instead wtform's Form.
+    from flask_wtf's Form, but instead WTForm's Form.
 
     However, in order to get csrf protection handled by default we need to
     inherit from flask_wtf's Form. So let's just copy his class directly.
@@ -26,7 +26,7 @@ def choices_from_dict(source, prepend_blank=True):
     optionally prepends a "Please select one..." value.
 
     Example:
-      # Convert this data structure into:
+      # Convert this data structure:
       STATUS = OrderedDict([
           ('unread', 'Unread'),
           ('open', 'Open'),
@@ -34,14 +34,14 @@ def choices_from_dict(source, prepend_blank=True):
           ('closed', 'Closed')
       ])
 
-      # This:
+      # Into this:
       choices = [('', 'Please select one...'), ('unread', 'Unread) ...]
 
     :param source: The dict as input
     :type source: dict
     :param prepend_blank: An optional blank item
     :type prepend_blank: bool
-    :return: List
+    :return: list
     """
     choices = []
 

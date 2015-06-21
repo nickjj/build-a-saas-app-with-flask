@@ -4,7 +4,8 @@ from werkzeug.urls import url_decode
 class HTTPMethodOverrideMiddleware(object):
     """
     Allow us to route requests with modern HTTP verbs because browsers only
-    currently support GET and POST.
+    currently support GET and POST. This is useful if you want to create a
+    proper restful API.
 
     Source: http://flask.pocoo.org/docs/0.10/patterns/methodoverrides/
 
@@ -49,7 +50,7 @@ class HTTPMethodOverrideMiddleware(object):
         :type query_string: str
         :param method_override: Method override header
         :type method_override: str
-        :return: The method
+        :return: str
         """
         if '__method__' in query_string:
             args = url_decode(query_string)
