@@ -1,0 +1,32 @@
+ANALYTICS_GOOGLE_UA = 'XXX'
+
+SERVER_NAME = 'example.com'
+
+SECRET_KEY = 'nevergivethisoutandmakesureitiscomplexdonotusewhatyouseehereseriouslystopreadingandmakearealtoken'
+DEBUG = False
+LOG_LEVEL = 'info'
+
+MAIL_USERNAME = 'you@example.com'
+MAIL_PASSWORD = 'thebestpasswordyouevermade'
+
+STRIPE_SECRET_KEY = 'XXX'
+STRIPE_PUBLISHABLE_KEY = 'XXX'
+
+TWITTER_CONSUMER_KEY = 'XXX'
+TWITTER_CONSUMER_SECRET = 'XXX'
+TWITTER_ACCESS_TOKEN = 'XXX'
+TWITTER_ACCESS_SECRET = 'XXX'
+
+BROADCAST_PUSH_TOKEN = 'followthesamerulesasthesecretkey'
+BROADCAST_PUBLIC_URL = 'http://example.com/faye/stream'
+BROADCAST_INTERNAL_URL = 'http://faye:4242/stream'
+
+db_uri = 'postgresql://exampleproject:pass@postgres:5432/exampleproject'
+SQLALCHEMY_DATABASE_URI = db_uri
+SQLALCHEMY_POOL_SIZE = 25
+
+CACHE_REDIS_URL = 'redis://redis:6379/0'
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_REDIS_MAX_CONNECTIONS = 25

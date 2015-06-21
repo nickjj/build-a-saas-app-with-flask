@@ -106,19 +106,10 @@ How do I shut everything down?
 How do I provide my own settings?
 '''''''''''''''''''''''''''''''''
 
-- Create an ``instance/`` folder in the root of the project
 - Create a ``settings.py`` file at ``$PROJECT_ROOT/instance/settings.py``
 - Overwrite as many settings as you want
 
-For example, your ``instance/settings.py`` file might end up looking like:
-
-::
-
-    STRIPE_SECRET_KEY = 'realkeygoeshere'
-    STRIPE_PUBLISHABLE_KEY = 'thisonetoo'
-
-    MAIL_USERNAME = 'yourrealaccount@gmail.com'
-    MAIL_PASSWORD = 'seriousbusinesspassword'
+View the `example production settings.py <https://github.com/nickjj/build-a-saas-app-with-flask/blob/master/instance/settings.py.production_example>`_.
 
 Can I quickly change my schema without migrating?
 '''''''''''''''''''''''''''''''''''''''''''''''''
