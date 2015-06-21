@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from flask_wtf import Form
-from wtforms import SelectField, StringField, BooleanField, SubmitField, \
+from wtforms import SelectField, StringField, BooleanField, \
     TextAreaField, FloatField, DateTimeField
 from wtforms.validators import DataRequired, Length, Optional, Regexp, \
     NumberRange
@@ -16,7 +16,6 @@ from catwatch.blueprints.billing.models.coupon import Coupon, Currency
 
 class SearchForm(Form):
     q = StringField(_('Search terms'), [Optional(), Length(1, 128)])
-    submit = SubmitField(_('Search'))
 
 
 class BulkDeleteForm(Form):
@@ -27,7 +26,6 @@ class BulkDeleteForm(Form):
 
     scope = SelectField(_('Privileges'), [DataRequired()],
                         choices=choices_from_dict(SCOPE, prepend_blank=False))
-    submit = SubmitField(_('Delete items'))
 
 
 class UserForm(ModelForm):
@@ -47,11 +45,10 @@ class UserForm(ModelForm):
                        choices=choices_from_dict(User.ROLE,
                                                  prepend_blank=False))
     active = BooleanField(_('Yes, allow this user to sign in'))
-    submit = SubmitField(_('Save'))
 
 
 class UserCancelSubscriptionForm(Form):
-    submit = SubmitField(_('Cancel subscription'))
+    pass
 
 
 class IssueForm(Form):
@@ -64,7 +61,6 @@ class IssueForm(Form):
     status = SelectField(_('What status is the issue in?'), [DataRequired()],
                          choices=choices_from_dict(Issue.STATUS,
                                                    prepend_blank=False))
-    submit = SubmitField(_('Save'))
 
 
 class CouponForm(Form):
@@ -89,8 +85,6 @@ class CouponForm(Form):
                                     NumberRange(min=1)])
     redeem_by = DateTimeField(_('Redeem by'), [Optional()],
                               format='%Y-%m-%d %H:%M:%S')
-
-    submit = SubmitField(_('Save'))
 
     def validate(self):
         if not Form.validate(self):

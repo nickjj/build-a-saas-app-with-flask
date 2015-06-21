@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import HiddenField, StringField, PasswordField, SubmitField
+from wtforms import HiddenField, StringField, PasswordField
 from wtforms.validators import DataRequired, Length, Optional, Regexp
 from wtforms_components import EmailField, Unique, Email
 from flask_babel import lazy_gettext as _
@@ -16,7 +16,6 @@ class LoginForm(Form):
                            [DataRequired(), Length(3, 254)])
     password = PasswordField('Password', [DataRequired(), Length(8, 128)])
     # remember = BooleanField(_('Stay signed in'))
-    submit = SubmitField(_('Sign in'))
 
 
 class BeginPasswordResetForm(Form):
@@ -25,13 +24,11 @@ class BeginPasswordResetForm(Form):
                             Length(3, 254),
                             ensure_identity_exists]
                            )
-    submit = SubmitField(_('Continue'))
 
 
 class PasswordResetForm(Form):
     reset_token = HiddenField()
     password = PasswordField(_('Password'), [DataRequired(), Length(8, 128)])
-    submit = SubmitField(_('Continue'))
 
 
 class SignupForm(ModelForm):
@@ -44,7 +41,6 @@ class SignupForm(ModelForm):
         )
     ])
     password = PasswordField(_('Password'), [DataRequired(), Length(8, 128)])
-    submit = SubmitField(_('Register'))
 
 
 class WelcomeForm(ModelForm):
@@ -59,7 +55,6 @@ class WelcomeForm(ModelForm):
         Length(1, 16),
         Regexp('^\w+$', message=username_message)
     ])
-    submit = SubmitField(_('Save'))
 
 
 class UpdateCredentials(ModelForm):
@@ -76,4 +71,3 @@ class UpdateCredentials(ModelForm):
                                       ensure_existing_password_matches]
                                      )
     password = PasswordField(_('Password'), [Optional(), Length(8, 128)])
-    submit = SubmitField(_('Save'))

@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, HiddenField, SubmitField
+from wtforms import StringField, HiddenField
 from wtforms.validators import DataRequired, Optional, Length
 from flask_babel import lazy_gettext as _
 
@@ -13,14 +13,12 @@ class CreditCardForm(Form):
                               [Optional(), Length(1, 254)])
     name = StringField(_('Name on card'),
                        [DataRequired(), Length(1, 254)])
-    submit = SubmitField(_('Process payment'))
 
 
 class UpdateSubscriptionForm(Form):
     coupon_code = StringField(_('Do you have a discount code?'),
                               [Optional(), Length(1, 254)])
-    submit = SubmitField(_('Change plan'))
 
 
 class CancelSubscriptionForm(Form):
-    submit = SubmitField(_('Cancel it'))
+    pass
