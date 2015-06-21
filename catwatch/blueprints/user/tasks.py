@@ -27,4 +27,4 @@ def deliver_password_reset_email(user_id, reset_token):
 
     send_template_message(subject=_('Password reset from Catwatch'),
                           recipients=[user.email],
-                          template='user/mail/password_reset', context=ctx)
+                          template='user/mail/password_reset', ctx=ctx)

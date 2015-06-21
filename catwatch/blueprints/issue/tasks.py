@@ -28,6 +28,6 @@ def deliver_support_email(issue_id):
                           sender=issue.email,
                           recipients=[celery.conf.get('MAIL_USERNAME', None)],
                           reply_to=issue.email,
-                          template='issue/mail/support', context=ctx)
+                          template='issue/mail/support', ctx=ctx)
 
     return None
