@@ -12,6 +12,7 @@ from flask_login import (
     logout_user)
 from flask_babel import gettext as _
 
+from catwatch.lib.safe_next_url import safe_next_url
 from catwatch.blueprints.user.decorators import anonymous_required
 from catwatch.blueprints.user.models import User
 from catwatch.blueprints.user.forms import (
@@ -29,7 +30,7 @@ user = Blueprint('user', __name__, template_folder='templates')
 @user.route('/login', methods=['GET', 'POST'])
 @anonymous_required()
 def login():
-    form = LoginForm()
+    form = LoginForm(next=request.args.get('next'))
 
     if form.validate_on_submit():
         u = User.find_by_identity(request.form.get('identity', None))
@@ -46,6 +47,12 @@ def login():
             # 3) Add a checkbox to the login form with the id/name 'remember'
             if login_user(u, remember=True):
                 u.update_activity_tracking(request.remote_addr)
+
+                # Handle optionally redirecting to the next URL safely.
+                next_url = request.form.get('next')
+                if next_url:
+                    return redirect(safe_next_url(next_url))
+
                 return redirect(url_for('user.settings'))
             else:
                 flash(_('This account has been disabled.'), 'error')
