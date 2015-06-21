@@ -181,3 +181,8 @@ __ https://github.com/nickjj/build-a-saas-app-with-flask/commit/9031114d3f0880e0
 
 .. |Flattr this git repo| image:: http://api.flattr.com/button/flattr-badge-large.png
    :target: https://flattr.com/submit/auto?user_id=nickjj&url=https://github.com/nickjj/build-a-saas-app-with-flask&title=Build+a+SAAS+app+with+Flask&language=Python&tags=github&category=software
+
+About the author
+^^^^^^^^^^^^^^^^
+
+- Nick Janetakis | `Website <http://nickjanetakis.com>`_ | `Twitter <https://twitter.com/nickjanetakis>`_ | `GitHub <https://github.com/nickjj>`_
