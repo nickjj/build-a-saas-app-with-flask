@@ -1,4 +1,16 @@
+import logging
+
 from catwatch.blueprints.user.models import User
+
+try:
+    from instance import settings
+    SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
+except ImportError:
+    logging.error('Your instance/ folder must contain an __init__.py file')
+    exit(1)
+except AttributeError:
+    from config import settings
+    SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
 
 
 def create_admin():
@@ -7,14 +19,12 @@ def create_admin():
 
     :return: User instance
     """
-    account_email = 'dev@localhost.com'
-
-    if User.find_by_identity(account_email) is not None:
+    if User.find_by_identity(SEED_ADMIN_EMAIL) is not None:
         return None
 
     params = {
         'role': 'admin',
-        'email': account_email,
+        'email': SEED_ADMIN_EMAIL,
         'password': 'password'
     }
 
@@ -28,3 +38,5 @@ def seed_database():
     :return: None
     """
     create_admin()
+
+    return None
