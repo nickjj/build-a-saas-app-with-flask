@@ -17,7 +17,7 @@
     {% endif %}
   {% else %}
     {% call f.form_tag('admin.issues_bulk_delete') %}
-      <table>
+      <table class="table table-striped">
         <thead>
         <tr>
           <th>
@@ -37,17 +37,19 @@
             {{ items.sort('email') }}
           </th>
           <th id="bulk_actions" colspan="4">
-            {{ f.field(bulk_form.scope, inline=True) }}
-            <button type="submit"
-                    class="rounded button--small button--primary">
-              Delete items
-            </button>
+            <div class="form-inline">
+              {{ f.field(bulk_form.scope, inline=True) }}
+              <button type="submit"
+                      class="btn btn-danger btn-sm">
+                Delete items
+              </button>
+            </div>
           </th>
         </tr>
         </thead>
         <tbody>
         {% for issue in issues.items %}
-          <tr class="{{ 'faded' if issue.status == 'closed' }}">
+          <tr class="{{ 'half-faded' if issue.status == 'closed' }}">
             <td>
               <label for="bulk_ids"></label>
               <input class="checkbox-item" id="bulk_ids" name="bulk_ids"
@@ -58,7 +60,7 @@
             <td>{{ issue.created_on.strftime('%B %d, %Y %I:%M %p') }}</td>
             <td>
               <a href="{{ url_for('admin.issues_edit', id=issue.id) }}">
-                <h5 class="medium admin--table-label">{{ issue.email }}</h5>
+                {{ issue.email }}
               </a>
             </td>
           </tr>

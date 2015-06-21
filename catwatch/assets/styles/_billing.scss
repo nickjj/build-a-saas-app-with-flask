@@ -1,0 +1,28 @@
+#coupon_code_status {
+  display: none;
+}
+
+.coupon-code {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px dashed #e1e1e1;
+
+  input {
+    margin-bottom: 5px;
+  }
+}
+
+.payment-errors {
+  display: none;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.cc-details {
+  width: 75px;
+}
+
+a.pricing--primary {
+  color: #fff;
+}
+

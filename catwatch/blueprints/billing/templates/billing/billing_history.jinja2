@@ -4,20 +4,20 @@
 {% block title %}Billing details and history{% endblock %}
 
 {% block body %}
-  <h2 class="bottom-margin">Subscription details</h2>
+  <h2>Subscription details</h2>
   {% if coupon %}
-    <div class="alert--info">
+    <div class="alert alert-info alert-small">
       Discount code <strong>{{ coupon.code }}</strong> is applied to your
       subscription.
     </div>
-    <span class="small">{{ billing.coupon_data(coupon) }}</span>
-    <br class="bottom-margin">
+    <span class="small text-muted">{{ billing.coupon_data(coupon) }}</span>
+    <br class="sm-margin-bottom">
   {% endif %}
   {% if upcoming == None %}
     <h3>No upcoming payments</h3>
     <p>You are not currently subscribed, so there's nothing to see here.</p>
   {% else %}
-    <table class="bottom-margin">
+    <table class="table table-striped margin-bottom">
       <thead>
       <tr>
         <th>Subscription</th>
@@ -33,18 +33,18 @@
         <td>{{ upcoming.next_bill_on }}</td>
         <td>
           ${{ upcoming.amount_due | format_currency }}
-          <span class="color--muted">/{{ upcoming.interval }}</span>
+          <span class="color--muted"> / {{ upcoming.interval }}</span>
         </td>
       </tr>
       </tbody>
     </table>
   {% endif %}
-  <h2 class="bottom-margin">Recent billing history</h2>
+  <h2>Recent billing history</h2>
   {% if invoices.count() == 0 %}
-    <h3>No invoices found</h3>
+    <h4>No invoices found</h4>
     <p>This isn't an error. You just haven't been invoiced yet.</p>
   {% else %}
-    <table class="xl-bottom-margin">
+    <table class="table table-striped margin-bottom">
       <thead>
       <tr>
         <th>Date</th>
@@ -72,8 +72,7 @@
       </tbody>
     </table>
   {% endif %}
-  <a href="{{ url_for('user.settings') }}"
-     class="top-margin button--primary pricing--primary">Go back to your
-    account</a>
+  <a href="{{ url_for('user.settings') }}" class="margin-top btn btn-primary">
+    Go back to your account</a>
 {% endblock %}
 

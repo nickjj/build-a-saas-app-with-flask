@@ -1,30 +1,31 @@
 {% macro status_icon_for(status) -%}
   {% if status == 'unread' %}
-    <i class="fa fa-2x fa-fw fa-exclamation" title="Unread"></i>
+    <i class="fa fa-2x fa-fw fa-exclamation text-warning" title="Unread"></i>
   {% elif status == 'open' %}
-    <i class="fa fa-2x fa-fw fa-ticket" title="Open"></i>
+    <i class="fa fa-2x fa-fw fa-ticket text-info" title="Open"></i>
   {% elif status == 'contacted' %}
-    <i class="fa fa-2x fa-fw fa-mail-reply" title="Contacted"></i>
+    <i class="fa fa-2x fa-fw fa-mail-reply text-success" title="Contacted"></i>
   {% else %}
-    <i class="fa fa-2x fa-fw fa-smile-o" title="Closed"></i>
+    <i class="fa fa-2x fa-fw fa-smile-o half-faded" title="Closed"></i>
   {% endif %}
 {% endmacro %}
 
+
 {% macro label_tag_for(label) -%}
   {% if label == 'login' %}
-    <span class="alert--info alert--small"
+    <span class="label label-info"
           title="{{ LABEL[label] }}">Login</span>
   {% elif label == 'signup' %}
-    <span class="alert--error alert--small"
+    <span class="label label-danger"
           title="{{ LABEL[label] }}">Sign up</span>
   {% elif label == 'billing' %}
-    <span class="alert--success alert--small" title="{{ LABEL[label] }}">Billing</span>
+    <span class="label label-success" title="{{ LABEL[label] }}">Billing</span>
   {% elif label == 'email' %}
-    <span class="alert--warn alert--small"
+    <span class="label label-warning"
           title="{{ LABEL[label] }}">E-mail</span>
   {% elif label == 'request' %}
-    <span class="alert--interesting alert--small" title="{{ LABEL[label] }}">Request</span>
+    <span class="label label-primary" title="{{ LABEL[label] }}">Request</span>
   {% else %}
-    <span class="alert alert--small" title="{{ LABEL[label] }}">Other</span>
+    <span class="label label-default" title="{{ LABEL[label] }}">Other</span>
   {% endif %}
 {% endmacro %}

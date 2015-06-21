@@ -13,9 +13,11 @@ class TestDashboard(ViewTestMixin):
         self.login()
         response = self.client.get(url_for('admin.dashboard'))
 
-        assert 'Billing stats' in response.data
-        assert 'User stats' in response.data
-        assert 'Issue stats' in response.data
+        assert 'Billing' in response.data
+        assert 'Subscriptions' in response.data
+        assert 'Coupons' in response.data
+        assert 'User' in response.data
+        assert 'Issue' in response.data
 
 
 class TestUsers(ViewTestMixin):

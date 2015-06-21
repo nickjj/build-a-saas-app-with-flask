@@ -2,27 +2,31 @@
 {% import 'macros/form.jinja2' as f with context %}
 
 {% block title %}Let's remedy any issues you may have{% endblock %}
+{% block meta_description %}When not out killing chipmunks or knocking glasses
+  off the table, our senior cat Harold answers requests in roughly 5
+  minutes.{% endblock %}
 
 {% block body %}
-  <div class="g--2 g--centered subsection-title">
-    <div class="login--background">
-      {% call f.form_tag('issue.support', class='clear') %}
-        <legend class="centered medium bottom-margin">We're here to help
-        </legend>
-        {{ form.label.label }}
-        {{ f.field(form.label) }}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 well">
+      {% call f.form_tag('issue.support') %}
+        <legend>We're here to help</legend>
 
-        {{ form.email.label }}
-        {{ f.field(form.email, placeholder='Email') }}
+        {% call f.form_group(form.label, css_class='margin-bottom') %}
+        {% endcall %}
 
-        {{ form.question.label }}
-        {{ f.field(form.question, placeholder='The more we know, the easier it will be to help you', rows='12') }}
+        {% call f.form_group(form.email, css_class='margin-bottom',
+                             placeholder='E-mail address') %}
+        {% endcall %}
 
-        <div class="g--half">
-          <button type="submit" class="full-width rounded button--primary">
-            Submit this support request
-          </button>
-        </div>
+        {% call f.form_group(form.question, css_class='margin-bottom',
+                             placeholder='The more we know, the easier it will be to help you',
+                             rows='12') %}
+        {% endcall %}
+
+        <button type="submit" class="btn btn-primary">
+          Submit this support request
+        </button>
       {% endcall %}
     </div>
   </div>

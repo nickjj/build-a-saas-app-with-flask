@@ -32,39 +32,44 @@
 {% macro paginate(pagination) -%}
   {% set args = request.args %}
 
-  <ul class="pagination list--reset">
-    {% if pagination.page != 1 %}
-      <li>
-        <a href="{{ url_for(request.endpoint, page=1, **args) }}">First &laquo;</a>
-      </li>
-    {% endif %}
-    {% if pagination.has_prev %}
-      <li>
-        <a href="{{ url_for(request.endpoint, page=pagination.page - 1, **args) }}">Prev</a>
-      </li>
-    {% endif %}
+  <ul class="pagination">
+    <li class="{{ 'disabled' if pagination.page == 1 }}">
+      <a href="{{ url_for(request.endpoint, page=1, **args) }}"
+         aria-label="First">
+        &laquo; First
+      </a>
+    </li>
+
+    <li class="{{ 'disabled' if not pagination.has_prev }}">
+      <a href="{{ url_for(request.endpoint, page=pagination.page - 1, **args) }}"
+         aria-label="Previous">
+        Prev
+      </a>
+    </li>
     {%- for page in pagination.iter_pages() %}
-      <li>
+      <li class="{{ 'active' if page and page == pagination.page }}">
         {% if page %}
           {% if page != pagination.page %}
             <a href="{{ url_for(request.endpoint, page=page, **args) }}">{{ page }}</a>
           {% else %}
-            <strong class="color--muted">{{ page }}</strong>
+            <span class="text-muted">{{ page }}</span>
           {% endif %}
         {% else %}
           <span class="ellipsis">…</span>
         {% endif %}
       </li>
     {%- endfor %}
-    {% if pagination.has_next %}
-      <li>
-        <a href="{{ url_for(request.endpoint, page=pagination.page + 1, **args) }}">Next</a>
-      </li>
-    {% endif %}
-    {% if pagination.page != pagination.pages %}
-      <li>
-        <a href="{{ url_for(request.endpoint, page=pagination.pages, **args) }}">Last &raquo;</a>
-      </li>
-    {% endif %}
+    <li class="{{ 'disabled' if not pagination.has_next }}">
+      <a href="{{ url_for(request.endpoint, page=pagination.page + 1, **args) }}"
+         aria-label="Next">
+        Next
+      </a>
+    </li>
+    <li class="{{ 'disabled' if pagination.page == pagination.pages }}">
+      <a href="{{ url_for(request.endpoint, page=pagination.pages, **args) }}"
+         aria-label="Last">
+        Last &raquo;
+      </a>
+    </li>
   </ul>
 {%- endmacro %}

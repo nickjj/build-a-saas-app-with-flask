@@ -4,41 +4,40 @@
 {% block title %}You are about to cancel your subscription{% endblock %}
 
 {% block body %}
-  <div class="g--half g--centered subsection-title">
-    <div class="login--background">
-      {% call f.form_tag('billing.cancel', class='clear') %}
-        <legend class="centered large">
-          Cancel subscription<br>
-        </legend>
-
-        <p>Hi {{ current_user.name }},<br>
-          Before you cancel your account, please review what will happen:
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4 well">
+      {% call f.form_tag('billing.cancel') %}
+        <legend>Cancel subscription</legend>
+        <p class="small help-block sm-margin-bottom">
+          <strong>Hi {{ current_user.name }}</strong>,<br>
+          Before you cancel your account, please read the following:
         </p>
-        <ul class="list--disc small">
+
+        <ul class="margin-bottom">
           <li>You will no longer be billed</li>
           <li>You will lose access to the live stream</li>
           <li>Your account <strong>will</strong> remain open</li>
           <li>You may subscribe again in the future</li>
         </ul>
 
-        <div class="alert--error payment-errors"></div>
-        <hr>
-        <div class="g--half">
-          <button type="submit" class="full-width rounded button--danger">
-            <img src="{{ asset_url_for('images/spinner.gif') }}"
-                 class="spinner"
-                 width="16" height="11" alt="Spinner"/>
-            Cancel it
-          </button>
-        </div>
-        <div class="g--half g--last">
-          <a href="{{ url_for('user.settings') }}"
-             class="login--register full-width rounded button--secondary">
-            Nevermind
-          </a>
+        <div class="row">
+          <div class="col-md-6">
+            <button type="submit" class="btn btn-danger btn-block">
+              <img src="{{ asset_url_for('images/spinner.gif') }}"
+                   class="spinner"
+                   width="16" height="11" alt="Spinner"/>
+              Cancel it
+            </button>
+          </div>
+          <div class="col-md-6">
+            <div class="visible-xs visible-sm sm-margin-top"></div>
+            <a href="{{ url_for('user.settings') }}"
+               class="btn btn-default btn-block">
+              Nevermind
+            </a>
+          </div>
         </div>
       {% endcall %}
     </div>
   </div>
-
 {% endblock %}

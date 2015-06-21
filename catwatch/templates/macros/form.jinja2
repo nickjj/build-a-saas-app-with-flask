@@ -1,38 +1,80 @@
-{% macro field(field, inline=False) -%}
-  {% if inline %}
-    {% set class = 'inline' %}
-  {% else %}
-    {% set class = '' %}
+{# Render a form field's label with visual aid to see if it's required. #}
+{%- macro field_label(field) -%}
+  <label for="{{ field.id }}">
+    {%- if field.flags.required -%}
+      <strong>{{ field.label.text }}</strong>
+    {%- else %}
+      {{ field.label.text }}
+    {%- endif %}
+  </label>
+{%- endmacro -%}
+
+
+{# Render a form field's errors. #}
+{%- macro field_errors(f) -%}
+  {% if f.errors %}
+    <ul class="list-unstyled text-danger field-error">
+      {% for error in f.errors %}
+        <li>{{ error | e }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{%- endmacro -%}
+
+
+{# Render a form field. #}
+{%- macro field(f, css_class='form-control') -%}
+  {{ f(class=css_class, **kwargs) }}
+{%- endmacro -%}
+
+
+{# Render a checkbox field. #}
+{%- macro checkbox_field(f) -%}
+  {{ f(type='checkbox', **kwargs) }} {{ f.label }}
+{%- endmacro -%}
+
+
+{# Render a Bootstrap 3 form group with errors for various field types. #}
+{%- macro form_group(f, css_class='') -%}
+  {% if f.errors %}
+    {% set css_class = css_class + ' has-error ' + kwargs.pop('class', '') %}
   {% endif %}
 
-  <div class="form-field {{ class }}">
-    {% if field.errors %}
-      {% set css_class = 'has-error ' + kwargs.pop('class', '') %}
-      {{ field(class=css_class, **kwargs) }}
-      <ul class="form-errors list--reset list-small">
-        {% for error in field.errors %}
-          <li>{{ error | e }}</li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      {{ field(**kwargs) }}
-    {% endif %}
-  </div>
+  {% if f.type == 'BooleanField' %}
+    <div class="checkbox {{ css_class }}">
+    {{ checkbox_field(f, **kwargs) }}
+  {% else %}
+    <div class="form-group {{ css_class }}">
+    {{ field_label(f) }}
+    {{ field(f, **kwargs) }}
+  {% endif %}
+{{ field_errors(f) }}
+{{ caller () }}
+</div>
 {%- endmacro %}
 
-{% macro form_tag(endpoint, fid='', class='', method='post') -%}
+
+{# Render a form tag that contains a CSRF token and all hidden fields. #}
+{%- macro form_tag(endpoint, fid='', class='', method='post') -%}
   <form action="{{ url_for(endpoint, **kwargs) }}" method="{{ method }}"
         id="{{ fid }}" class="{{ class }}" role="form">
     {{ form.hidden_tag() }}
     {{ caller () }}
   </form>
-{%- endmacro %}
+{%- endmacro -%}
 
-{% macro search(endpoint) -%}
+
+{# Render a form for searching. #}
+{%- macro search(endpoint) -%}
   {% call form_tag(endpoint, class='top-margin', method='get') %}
     <label for="q"></label>
-    <input type="text"
-           id="q" name="q" value="{{ request.args.get('q', '') }}"
-           placeholder="Search by typing, then press enter...">
+    <div class="input-group sm-margin-bottom">
+      <input type="text" class="form-control"
+             id="q" name="q" value="{{ request.args.get('q', '') }}"
+             placeholder="Search by typing, then press enter...">
+      <span class="input-group-addon">
+        <i class="fa fa-fw fa-search"></i>
+      </span>
+    </div>
   {% endcall %}
-{%- endmacro %}
+{%- endmacro -%}

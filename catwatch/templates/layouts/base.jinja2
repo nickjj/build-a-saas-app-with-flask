@@ -1,95 +1,47 @@
+{% import 'macros/layout/meta_tags.jinja2' as meta_tags %}
+{% import 'macros/layout/fav_icons.jinja2' as fav_icons %}
+{% import 'macros/layout/assets.jinja2' as assets with context %}
+{% import 'billing/macros/billing.jinja2' as billing with context %}
+{% import 'macros/layout/flash.jinja2' as flash with context %}
+
 <!doctype html>
 <html lang="">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description"
-        content="{% block meta_description %}{% endblock %}">
   <title>{% block title %}{% endblock %}</title>
+  {{ meta_tags.render(csrf_token()) }}
+  {{ fav_icons.render(self.title()) }}
 
-  <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="{{ self.title() }}">
-  <meta name="theme-color" content="#3372DF">
-  <link rel="icon" sizes="192x192" href="chrome-touch-icon-192x192.png">
-
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="{{ self.title() }}">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-  <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage"
-        content="ms-touch-icon-144x144-precomposed.png">
-  <meta name="msapplication-TileColor" content="#3372DF">
-
-  <!-- Default icon -->
-  <link href="favicon.ico" rel="icon" type="image/x-icon"/>
-  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
-
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-
-  <!-- Static assets -->
-  {{ stylesheet_tag('app_css') | safe }}
-  <link
-      href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,700,700italic,300,400italic'
-      rel='stylesheet' type='text/css'>
-
-  <script
-      src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.17/rome.min.js"></script>
-  {% if request.endpoint in ('billing.create', 'billing.update', 'billing.cancel', 'billing.update_payment_method') %}
-    <script src="https://js.stripe.com/v2/"></script>
-  {% endif %}
-
-  {% if request.endpoint == 'stream.live_stream' %}
-    <script id="faye" data-faye-public-url="{{ faye.public_url }}"
-            src="{{ faye.public_url }}/client.js"></script>
-  {% endif %}
+  {{ assets.render() }}
+  {{ assets.polyfills() }}
 </head>
 <body>
-{% if current_user.role == 'admin' %}
-  {% include 'admin/_topbar.jinja2' %}
-{% endif %}
-
 {% block header %}{% endblock %}
 
-{% if current_user.is_authenticated() and current_user.subscription and current_user.credit_card.is_expiring %}
-  {% include 'billing/_expiring_soon.jinja2' with context %}
-{% endif %}
+{{ billing.card_expiring_warning() }}
 
-<main>
-  {% block flash_message %}
-    {% with messages = get_flashed_messages(with_categories=True) %}
-      {% if messages %}
-        <div id='flash-messages' class="top-margin">
-          {% for category, msg in messages %}
-            <div class="alert--{{ category }}">
-              {{ msg }}
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-  {% endblock %}
+{% block hero %}{% endblock %}
 
-  {% block container %}
-    {% block heading %}{% endblock %}
-    {% block body %}{% endblock %}
-  {% endblock %}
+<main class="container">
+  {{ flash.render() }}
+
+  {% block heading %}{% endblock %}
+  {% block body %}{% endblock %}
 </main>
 
-<footer>
-  <hr/>
-  <ul class="login--footer list-centered small color--muted">
-    <li>{{ _('Cat watch') }} &copy; 2015</li>
-    {% block footer %}{% endblock %}
-  </ul>
+<footer class="footer text-center">
+  <div class="container">
+    <ul class="list-inline">
+      <li class="text-muted">{{ _('Cat watch') }} &copy; 2015</li>
+      {% block footer %}{% endblock %}
+      {% if current_user.role == 'admin' %}
+        <li>
+          {% include 'admin/_menu.jinja2' %}
+        </li>
+      {% endif %}
+    </ul>
+  </div>
 </footer>
 
-{{ javascript_tag('app_js') | safe }}
+{{ javascript_tag('vendor_js', 'app_js') | safe }}
 </body>
 </html>

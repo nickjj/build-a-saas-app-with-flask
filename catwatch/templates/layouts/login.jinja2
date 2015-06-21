@@ -1,11 +1,13 @@
-{% extends 'layouts/base.jinja2' %}
+<div class="container">
+  {% extends 'layouts/base.jinja2' %}
+</div>
 
 {% block heading %}
-  <h2 class="bottom-margin centered">
-    <a href="{{ url_for('page.home') }}" class="login--header">
-      {{ _('Cat watch') }}
+    <a href="{{ url_for('page.home') }}">
+      <img src="{{ asset_url_for('images/cat-watch.png') }}"
+           class="img-responsive center-block margin-bottom"
+           width="229" height="50" title="Cat Watch" alt="Cat Watch"/>
     </a>
-  </h2>
 {% endblock %}
 
 {% block footer %}

@@ -1,52 +1,59 @@
 {% extends 'layouts/app.jinja2' %}
 
 {% block title %}Join thousands of others who enjoy cat gossip{% endblock %}
+{% block meta_description %}There's a number of folks out there who appreciate
+  cats. Listen to millions of people tweet about cats.{% endblock %}
 
-{% block body %}
-  <div class="clear">
-    <div
-        class="highlight-module highlight-module--code">
-      <div class="highlight-module__container">
-        <div
-            class="highlight-module__content ">
-          <p class="highlight-module__title">Real time cat stream</p>
+{% block hero %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Real time cat stream</h1>
 
-          <p class="highlight-module__text">
-            Because <strong>life without</strong> real time access to <strong>tweets
-            about cats</strong> would be <strong>ridiculous</strong>.
-          </p>
-        </div>
-      </div>
-    </div>
-    <section class="styleguide__centered-list">
-      <ul class="list-guides-intro list-centered list-reset clear">
-        <li class="g-medium--half g-wide--1 theme--multi-device-layouts">
-          <h3 class="themed">Real time</h3>
+      <p>Because <strong>life without</strong> real time access to <strong>tweets
+        about cats</strong> would be <strong>ridiculous</strong>.</p>
 
-          <p>Let's be serious now, it is real time.</p>
-        </li>
-        <li class="g-medium--half g-wide--1 theme--user-input">
-          <h3 class="themed">Stay updated</h3>
-
-          <p>Never miss a tweet about cats again.</p>
-        </li>
-        <li class="g-medium--half g-wide--1 theme--introduction-to-media g-medium--last">
-          <h3 class="themed">Incredible</h3>
-
-          <p>You've never seen anything like this.</p>
-        </li>
-        <li class="g-medium--half g-wide--1 theme--performance g-medium--last g-wide--last">
-          <h3 class="themed">Is this real life?</h3>
-
-          <p>You bet it is, hurry up and <a href="{{ url_for('user.signup') }}">sign
-            up</a>!</p>
-        </li>
-      </ul>
-    </section>
-    <div class="centered">
-      <a href="{{ url_for('user.signup') }}"
-         class="xxlarge button--secondary-variation">Sign up TODAY!</a>
+      <p class="margin-top">
+        <a class="btn btn-primary btn-lg" href="{{ url_for('user.signup') }}"
+           role="button">Sign up
+          today &raquo;</a>
+      </p>
     </div>
   </div>
+{% endblock %}
 
+{% block body %}
+  <div class="container marketing">
+    <div class="row">
+      <div class="col-lg-4">
+        <i class="fa fa-fw fa-4x fa-wifi text-info"></i>
+
+        <h2>Real time</h2>
+
+        <p class="text-muted">Let's be serious now, it is real time.</p>
+
+        <p><a class="btn btn-default" href="{{ url_for('user.signup') }}"
+              role="button">Sign up &raquo;</a></p>
+      </div>
+      <div class="col-lg-4">
+        <i class="fa fa-fw fa-4x fa-bolt text-info"></i>
+
+        <h2>Stay updated</h2>
+
+        <p class="text-muted">Never miss a tweet about cats again.</p>
+
+        <p><a class="btn btn-default" href="{{ url_for('user.signup') }}"
+              role="button">Sign up &raquo;</a></p>
+      </div>
+      <div class="col-lg-4">
+        <i class="fa fa-fw fa-4x fa-bed text-info"></i>
+
+        <h2>Am I dreaming?</h2>
+
+        <p class="text-muted">Nope, this is real life!</p>
+
+        <p><a class="btn btn-default" href="{{ url_for('user.signup') }}"
+              role="button">Sign up &raquo;</a></p>
+      </div>
+    </div>
+  </div>
 {% endblock %}

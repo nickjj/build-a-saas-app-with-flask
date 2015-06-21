@@ -8,7 +8,7 @@ class BulkDelete {
         this.checkedItems = '.checkbox-item';
 
         this.colHeader = '.col-header';
-        this.selectedRow = 'selected-row';
+        this.selectedRow = 'warning';
 
         this.updateScope = '#scope';
         this.bulkActions = '#bulk_actions';

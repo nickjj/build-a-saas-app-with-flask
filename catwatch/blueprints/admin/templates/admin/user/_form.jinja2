@@ -12,86 +12,99 @@
   {% set button = 'Save' %}
 {% endif %}
 
-<div class="clear subsection-title">
-  <div class="g--half">
-    <div class="login--background">
-      {% call f.form_tag(endpoint, class='clear', **form_kwargs) %}
-        <legend class="centered large bottom-margin">{{ legend }}</legend>
-        <label for="">Created on</label>
-        <h5 class="bottom-margin">
-          {{ user.created_on.strftime('%B %d, %Y %I:%M %p') }}
-        </h5>
+<div class="row">
+  {% call f.form_tag(endpoint, **form_kwargs) %}
+    <div class="col-md-5 well">
+      <legend>{{ legend }}</legend>
+      <label for="">Created on</label>
+      <h5 class="sm-margin-bottom text-muted">
+        {{ user.created_on.strftime('%B %d, %Y %I:%M %p') }}
+      </h5>
+      <label for="">E-mail address</label>
+      <h5 class="sm-margin-bottom text-muted">
+        {{ user.email }}
+      </h5>
 
-        <label for="">E-mail address</label>
-        <h5 class="bottom-margin">{{ user.email }}</h5>
+      {% call f.form_group(form.username, css_class='sm-margin-bottom',
+                           autofocus='autofocus') %}
+      {% endcall %}
 
-        {{ form.username.label }}
-        {{ f.field(form.username, autofocus='autofocus') }}
+      {% call f.form_group(form.role, css_class='sm-margin-bottom') %}
+      {% endcall %}
 
-        {{ form.name.label }}
-        {{ f.field(form.name) }}
+      {% call f.form_group(form.active) %}
+      {% endcall %}
 
-        {{ form.role.label }}
-        {{ f.field(form.role) }}
-
-        {{ f.field(form.active, inline=True) }}
-        {{ form.active.label }}
-        <hr>
-        <div class="g--half">
-          <button type="submit" class="full-width rounded button--primary">
+      <hr>
+      <div class="row">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary btn-block">
             {{ button }}
           </button>
         </div>
-        <div class="g--half g--last">
+        <div class="col-md-6">
+          <div class="visible-xs visible-sm sm-margin-top"></div>
           <a href="{{ url_for('admin.users') }}"
-             class="login--register full-width rounded button--secondary">
+             class="btn btn-default btn-block">
             Cancel
           </a>
         </div>
-      {% endcall %}
+      </div>
     </div>
-  </div>
-  <div class="g--half g--last">
-    <h3>Subscription details</h3>
-    <dl>
-      {% if user.subscription and user.credit_card %}
-        <dt><strong>Plan</strong></dt>
-        <dd class="no-margin bottom-margin">
-          {{ user.subscription.plan | title }}
-          {% if user.subscription.coupon %}
-            <span class="small color--muted">
+    <div class="col-md-5 col-md-push-1 col-md-offset-1">
+      <h3>Subscription details</h3>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <dl>
+            {% if user.subscription and user.credit_card %}
+              <dt>Plan</dt>
+              <dd class="sm-margin-bottom">
+                {{ user.subscription.plan | title }}
+                {% if user.subscription.coupon %}
+                  <span class="small text-muted">
               (code: {{ user.subscription.coupon }})
             </span>
-          {% endif %}
-        </dd>
-        <dt><strong>Credit card</strong></dt>
-        <dd class="no-margin bottom-margin">
-          {{ user.credit_card.brand }} ****{{ user.credit_card.last4 }}
-          ({{ user.credit_card.exp_date.strftime('%m/%Y') }})
-        </dd>
-        {% call f.form_tag('admin.users_cancel_subscription', class='clear') %}
-          <input type="hidden" id="id" name="id" value="{{ user.id }}"/>
-          <button type="submit" class="rounded button--danger">
-            Cancel subscription
-          </button>
-        {% endcall %}
-      {% else %}
-        <dt><strong>Cancelled on</strong></dt>
-        <dd class="no-margin bottom-margin">{{ user.cancelled_subscription_on.strftime('%B %d, %Y %I:%M %p') if user.cancelled_subscription_on else 'None' }}</dd>
-      {% endif %}
-    </dl>
-    <h3>Login activity</h3>
-    <dl>
-      <dt><strong>Sign in count</strong></dt>
-      <dd class="no-margin bottom-margin">{{ user.sign_in_count }}</dd>
-      <dt><strong>Current sign in date</strong></dt>
-      <dd class="no-margin bottom-margin">{{ user.current_sign_in_on.strftime('%B %d, %Y %I:%M %p') if user.current_sign_in_on else 'None' }}</dd>
-      <dt><strong>Current sign in IP address</strong></dt>
-      <dd class="no-margin bottom-margin">{{ user.current_sign_in_ip }}</dd>
-      <dt><strong>Previous sign in date</strong></dt>
-      <dd class="no-margin bottom-margin">{{ user.last_sign_in_on.strftime('%B %d, %Y %I:%M %p') if user.last_sign_in_on else 'None' }}</dd>
-      <dt><strong>Previous sign in IP address</strong></dt>
-      <dd class="no-margin bottom-margin">{{ user.last_sign_in_ip }}</dd>
-    </dl>
-  </div>
+                {% endif %}
+              </dd>
+              <dt>Credit card</dt>
+              <dd class="sm-margin-bottom">
+                {{ user.credit_card.brand }} ****{{ user.credit_card.last4 }}
+                ({{ user.credit_card.exp_date.strftime('%m/%Y') }})
+              </dd>
+              {% call f.form_tag('admin.users_cancel_subscription') %}
+                <input type="hidden" id="id" name="id" value="{{ user.id }}"/>
+                <button type="submit" class="btn btn-danger">
+                  Cancel subscription
+                </button>
+              {% endcall %}
+            {% else %}
+              <dt>Cancelled on</dt>
+              <dd>
+                {{ user.cancelled_subscription_on.strftime('%B %d, %Y %I:%M %p') if user.cancelled_subscription_on else 'None' }}
+              </dd>
+            {% endif %}
+          </dl>
+        </div>
+      </div>
+      <h3>Login activity</h3>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <dl>
+            <dt>Sign in count</dt>
+            <dd class="sm-margin-bottom">{{ user.sign_in_count }}</dd>
+            <dt>Current sign in date</dt>
+            <dd class="sm-margin-bottom">{{ user.current_sign_in_on.strftime('%B %d, %Y %I:%M %p') if user.current_sign_in_on else 'None' }}</dd>
+            <dt>Current sign in IP address</dt>
+            <dd class="sm-margin-bottom">{{ user.current_sign_in_ip }}</dd>
+            <dt>Previous sign in date</dt>
+            <dd class="sm-margin-bottom">{{ user.last_sign_in_on.strftime('%B %d, %Y %I:%M %p') if user.last_sign_in_on else 'None' }}</dd>
+            <dt>Previous sign in IP address</dt>
+            <dd>{{ user.last_sign_in_ip }}</dd>
+          </dl
+        </div>
+      </div>
+    </div>
+  {% endcall %}
 </div>

@@ -14,8 +14,15 @@ class Dashboard(object):
         :return: List of results
         """
         count = func.count(Subscription.plan)
-        return db.session.query(count, Subscription.plan).group_by(
+        query = db.session.query(count, Subscription.plan).group_by(
             Subscription.plan).all()
+
+        results = {
+            'query': query,
+            'total': Subscription.query.count()
+        }
+
+        return results
 
     @classmethod
     def group_and_count_coupons(cls):
@@ -43,7 +50,14 @@ class Dashboard(object):
         :return: List of results
         """
         count = func.count(User.role)
-        return db.session.query(count, User.role).group_by(User.role).all()
+        query = db.session.query(count, User.role).group_by(User.role).all()
+
+        results = {
+            'query': query,
+            'total': User.query.count()
+        }
+
+        return results
 
     @classmethod
     def group_and_count_issues(cls):
@@ -53,5 +67,12 @@ class Dashboard(object):
         :return: List of results
         """
         count = func.count(Issue.status)
-        return db.session.query(count, Issue.status).group_by(
+        query = db.session.query(count, Issue.status).group_by(
             Issue.status).all()
+
+        results = {
+            'query': query,
+            'total': Issue.query.count()
+        }
+
+        return results

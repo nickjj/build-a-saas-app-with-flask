@@ -18,7 +18,7 @@
     {% endif %}
   {% else %}
     {% call f.form_tag('admin.users_bulk_delete') %}
-      <table>
+      <table class="table table-striped">
         <thead>
         <tr>
           <th>
@@ -35,11 +35,13 @@
             {{ items.sort('sign_in_count', 'Sign in count') }}
           </th>
           <th id="bulk_actions" colspan="3">
-            {{ f.field(bulk_form.scope, inline=True) }}
-            <button type="submit"
-                    class="rounded button--small button--primary">
-              Delete items
-            </button>
+            <div class="form-inline">
+              {{ f.field(bulk_form.scope, inline=True) }}
+              <button type="submit"
+                      class="btn btn-danger btn-sm">
+                Delete items
+              </button>
+            </div>
           </th>
         </tr>
         </thead>
@@ -52,13 +54,13 @@
                      type="checkbox" value="{{ user.id }}">
             </td>
             <td>
-              {{ account.role_icon_for(user) }}
               <a href="{{ url_for('admin.users_edit', id=user.id) }}">
-                <h5 class="medium admin--table-label">{{ user.name }}</h5>
+                <div class="pull-left">
+                  {{ account.role_icon_for(user) }}
+                </div>
+                <h4 class="media-heading">{{ user.name }}</h4>
 
-                <p class="small color--muted admin--table--sublabel">
-                  {{ user.email }}
-                </p>
+                <p class="text-muted">{{ user.email }}</p>
               </a>
             </td>
             <td>

@@ -1,0 +1,37 @@
+#duration-in-months {
+  display: none;
+}
+
+#bulk_actions {
+  display: none;
+  padding-bottom: 8px;
+}
+
+#scope {
+  margin-bottom: 0;
+  width: 160px;
+  height: 29px;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.sort:after {
+  content: '\f0dc';
+  font-family: FontAwesome;
+  margin-left: 6px;
+  color: #BBB;
+}
+
+.asc:after {
+  content: '\f0dd';
+  font-family: FontAwesome;
+  margin-left: 6px;
+  color: #444;
+}
+
+.desc:after {
+  content: '\f0de';
+  font-family: FontAwesome;
+  margin-left: 6px;
+  color: #444;
+}

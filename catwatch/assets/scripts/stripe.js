@@ -68,7 +68,7 @@ var stripe = function () {
 
     var protectAgainstInvalidCoupon = function (coupon, couponStatus) {
         if (couponStatus.is(':visible')
-            && !couponStatus.hasClass('alert--success')) {
+            && !couponStatus.hasClass('alert-success')) {
             coupon.select();
             return false;
         }
@@ -85,7 +85,7 @@ var stripe = function () {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-CSRFToken', csrfToken);
                 return $couponCodeStatus.text('')
-                    .removeClass('alert--success alert--warn alert--error').hide();
+                    .removeClass('alert-success alert-warning alert-error').hide();
             }
         }).done(function (data, status, xhr) {
             var code = xhr.responseJSON.data;
@@ -94,12 +94,12 @@ var stripe = function () {
             var duration = discountDuration(code.duration,
                 code.duration_in_months);
 
-            return $couponCodeStatus.addClass('alert--success')
+            return $couponCodeStatus.addClass('alert-success')
                 .text(`${amount} ${duration}`);
         }).fail(function (xhr, status, error) {
-            var status_class = 'alert--error';
+            var status_class = 'alert-error';
             if (xhr.status === 404) {
-                status_class = 'alert--warn';
+                status_class = 'alert-warning';
             }
 
             return $couponCodeStatus.addClass(status_class)

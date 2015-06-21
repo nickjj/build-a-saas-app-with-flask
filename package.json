@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node_modules/.bin/webpack-dev-server --config config/webpack.config.js --progress --colors --port 2992 --content-base build/public",
+    "start": "node_modules/.bin/webpack-dev-server --config config/webpack.config.js --devtool eval --progress --colors --port 2992 --content-base build/public",
     "build": "node_modules/.bin/webpack --config config/webpack.config.js --progress --profile --colors"
   },
   "dependencies": {

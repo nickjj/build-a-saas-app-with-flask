@@ -12,59 +12,62 @@
   {% set button = 'Save' %}
 {% endif %}
 
-<div class="g--half g--centered subsection-title">
-  <div class="login--background">
-    {% call f.form_tag(endpoint, class='clear', **form_kwargs) %}
-      <legend class="centered medium bottom-margin">{{ legend }}</legend>
-
-      <p class="small color--blue">
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 well">
+    {% call f.form_tag(endpoint, **form_kwargs) %}
+      <legend>{{ legend }}</legend>
+      <p class="small text-muted">
         You may pick either a percent <strong>or</strong> amount off.
       </p>
 
-      <div class="g--half">
-        {{ form.percent_off.label }} <span
-          class="small color--muted">(%)</span>
-        {{ f.field(form.percent_off) }}
+      <div class="row margin-bottom">
+        <div class="col-md-6">
+          {% call f.form_group(form.percent_off) %}
+          {% endcall %}
+        </div>
+        <div class="col-md-6">
+          {% call f.form_group(form.amount_off) %}
+          {% endcall %}
+        </div>
       </div>
-      <div class="g--half g--last">
-        {{ form.amount_off.label }} <span
-          class="small color--muted">($)</span>
-        {{ f.field(form.amount_off) }}
-      </div>
 
-      {{ form.code.label }}
-      {{ f.field(form.code) }}
+      {% call f.form_group(form.code, css_class='sm-margin-bottom') %}
+      {% endcall %}
 
-      {{ form.currency.label }}
-      {{ f.field(form.currency) }}
+      {% call f.form_group(form.currency, css_class='sm-margin-bottom') %}
+      {% endcall %}
 
-      {{ form.duration.label }}
-      {{ f.field(form.duration) }}
+      {% call f.form_group(form.duration, css_class='sm-margin-bottom') %}
+      {% endcall %}
 
       <div id="duration-in-months">
-        {{ form.duration_in_months.label }}
-        {{ f.field(form.duration_in_months) }}
+        {% call f.form_group(form.duration_in_months, css_class='sm-margin-bottom') %}
+        {% endcall %}
       </div>
 
-      {{ form.max_redemptions.label(class='faded') }}
-      {{ f.field(form.max_redemptions) }}
+      {% call f.form_group(form.max_redemptions, css_class='sm-margin-bottom') %}
+      {% endcall %}
 
-      {{ form.redeem_by.label(class='faded') }}
-      {{ f.field(form.redeem_by, class='input') }}
+      {% call f.form_group(form.redeem_by) %}
+      {% endcall %}
+
       <hr>
-      <div class="g--half">
-        <button type="submit" class="full-width rounded button--primary">
-          <img src="{{ asset_url_for('images/spinner.gif') }}"
-               class="spinner"
-               width="16" height="11" alt="Spinner"/>
-          {{ button }}
-        </button>
-      </div>
-      <div class="g--half g--last">
-        <a href="{{ url_for('admin.coupons') }}"
-           class="login--register full-width rounded button--secondary">
-          Cancel
-        </a>
+      <div class="row">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary btn-block">
+            <img src="{{ asset_url_for('images/spinner.gif') }}"
+                 class="spinner"
+                 width="16" height="11" alt="Spinner"/>
+            {{ button }}
+          </button>
+        </div>
+        <div class="col-md-6">
+          <div class="visible-xs visible-sm sm-margin-top"></div>
+          <a href="{{ url_for('admin.coupons') }}"
+             class="btn btn-default btn-block">
+            Cancel
+          </a>
+        </div>
       </div>
     {% endcall %}
   </div>

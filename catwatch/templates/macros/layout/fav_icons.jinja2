@@ -1,0 +1,23 @@
+{# Render favorite icons for many different devices and sizes. #}
+{%- macro render(title) -%}
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="{{ title }}">
+  <meta name="theme-color" content="#286090">
+  <link rel="icon" sizes="192x192" href="chrome-touch-icon-192x192.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="{{ title }}">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Tile icon for Windows 8 -->
+  <meta name="msapplication-TileImage"
+        content="ms-touch-icon-144x144-precomposed.png">
+  <meta name="msapplication-TileColor" content="#286090">
+
+  <!-- Default icon -->
+  <link href="favicon.ico" rel="icon" type="image/x-icon"/>
+  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+{%- endmacro -%}

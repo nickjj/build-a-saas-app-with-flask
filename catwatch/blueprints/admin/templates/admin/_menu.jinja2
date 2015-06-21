@@ -1,0 +1,15 @@
+<div class="dropup">
+  <button class="btn btn-default dropdown-toggle" type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+    Admin
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+    <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="{{ url_for('admin.users') }}">Users</a></li>
+    <li><a href="{{ url_for('admin.issues') }}">Issues</a></li>
+    <li><a href="{{ url_for('admin.coupons') }}">Coupons</a></li>
+  </ul>
+</div>

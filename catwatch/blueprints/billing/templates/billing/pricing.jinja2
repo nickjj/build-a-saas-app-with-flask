@@ -3,71 +3,67 @@
 {% import 'billing/macros/billing.jinja2' as billing with context %}
 
 {% block title %}You can't put a price on {{ _('Cat watch') }}{% endblock %}
+{% block meta_description %}Sign up today to subscribe to the coolest cat
+  tweeting service ever created in the history of the universe.{% endblock %}
+
 {% block heading %}
   {% if current_user.subscription %}
-    <h2 class="centered bottom-margin">You're about to change plans</h2>
-    <div class="alert--warn centered bottom-margin">
+    <h2 class="text-center">You're about to change plans</h2>
+    <div class="alert alert-warning text-center margin-bottom">
       Your plan will change <strong>immediately</strong> after clicking 'Change
       plan'.
     </div>
   {% else %}
-    <h2 class="centered">You're moments away</h2>
-    <h3 class="centered bottom-margin color--muted">
+    <h2 class="text-center">You're moments away</h2>
+    <h3 class="text-center text-muted lg-margin-bottom">
       Just a few more clicks or taps before it's cat tweet time
     </h3>
   {% endif %}
 {% endblock %}
 
 {% block body %}
-  {% call f.form_tag('billing.update', class='clear') %}
+  {% call f.form_tag('billing.update', class='text-center') %}
     {% if current_user.subscription %}
-    <div class="coupon-code">
-      {{ form.coupon_code.label }}
-      {{ f.field(form.coupon_code) }}
-      <div id="coupon_code_status"
-           class="small alert--small alert--success">
+      <div class="lg-margin-bottom">
+        <div class="coupon-code">
+          {{ form.coupon_code.label }}
+          {{ f.field(form.coupon_code) }}
+          <div id="coupon_code_status"
+               class="small alert alert-small alert-success">
+          </div>
+        </div>
       </div>
-    </div>
     {% endif %}
-    <div class="clear subsection-title centered">
+    <div class="row">
       {% call billing.plan(plans['0']) %}
-        <dl>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin strike">Dicta optio cumque dolore</dd>
-          <dd class="no-margin strike">Dicta optio cumque dolor</dd>
-          <dd class="no-margin strike">Dicta optio cumque dolor</dd>
-          <dd class="no-margin strike">Consequuntur voluptatum</dd>
-          <dd class="no-margin strike">Consequuntur voluptatum</dd>
-          <dd class="no-margin strike">Consequuntur voluptatum</dd>
-        </dl>
+        <ul class="list-group list-group-flush text-center">
+          <li class="list-group-item">Lorem ipsum dolor sit amet</li>
+          <li class="list-group-item">Lorem ipsum dolor sit amet</li>
+          <li class="list-group-item strike">Dicta optio cumque dolore</li>
+          <li class="list-group-item strike">Dicta optio cumque dolore</li>
+          <li class="list-group-item strike">Consequuntur voluptatum</li>
+          <li class="list-group-item strike">Consequuntur voluptatum</li>
+        </ul>
       {% endcall %}
       {% call billing.plan(plans['1']) %}
-        <dl>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin">Dicta optio cumque dolore</dd>
-          <dd class="no-margin">Dicta optio cumque dolor</dd>
-          <dd class="no-margin">Dicta optio cumque dolor</dd>
-          <dd class="no-margin strike">Consequuntur voluptatum</dd>
-          <dd class="no-margin strike">Consequuntur voluptatum</dd>
-          <dd class="no-margin strike">Consequuntur voluptatum</dd>
-        </dl>
+        <ul class="list-group list-group-flush text-center">
+          <li class="list-group-item">Lorem ipsum dolor sit amet</li>
+          <li class="list-group-item">Lorem ipsum dolor sit amet</li>
+          <li class="list-group-item">Dicta optio cumque dolore</li>
+          <li class="list-group-item">Dicta optio cumque dolore</li>
+          <li class="list-group-item strike">Consequuntur voluptatum</li>
+          <li class="list-group-item strike">Consequuntur voluptatum</li>
+        </ul>
       {% endcall %}
-      {% call billing.plan(plans['2'], last=True) %}
-        <dl>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin">Lorem ipsum dolor sit amet</dd>
-          <dd class="no-margin">Dicta optio cumque dolore</dd>
-          <dd class="no-margin">Dicta optio cumque dolor</dd>
-          <dd class="no-margin">Dicta optio cumque dolor</dd>
-          <dd class="no-margin">Consequuntur voluptatum</dd>
-          <dd class="no-margin">Consequuntur voluptatum</dd>
-          <dd class="no-margin">Consequuntur voluptatum</dd>
-        </dl>
+      {% call billing.plan(plans['2']) %}
+        <ul class="list-group list-group-flush text-center">
+          <li class="list-group-item">Lorem ipsum dolor sit amet</li>
+          <li class="list-group-item">Lorem ipsum dolor sit amet</li>
+          <li class="list-group-item">Dicta optio cumque dolore</li>
+          <li class="list-group-item">Dicta optio cumque dolore</li>
+          <li class="list-group-item">Consequuntur voluptatum</li>
+          <li class="list-group-item">Consequuntur voluptatum</li>
+        </ul>
       {% endcall %}
     </div>
   {% endcall %}

@@ -12,37 +12,44 @@
   {% set button = 'Save' %}
 {% endif %}
 
-<div class="g--2 g--centered subsection-title">
-  <div class="login--background">
-    {% call f.form_tag(endpoint, class='clear', **form_kwargs) %}
-      <legend class="centered medium bottom-margin">{{ legend }}</legend>
-        <label for="">Created on</label>
-        <h5 class="bottom-margin">
-          {{ issue.created_on.strftime('%B %d, %Y %I:%M %p') }}
-        </h5>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2 well">
+    {% call f.form_tag(endpoint, **form_kwargs) %}
+      <legend>{{ legend }}</legend>
+      <label for="">Created on</label>
+      <h5 class="margin-bottom text-muted">
+        {{ issue.created_on.strftime('%B %d, %Y %I:%M %p') }}
+      </h5>
 
-      {{ form.label.label }}
-      {{ f.field(form.label) }}
+      {% call f.form_group(form.label, css_class='margin-bottom') %}
+      {% endcall %}
 
-      {{ form.email.label }}
-      {{ f.field(form.email, placeholder='Email') }}
+      {% call f.form_group(form.email, css_class='margin-bottom',
+                             placeholder='E-mail address') %}
+      {% endcall %}
 
-      {{ form.question.label }}
-      {{ f.field(form.question, placeholder='The more we know, the easier it will be to help you', rows='12') }}
+      {% call f.form_group(form.question, css_class='margin-bottom',
+                             placeholder='The more we know, the easier it will be to help you',
+                             rows='12') %}
+      {% endcall %}
 
-      {{ form.status.label }}
-      {{ f.field(form.status) }}
+      {% call f.form_group(form.status) %}
+      {% endcall %}
+
       <hr>
-      <div class="g--half">
-        <button type="submit" class="full-width rounded button--primary">
-          {{ button }}
-        </button>
-      </div>
-      <div class="g--half g--last">
-        <a href="{{ url_for('admin.issues') }}"
-           class="login--register full-width rounded button--secondary">
-          Cancel
-        </a>
+      <div class="row">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary btn-block">
+            {{ button }}
+          </button>
+        </div>
+        <div class="col-md-6">
+          <div class="visible-xs visible-sm sm-margin-top"></div>
+          <a href="{{ url_for('admin.issues') }}"
+             class="btn btn-default btn-block">
+            Cancel
+          </a>
+        </div>
       </div>
     {% endcall %}
   </div>

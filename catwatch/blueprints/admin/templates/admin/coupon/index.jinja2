@@ -6,12 +6,13 @@
 {% block title %}Admin - Coupons / List{% endblock %}
 
 {% block body %}
-  <div class="clear">
-    <div class="g--half">
+  <div class="row">
+    <div class="col-md-6">
       {{ f.search('admin.coupons') }}
     </div>
-    <div class="g--half g--last top-margin aligned-right">
-      <a href="{{ url_for('admin.coupons_new') }}" class="button--secondary">
+    <div class="col-md-6">
+      <a href="{{ url_for('admin.coupons_new') }}"
+         class="btn btn-primary pull-right">
         Create coupon
       </a>
     </div>
@@ -27,7 +28,7 @@
     {% endif %}
   {% else %}
     {% call f.form_tag('admin.coupons_bulk_delete') %}
-      <table>
+      <table class="table table-striped">
         <thead>
         <tr>
           <th>
@@ -50,17 +51,19 @@
             {{ items.sort('times_redeemed', 'Redeemed') }}
           </th>
           <th id="bulk_actions" colspan="5">
-            {{ f.field(bulk_form.scope, inline=True) }}
-            <button type="submit"
-                    class="rounded button--small button--primary">
-              Delete items
-            </button>
+            <div class="form-inline">
+              {{ f.field(bulk_form.scope, inline=True) }}
+              <button type="submit"
+                      class="btn btn-danger btn-sm">
+                Delete items
+              </button>
+            </div>
           </th>
         </tr>
         </thead>
         <tbody>
         {% for coupon in coupons.items %}
-          <tr class="{{ 'faded' if not coupon.valid }}">
+          <tr class="{{ 'half-faded' if not coupon.valid }}">
             <td>
               <label for="bulk_ids"></label>
               <input class="checkbox-item" id="bulk_ids" name="bulk_ids"
@@ -68,9 +71,9 @@
             </td>
             <td>{{ coupon.created_on.strftime('%B %d, %Y') }}</td>
             <td>
-              <h5 class="medium admin--table-label">{{ coupon.code }}</h5>
+              {{ coupon.code }}
 
-              <p class="small color--muted admin--table--sublabel">
+              <p class="small text-muted">
                 {{ billing.coupon_discount(coupon.amount_off, coupon.percent_off) }}
                 discount
               </p>

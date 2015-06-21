@@ -41,7 +41,7 @@ def dashboard():
     group_and_count_users = Dashboard.group_and_count_users()
     group_and_count_issues = Dashboard.group_and_count_issues()
 
-    return render_template('admin/pages/dashboard.jinja2',
+    return render_template('admin/page/dashboard.jinja2',
                            group_and_count_plans=group_and_count_plans,
                            group_and_count_coupons=group_and_count_coupons,
                            group_and_count_users=group_and_count_users,

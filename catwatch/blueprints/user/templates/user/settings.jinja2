@@ -3,84 +3,66 @@
 {% block title %}Account settings{% endblock %}
 
 {% block body %}
-  <div class="clear">
-    <div class="g--half">
-      <div
-          class="highlight-module highlight-module--left highlight-module--learning highlight-module--inline">
-        <div class="highlight-module__container">
-          <div
-              class="highlight-module__content g-wide--pull-1">
-            <p class="highlight-module__title">
-              Settings<br>
-              <span class="color--muted small">{{ current_user.email }}</span>
-            </p>
-            <ul class="list--spaced">
-              <li>
-                <a href="{{ url_for('user.update_credentials') }}">Update email
-                  or
-                  password</a>
-              </li>
-              {% if current_user.username %}
-                <li class="color--muted">
-                  Your username is <strong>{{ current_user.username }}</strong>
-                </li>
-              {% else %}
-                <li>
-                  <a href="{{ url_for('user.welcome') }}">Pick a username</a>
-                </li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="g--half g--last">
-      <div
-          class="highlight-module highlight-module--left highlight-module--remember highlight-module--inline">
-        <div class="highlight-module__container">
-          <div
-              class="highlight-module__content g-wide--pull-1">
-            {% if current_user.subscription %}
-              <p class="highlight-module__title">
-                {{ current_user.subscription.plan | title }} subscription<br>
-                <span
-                    class="color--muted small">{{ current_user.credit_card.brand }} ****{{ current_user.credit_card.last4 }} ({{ current_user.credit_card.exp_date.strftime('%m/%Y') }})</span>
-              </p>
-              <ul class="list--spaced">
-                <li>
-                  <a href="{{ url_for('billing.update_payment_method') }}">Update
-                    payment info</a>
-                </li>
-                <li>
-                  <a href="{{ url_for('billing.billing_history') }}">Billing
-                    details</a>
-                </li>
-                <li>
-                  <a href="{{ url_for('billing.update') }}">Change plan</a>
-                </li>
-                <li class="small">
-                  <a href="{{ url_for('billing.cancel') }}">Cancel
-                    subscription</a>
-                </li>
-              </ul>
-            {% else %}
-              <p class="highlight-module__title">
-                Subscribe today<br>
-                  <span class="color--muted small">
-                    Hey buddy, why aren't you subscribed?
-                  </span>
-              </p>
-              <p class="small bottom-margin">Now that you've created an
-                account, wouldn't it be
-                unbelievably amazing to unlock everything by becoming a
-                subscriber today?</p>
-              <a href="{{ url_for('billing.pricing') }}"
-                 class="button--primary pricing--primary">Learn more</a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="row">
+    <div class="col-md-5">
+      <h2>Settings</h2>
+      <h4 class="text-muted margin-bottom">{{ current_user.email }}</h4>
 
+      <div class="list-group">
+        <a class="list-group-item"
+           href="{{ url_for('user.update_credentials') }}">Update email or
+          password</a>
+
+        {% if current_user.username %}
+          <h5 class="list-group-item quarter-faded text-muted">
+            Your username is <strong>{{ current_user.username }}</strong>
+          </h5>
+        {% else %}
+          <a class="list-group-item" href="{{ url_for('user.welcome') }}">Pick
+            a username</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-5 col-md-push-1 col-md-offset-1">
+      {% if current_user.subscription %}
+        <h2>{{ current_user.subscription.plan | title }} subscription</h2>
+        <h4 class="text-muted margin-bottom">
+          {{ current_user.credit_card.brand }}
+          ****{{ current_user.credit_card.last4 }}
+          ({{ current_user.credit_card.exp_date.strftime('%m/%Y') }})
+        </h4>
+
+        <div class="list-group">
+          <a class="list-group-item"
+             href="{{ url_for('billing.update_payment_method') }}">
+            Update payment info
+          </a>
+          <a class="list-group-item"
+             href="{{ url_for('billing.billing_history') }}">
+            Billing
+            details
+          </a>
+          <a class="list-group-item" href="{{ url_for('billing.update') }}">
+            Change plan
+          </a>
+          <a class="list-group-item" href="{{ url_for('billing.cancel') }}">
+            <span class="text-muted">Cancel subscription</span>
+          </a>
+        </div>
+      {% else %}
+        <p class="highlight-module__title">
+        <h2>Subscribe today</h2>
+        <h4 class="text-muted margin-bottom">
+          Hey buddy, why aren't you subscribed?
+        </h4>
+
+        <p>Now that you've created an
+          account, wouldn't it be
+          unbelievably amazing to unlock everything by becoming a
+          subscriber today?</p>
+        <a href="{{ url_for('billing.pricing') }}"
+           class="btn btn-primary">Learn more</a>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}

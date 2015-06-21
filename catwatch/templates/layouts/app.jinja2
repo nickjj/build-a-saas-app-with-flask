@@ -1,43 +1,52 @@
 {% extends 'layouts/base.jinja2' %}
 
 {% block header %}
-  <header class="app-bar promote-layer">
-    <div class="app-bar-container">
-      <button class="menu"><img
-          src="{{ asset_url_for('images/hamburger.svg') }}"
-          alt="Menu"></button>
-      <h1 class="logo">
-        <a href="{{ url_for('page.home') }}">
-          Cat <strong>watch</strong>
-        </a>
-      </h1>
-      <section class="app-bar-actions"></section>
-    </div>
-  </header>
-  <nav class="navdrawer-container promote-layer">
-    <h4>Navigation</h4>
-
+  <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-      <ul class="nav--main">
-        {% if current_user.is_authenticated() %}
-          <li><a href="{{ url_for('stream.live_stream') }}">Live stream</a></li>
-        {% else %}
-          <li><a href="{{ url_for('page.learn_more') }}">Learn more</a></li>
-          <li><a href="{{ url_for('billing.pricing') }}">Pricing</a></li>
-        {% endif %}
-      </ul>
-      <ul class="nav--account">
-        {% if current_user.is_authenticated() %}
-          <li><a href="{{ url_for('user.logout') }}">Log out</a></li>
-          <li><a href="{{ url_for('user.settings') }}"
-                 class="nav--cta">Account</a>
-            {% else %}
-          <li><a href="{{ url_for('user.login') }}">Log in</a></li>
-          <li>
-          <a href="{{ url_for('user.signup') }}" class="nav--cta">Sign up</a>
-        {% endif %}
-        </li>
-      </ul>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+                data-toggle="collapse" data-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="{{ url_for('page.home') }}">
+          <img src="{{ asset_url_for('images/cat-watch.png') }}"
+               class="img-responsive"
+               width="229" height="50" title="Cat Watch" alt="Cat Watch"/>
+        </a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          {% if current_user.is_authenticated() %}
+            <li><a href="{{ url_for('stream.live_stream') }}">Live stream</a>
+            </li>
+          {% else %}
+            <li><a href="{{ url_for('page.learn_more') }}">Learn more</a></li>
+            <li><a href="{{ url_for('billing.pricing') }}">Pricing</a></li>
+          {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {% if current_user.is_authenticated() %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                 role="button" aria-haspopup="true" aria-expanded="false">Account
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('user.settings') }}">Settings</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Session</li>
+                <li><a href="{{ url_for('user.logout') }}">Log out</a></li>
+              </ul>
+            </li>
+          {% else %}
+            <li><a href="{{ url_for('user.login') }}">Log in</a></li>
+            <li><a href="{{ url_for('user.signup') }}">Sign up</a></li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
   </nav>
 {% endblock %}

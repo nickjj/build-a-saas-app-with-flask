@@ -49,16 +49,33 @@ var assets = {
 // Which top level JS and CSS files should get output?
 var chunks = {
     app_js: [
-        path.join(contextRoot, assets.styles.path, 'main.scss')
+        path.join(contextRoot, assets.scripts.path, 'entry.js')
     ],
     app_css: [
-        path.join(contextRoot, assets.styles.path, 'main.scss'),
+        path.join(contextRoot, assets.styles.path, 'default.scss')
+    ],
+    vendor_js: [
+        path.join(contextRoot, assets.scripts.path, 'vendor',
+            'bootstrap.3.3.5.min.js')
+    ],
+    vendor_css: [
+        // Bootstrap configuration settings:
+        //   https://gist.github.com/anonymous/ef4593b01915d647ed88
+        //   http://getbootstrap.com/customize/?id=ef4593b01915d647ed88
+        path.join(contextRoot, assets.styles.path,
+            'vendor', 'bootstrap.3.3.5.min.css'),
         path.join(contextRoot, assets.styles.path,
             'vendor', 'font-awesome.4.3.0.css'),
         path.join(contextRoot, assets.styles.path,
             'vendor', 'rome.2.1.17.css')
     ]
 };
+
+// Avoid parsing this code to speed up rebuilds.
+var noParse = [
+    path.join(contextRoot, assets.styles.path, 'vendor'),
+    path.join(contextRoot, assets.scripts.path, 'vendor')
+];
 
 // Where will assets get served in development mode? This depends on running
 // the webpack dev server.
@@ -111,6 +128,7 @@ module.exports = {
         extensions: ['', '.js', '.scss']
     },
     module: {
+        noParse: noParse,
         loaders: [
             {
                 test: /\.js$/i, loader: 'babel-loader?stage=0',
