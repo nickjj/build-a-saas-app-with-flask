@@ -64,7 +64,6 @@ class CatStream(StreamListener):
         :return: Tweet status
         """
         status = None
-
         if tweet.get('favorited'):
             status = 'favorite'
         elif tweet.get('text').startswith('RT @'):

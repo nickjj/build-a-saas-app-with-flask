@@ -18,7 +18,7 @@ class Broadcast(object):
         :type internal_url: str
         :param push_token: Push token used when broadcasting the message
         :type push_token: str
-        :return: Dict of what's being sent
+        :return: dict
         """
         faye_protocol = {
             'channel': channel,
