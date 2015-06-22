@@ -54,9 +54,23 @@
 {%- endmacro %}
 
 
-{# Render a form tag that contains a CSRF token and all hidden fields. #}
+{# Render a form tag that contains a CSRF token and all hidden fields, it also
+   properly supports all HTTP version, simply pass in method='delete', etc.. #}
 {%- macro form_tag(endpoint, fid='', class='', method='post') -%}
-  <form action="{{ url_for(endpoint, **kwargs) }}" method="{{ method }}"
+  {% set method = method | lower %}
+  {% set browser_method = 'post' %}
+  {% set real_method = 'post' %}
+
+  {% if method == 'get' %}
+    {% set browser_method = 'get' %}
+    {% set real_method = 'get' %}
+  {% elif method not in ('get', 'post') %}
+    {% set browser_method = 'post' %}
+    {% set real_method = method %}
+  {% endif %}
+
+  <form action="{{ url_for(endpoint, __method__=real_method, **kwargs) }}"
+        method="{{ browser_method }}"
         id="{{ fid }}" class="{{ class }}" role="form">
     {{ form.hidden_tag() }}
     {{ caller () }}
