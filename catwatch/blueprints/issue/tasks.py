@@ -12,7 +12,7 @@ def deliver_support_email(issue_id):
     """
     Send a support e-mail.
 
-    :param user_id: The user id
+    :param user_id: Id of the user
     :type user_id: int
     :return: None
     """
