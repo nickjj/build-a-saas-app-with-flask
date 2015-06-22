@@ -4,6 +4,7 @@ from hashlib import md5
 
 from flask import current_app
 from flask_login import UserMixin
+
 from itsdangerous import URLSafeTimedSerializer, \
     TimedJSONWebSignatureSerializer
 
@@ -143,6 +144,7 @@ class User(UserMixin, ResourceMixin, db.Model):
         if is_changing_roles or is_changing_active:
             admin_count = User.query.filter(User.role == 'admin').count()
             active_count = User.query.filter(User.is_active is True).count()
+
             if admin_count == 1 or active_count == 1:
                 return True
 
@@ -156,7 +158,7 @@ class User(UserMixin, ResourceMixin, db.Model):
 
         :param ids: List of ids to be deleted
         :type ids: list
-        :return: Number of deleted instances
+        :return: int
         """
         delete_count = 0
 
@@ -180,6 +182,25 @@ class User(UserMixin, ResourceMixin, db.Model):
 
         return delete_count
 
+    @classmethod
+    def initialize_password_reset(cls, identity):
+        """
+        Generate a token to reset the password for a specific user.
+
+        :param identity: User e-mail address or username
+        :type identity: str
+        :return: User instance
+        """
+        u = User.find_by_identity(identity)
+        reset_token = u.serialize_token()
+
+        # This prevents circular imports.
+        from catwatch.blueprints.user.tasks import deliver_password_reset_email
+
+        deliver_password_reset_email.delay(u.id, reset_token)
+
+        return u
+
     def is_active(self):
         """
         Return whether or not the user account is active, this satisfies
@@ -196,7 +217,7 @@ class User(UserMixin, ResourceMixin, db.Model):
         all of their logins across devices. It is completely fine to use
         md5 here as nothing leaks.
 
-        # This satisfies Flask-Login by providing a means to create a token.
+        This satisfies Flask-Login by providing a means to create a token.
 
         :return: str
         """

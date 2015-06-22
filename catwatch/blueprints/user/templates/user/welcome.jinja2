@@ -14,9 +14,11 @@
                 You would gain so many cool things, it's mind boggling.
             </p>
 
-            <p class="small">Take a look at what you'll gain by <a
-                    href="{{ url_for('billing.pricing') }}">becoming a
-                paid member</a>.</p>
+            <p class="small">
+                Take a look at what you'll gain by
+                <a href="{{ url_for('billing.pricing') }}">becoming a
+                paid member</a>.
+            </p>
         </div>
         <div class="col-md-5 col-md-push-1 col-md-offset-1 well">
           {% call f.form_tag('user.welcome') %}
@@ -26,7 +28,7 @@
               </p>
 
             {% call f.form_group(form.username, css_class='sm-margin-bottom',
-                             autofocus='autofocus') %}
+                                 autofocus='autofocus') %}
             {% endcall %}
 
               <div class="row">

@@ -11,8 +11,7 @@
             <div class="list-group">
                 <a class="list-group-item"
                    href="{{ url_for('user.update_credentials') }}">Update email
-                    or
-                    password</a>
+                    or password</a>
 
               {% if current_user.username %}
                   <h5 class="list-group-item quarter-faded text-muted">
@@ -21,8 +20,7 @@
                   </h5>
               {% else %}
                   <a class="list-group-item"
-                     href="{{ url_for('user.welcome') }}">Pick
-                      a username</a>
+                     href="{{ url_for('user.welcome') }}">Pick a username</a>
               {% endif %}
             </div>
         </div>
@@ -43,8 +41,7 @@
                   </a>
                   <a class="list-group-item"
                      href="{{ url_for('billing.billing_history') }}">
-                      Billing
-                      details
+                      Billing details
                   </a>
                   <a class="list-group-item"
                      href="{{ url_for('billing.update') }}">
