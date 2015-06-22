@@ -1,4 +1,5 @@
 from urlparse import urljoin
+
 from flask import request
 
 

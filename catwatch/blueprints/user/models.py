@@ -6,6 +6,7 @@ from flask import current_app
 from flask_login import UserMixin
 from itsdangerous import URLSafeTimedSerializer, \
     TimedJSONWebSignatureSerializer
+
 from sqlalchemy import or_
 
 from catwatch.lib.util_sqlalchemy import ResourceMixin

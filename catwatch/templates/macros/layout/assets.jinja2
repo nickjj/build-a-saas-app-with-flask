@@ -2,14 +2,14 @@
 {%- macro render() -%}
   {{ stylesheet_tag('vendor_css', 'app_css') | safe }}
 
-  <link
-      href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,700,700italic,300,400italic'
-      rel='stylesheet' type='text/css'>
+    <link
+            href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,700,700italic,300,400italic'
+            rel='stylesheet' type='text/css'>
 
-  <script
-      src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.17/rome.min.js"></script>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.17/rome.min.js"></script>
 
   {{ situational() }}
 {%- endmacro -%}
@@ -21,21 +21,21 @@
                              'billing.update',
                              'billing.cancel',
                              'billing.update_payment_method') %}
-    <script src="https://js.stripe.com/v2/"></script>
+      <script src="https://js.stripe.com/v2/"></script>
   {% endif %}
 
   {% if request.endpoint == 'stream.live_stream' %}
-    <script id="faye" data-faye-public-url="{{ faye.public_url }}"
-            src="{{ faye.public_url }}/client.js"></script>
+      <script id="faye" data-faye-public-url="{{ faye.public_url }}"
+              src="{{ faye.public_url }}/client.js"></script>
   {% endif %}
 {%- endmacro -%}
 
 
 {# Render polyfills for out dated browsers. #}
 {%- macro polyfills() -%}
-  <!--[if lt IE 9]>
-  <script
-      src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <!--[if lt IE 9]>
+    <script
+            src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 {%- endmacro -%}

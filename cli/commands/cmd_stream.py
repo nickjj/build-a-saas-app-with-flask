@@ -9,9 +9,9 @@ from faker import Faker
 from catwatch.blueprints.stream.twitter import TwitterStream
 from catwatch.blueprints.stream.tasks import broadcast_message
 
-
 try:
     from instance import settings
+
     TWITTER_CONSUMER_KEY = settings.TWITTER_CONSUMER_KEY
     TWITTER_CONSUMER_SECRET = settings.TWITTER_CONSUMER_SECRET
     TWITTER_ACCESS_TOKEN = settings.TWITTER_ACCESS_TOKEN

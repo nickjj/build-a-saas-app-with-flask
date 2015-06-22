@@ -2,18 +2,19 @@ import logging
 import random
 from datetime import datetime
 
-
 import click
 from faker import Faker
 
 try:
     from instance import settings
+
     SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
 except ImportError:
     logging.error('Your instance/ folder must contain an __init__.py file')
     exit(1)
 except AttributeError:
     from config import settings
+
     SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
 
 from catwatch.app import create_app
@@ -22,7 +23,6 @@ from catwatch.blueprints.issue.models import Issue
 from catwatch.blueprints.user.models import User
 from catwatch.blueprints.billing.models.coupon import Coupon
 from catwatch.blueprints.billing.services import StripeCoupon
-
 
 fake = Faker()
 app = create_app()
@@ -173,7 +173,7 @@ def coupons():
 
         # Our database requires a Date object, not a unix timestamp.
         if redeem_by:
-            params['redeem_by'] = datetime.utcfromtimestamp(float(redeem_by))\
+            params['redeem_by'] = datetime.utcfromtimestamp(float(redeem_by)) \
                 .strftime('%Y-%m-%d %H:%M:%S')
 
         if 'id' in params:

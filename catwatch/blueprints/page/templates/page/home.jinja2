@@ -5,55 +5,62 @@
   cats. Listen to millions of people tweet about cats.{% endblock %}
 
 {% block hero %}
-  <div class="jumbotron">
-    <div class="container">
-      <h1>Real time cat stream</h1>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Real time cat stream</h1>
 
-      <p>Because <strong>life without</strong> real time access to <strong>tweets
-        about cats</strong> would be <strong>ridiculous</strong>.</p>
+            <p>Because <strong>life without</strong> real time access to
+                <strong>tweets
+                    about cats</strong> would be <strong>ridiculous</strong>.
+            </p>
 
-      <p class="margin-top">
-        <a class="btn btn-primary btn-lg" href="{{ url_for('user.signup') }}"
-           role="button">Sign up
-          today &raquo;</a>
-      </p>
+            <p class="margin-top">
+                <a class="btn btn-primary btn-lg"
+                   href="{{ url_for('user.signup') }}"
+                   role="button">Sign up
+                    today &raquo;</a>
+            </p>
+        </div>
     </div>
-  </div>
 {% endblock %}
 
 {% block body %}
-  <div class="container marketing">
-    <div class="row">
-      <div class="col-lg-4">
-        <i class="fa fa-fw fa-4x fa-wifi text-info"></i>
+    <div class="container marketing">
+        <div class="row">
+            <div class="col-lg-4">
+                <i class="fa fa-fw fa-4x fa-wifi text-info"></i>
 
-        <h2>Real time</h2>
+                <h2>Real time</h2>
 
-        <p class="text-muted">Let's be serious now, it is real time.</p>
+                <p class="text-muted">Let's be serious now, it is real
+                    time.</p>
 
-        <p><a class="btn btn-default" href="{{ url_for('user.signup') }}"
-              role="button">Sign up &raquo;</a></p>
-      </div>
-      <div class="col-lg-4">
-        <i class="fa fa-fw fa-4x fa-bolt text-info"></i>
+                <p><a class="btn btn-default"
+                      href="{{ url_for('user.signup') }}"
+                      role="button">Sign up &raquo;</a></p>
+            </div>
+            <div class="col-lg-4">
+                <i class="fa fa-fw fa-4x fa-bolt text-info"></i>
 
-        <h2>Stay updated</h2>
+                <h2>Stay updated</h2>
 
-        <p class="text-muted">Never miss a tweet about cats again.</p>
+                <p class="text-muted">Never miss a tweet about cats again.</p>
 
-        <p><a class="btn btn-default" href="{{ url_for('user.signup') }}"
-              role="button">Sign up &raquo;</a></p>
-      </div>
-      <div class="col-lg-4">
-        <i class="fa fa-fw fa-4x fa-bed text-info"></i>
+                <p><a class="btn btn-default"
+                      href="{{ url_for('user.signup') }}"
+                      role="button">Sign up &raquo;</a></p>
+            </div>
+            <div class="col-lg-4">
+                <i class="fa fa-fw fa-4x fa-bed text-info"></i>
 
-        <h2>Am I dreaming?</h2>
+                <h2>Am I dreaming?</h2>
 
-        <p class="text-muted">Nope, this is real life!</p>
+                <p class="text-muted">Nope, this is real life!</p>
 
-        <p><a class="btn btn-default" href="{{ url_for('user.signup') }}"
-              role="button">Sign up &raquo;</a></p>
-      </div>
+                <p><a class="btn btn-default"
+                      href="{{ url_for('user.signup') }}"
+                      role="button">Sign up &raquo;</a></p>
+            </div>
+        </div>
     </div>
-  </div>
 {% endblock %}

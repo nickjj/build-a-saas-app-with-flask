@@ -13,6 +13,7 @@ class ModelForm(Form):
     We modified it by removing the format argument so that wtforms_component
     uses its own default which is to pass in request.form automatically.
     """
+
     def __init__(self, obj=None, prefix='', **kwargs):
         Form.__init__(
             self, obj=obj, prefix=prefix, **kwargs

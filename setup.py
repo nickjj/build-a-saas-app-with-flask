@@ -1,6 +1,5 @@
 from setuptools import setup
 
-
 setup(
     name='Commands to help manage your project',
     version='1.0',

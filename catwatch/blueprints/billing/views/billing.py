@@ -12,7 +12,6 @@ from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.billing.models.invoice import Invoice
 from catwatch.blueprints.billing.decorators import handle_stripe_exceptions
 
-
 billing = Blueprint('billing', __name__, template_folder='../templates',
                     url_prefix='/subscription')
 
@@ -107,7 +106,7 @@ def update():
 
     # Guard against an invalid, missing or identical plan.
     is_same_plan = new_plan == active_plan['id']
-    if ((new_plan is not None and plan is None) or is_same_plan) and\
+    if ((new_plan is not None and plan is None) or is_same_plan) and \
             request.method == 'POST':
         return redirect(url_for('billing.update'))
 
@@ -200,7 +199,7 @@ def billing_history():
 
     if current_user.subscription:
         upcoming = Invoice.upcoming(current_user.stripe_customer_id)
-        coupon = Coupon.query\
+        coupon = Coupon.query \
             .filter(Coupon.code == current_user.subscription.coupon).first()
     else:
         upcoming = None

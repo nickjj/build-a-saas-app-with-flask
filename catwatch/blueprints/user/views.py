@@ -23,7 +23,6 @@ from catwatch.blueprints.user.forms import (
     WelcomeForm,
     UpdateCredentials)
 
-
 user = Blueprint('user', __name__, template_folder='templates')
 
 
@@ -81,6 +80,7 @@ def begin_password_reset():
 
         # This prevents circular imports.
         from catwatch.blueprints.user.tasks import deliver_password_reset_email
+
         deliver_password_reset_email.delay(u.id, reset_token)
 
         flash(_('An email has been sent to %(email)s.',

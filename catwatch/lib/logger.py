@@ -5,9 +5,11 @@ LOG_LEVEL = None
 
 try:
     from instance import settings
+
     LOG_LEVEL = settings.LOG_LEVEL
 except (ImportError, AttributeError):
     from config import settings
+
     LOG_LEVEL = settings.LOG_LEVEL
 
 LOGGING_LEVEL = 0

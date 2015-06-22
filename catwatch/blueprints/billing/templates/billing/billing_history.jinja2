@@ -4,75 +4,76 @@
 {% block title %}Billing details and history{% endblock %}
 
 {% block body %}
-  <h2>Subscription details</h2>
+    <h2>Subscription details</h2>
   {% if coupon %}
-    <div class="alert alert-info alert-small">
-      Discount code <strong>{{ coupon.code }}</strong> is applied to your
-      subscription.
-    </div>
-    <span class="small text-muted">{{ billing.coupon_data(coupon) }}</span>
-    <br class="sm-margin-bottom">
+      <div class="alert alert-info alert-small">
+          Discount code <strong>{{ coupon.code }}</strong> is applied to your
+          subscription.
+      </div>
+      <span class="small text-muted">{{ billing.coupon_data(coupon) }}</span>
+      <br class="sm-margin-bottom">
   {% endif %}
   {% if upcoming == None %}
-    <h3>No upcoming payments</h3>
-    <p>You are not currently subscribed, so there's nothing to see here.</p>
+      <h3>No upcoming payments</h3>
+      <p>You are not currently subscribed, so there's nothing to see here.</p>
   {% else %}
-    <table class="table table-striped margin-bottom">
-      <thead>
-      <tr>
-        <th>Subscription</th>
-        <th>Description</th>
-        <th>Next billing date</th>
-        <th>Price</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>{{ upcoming.plan }}</td>
-        <td>{{ upcoming.description }}</td>
-        <td>{{ upcoming.next_bill_on }}</td>
-        <td>
-          ${{ upcoming.amount_due | format_currency }}
-          <span class="color--muted"> / {{ upcoming.interval }}</span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+      <table class="table table-striped margin-bottom">
+          <thead>
+          <tr>
+              <th>Subscription</th>
+              <th>Description</th>
+              <th>Next billing date</th>
+              <th>Price</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+              <td>{{ upcoming.plan }}</td>
+              <td>{{ upcoming.description }}</td>
+              <td>{{ upcoming.next_bill_on }}</td>
+              <td>
+                  ${{ upcoming.amount_due | format_currency }}
+                  <span class="color--muted"> / {{ upcoming.interval }}</span>
+              </td>
+          </tr>
+          </tbody>
+      </table>
   {% endif %}
-  <h2>Recent billing history</h2>
+    <h2>Recent billing history</h2>
   {% if invoices.count() == 0 %}
-    <h4>No invoices found</h4>
-    <p>This isn't an error. You just haven't been invoiced yet.</p>
+      <h4>No invoices found</h4>
+      <p>This isn't an error. You just haven't been invoiced yet.</p>
   {% else %}
-    <table class="table table-striped margin-bottom">
-      <thead>
-      <tr>
-        <th>Date</th>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Service period</th>
-        <th>Tax</th>
-        <th>Total</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for invoice in invoices %}
-        <tr>
-          <td>{{ invoice.created_on.strftime('%B %d, %Y') }}</td>
-          <td>{{ invoice.brand }} ****{{ invoice.last4 }}</td>
-          <td>{{ invoice.description }}</td>
-          <td>
-            {{ invoice.period_start_on.strftime('%B %d, %Y') }} <span
-              class="color--muted">&mdash;</span> {{ invoice.period_end_on.strftime('%B %d, %Y') }}
-          </td>
-          <td>{{ invoice.tax }}</td>
-          <td title="{{ invoice.currency }}">${{ invoice.total }}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+      <table class="table table-striped margin-bottom">
+          <thead>
+          <tr>
+              <th>Date</th>
+              <th>Method</th>
+              <th>Description</th>
+              <th>Service period</th>
+              <th>Tax</th>
+              <th>Total</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for invoice in invoices %}
+              <tr>
+                  <td>{{ invoice.created_on.strftime('%B %d, %Y') }}</td>
+                  <td>{{ invoice.brand }} ****{{ invoice.last4 }}</td>
+                  <td>{{ invoice.description }}</td>
+                  <td>
+                    {{ invoice.period_start_on.strftime('%B %d, %Y') }} <span
+                          class="color--muted">&mdash;</span> {{ invoice.period_end_on.strftime('%B %d, %Y') }}
+                  </td>
+                  <td>{{ invoice.tax }}</td>
+                  <td title="{{ invoice.currency }}">${{ invoice.total }}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
   {% endif %}
-  <a href="{{ url_for('user.settings') }}" class="margin-top btn btn-primary">
-    Go back to your account</a>
+    <a href="{{ url_for('user.settings') }}"
+       class="margin-top btn btn-primary">
+        Go back to your account</a>
 {% endblock %}
 

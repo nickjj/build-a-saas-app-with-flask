@@ -1,56 +1,57 @@
 {% macro card_expiring_warning() -%}
   {% if current_user.is_authenticated() and current_user.subscription and current_user.credit_card.is_expiring %}
-    <div class="alert alert-warning" role="alert">
-      <div class="container">
-        Your credit card is going to expire soon, <a
-          href="{{ url_for('billing.update_payment_method') }}">please update
-        it</a>.
+      <div class="alert alert-warning" role="alert">
+          <div class="container">
+              Your credit card is going to expire soon, <a
+                  href="{{ url_for('billing.update_payment_method') }}">please
+              update
+              it</a>.
+          </div>
       </div>
-    </div>
   {% endif %}
 {%- endmacro %}
 
 
 {% macro plan(plan) -%}
-  <div
-      class="col-md-4{{ ' scale-up' if plan.metadata and plan.metadata.recommended }} {{ ' quarter-faded' if (plan.metadata == undefined) or (plan.metadata and not plan.metadata.recommended) }}">
-    <div
-        class="panel panel-default{{ ' panel-info' if plan.metadata and plan.metadata.recommended }}">
-      <div class="panel-heading"><h3>{{ plan.name }}</h3></div>
-      <div class="panel-body">
-        {{ caller () }}
+    <div class="col-md-4{{ ' scale-up' if plan.metadata and plan.metadata.recommended }} {{ ' quarter-faded' if (plan.metadata == undefined) or (plan.metadata and not plan.metadata.recommended) }}">
+        <div
+                class="panel panel-default{{ ' panel-info' if plan.metadata and plan.metadata.recommended }}">
+            <div class="panel-heading"><h3>{{ plan.name }}</h3></div>
+            <div class="panel-body">
+              {{ caller () }}
 
-        {% if current_user.is_authenticated() %}
-          {% if current_user.subscription %}
-            {% if plan == active_plan %}
-              <strong class="btn btn-default btn-lg btn-block">Current
-                plan</strong>
-            {% else %}
-              <button id="submit_{{ plan.id }}" name="submit_{{ plan.id }}"
-                      class="btn btn-primary btn-lg btn-block">
-                <img src="{{ asset_url_for('images/spinner.gif') }}"
-                     class="spinner"
-                     width="16" height="11" alt="Spinner"/>
-                Change plan
-              </button>
-            {% endif %}
-          {% else %}
-            <a href="{{ url_for('billing.create', plan=plan.id) }}"
-               class="btn btn-primary btn-lg btn-block">Continue</a>
-          {% endif %}
-        {% else %}
-          <a href="{{ url_for('user.signup') }}"
-             class="btn btn-primary btn-lg btn-block">
-            Sign up
-          </a>
-        {% endif %}
+              {% if current_user.is_authenticated() %}
+                {% if current_user.subscription %}
+                  {% if plan == active_plan %}
+                      <strong class="btn btn-default btn-lg btn-block">Current
+                          plan</strong>
+                  {% else %}
+                      <button id="submit_{{ plan.id }}"
+                              name="submit_{{ plan.id }}"
+                              class="btn btn-primary btn-lg btn-block">
+                          <img src="{{ asset_url_for('images/spinner.gif') }}"
+                               class="spinner"
+                               width="16" height="11" alt="Spinner"/>
+                          Change plan
+                      </button>
+                  {% endif %}
+                {% else %}
+                    <a href="{{ url_for('billing.create', plan=plan.id) }}"
+                       class="btn btn-primary btn-lg btn-block">Continue</a>
+                {% endif %}
+              {% else %}
+                  <a href="{{ url_for('user.signup') }}"
+                     class="btn btn-primary btn-lg btn-block">
+                      Sign up
+                  </a>
+              {% endif %}
 
-        <p class="small text-muted sm-margin-top">
-          ${{ plan.amount | format_currency }} / {{ plan.interval }}
-        </p>
-      </div>
+                <p class="small text-muted sm-margin-top">
+                    ${{ plan.amount | format_currency }} / {{ plan.interval }}
+                </p>
+            </div>
+        </div>
     </div>
-  </div>
 {%- endmacro %}
 
 
@@ -74,11 +75,11 @@
 
 {% macro coupon_duration_tag_for(coupon) -%}
   {% if coupon.duration == 'forever' %}
-    <span class="label label-success">Forever</span>
+      <span class="label label-success">Forever</span>
   {% elif coupon.duration == 'once' %}
-    <span class="label label-warning">Once</span>
+      <span class="label label-warning">Once</span>
   {% else %}
-    <span class="label label-info">
+      <span class="label label-info">
       {{ coupon.duration_in_months }} months
     </span>
   {% endif %}

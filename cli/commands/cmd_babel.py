@@ -8,6 +8,7 @@ BABEL_I18N_PATH = 'catwatch/i18n'
 
 try:
     from instance import settings
+
     APP_ROOT = settings.APP_ROOT
 except ImportError:
     logging.error('Your instance/ folder must contain an __init__.py file')
@@ -17,7 +18,6 @@ except AttributeError:
 
     if APP_ROOT is None:
         APP_ROOT = settings.APP_ROOT
-
 
 MESSAGES_PATH = '{0}/{1}/{2}'.format(APP_ROOT, BABEL_I18N_PATH, 'messages.pot')
 TRANSLATION_PATH = '{0}/{1}/{2}'.format(APP_ROOT, BABEL_I18N_PATH,

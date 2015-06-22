@@ -17,7 +17,7 @@ class BulkDelete {
     listenForEvents() {
         var self = this;
 
-        this.body.on('change', this.checkedItems, function() {
+        this.body.on('change', this.checkedItems, function () {
             var checkedSelector = `${self.checkedItems}:checked`;
             var itemCount = $(checkedSelector).length;
             var pluralizeItem = pluralize('item', itemCount);
@@ -41,10 +41,10 @@ class BulkDelete {
             $(`${self.updateScope} option:first`).text(scopeOptionText)
         });
 
-        this.body.on('change', this.selectAll, function() {
+        this.body.on('change', this.selectAll, function () {
             var checkedStatus = this.checked;
 
-            $(self.checkedItems).each(function() {
+            $(self.checkedItems).each(function () {
                 $(this).prop('checked', checkedStatus);
                 $(this).trigger('change');
             });

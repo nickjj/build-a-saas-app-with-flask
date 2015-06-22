@@ -17,4 +17,5 @@ def broadcast_message(internal_url, data):
     """
     # Fix circular import issues.
     from catwatch.blueprints.stream.broadcast import Broadcast
+
     Broadcast.send_to_websocket_server(internal_url, data)

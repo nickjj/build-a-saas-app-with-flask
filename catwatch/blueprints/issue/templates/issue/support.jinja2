@@ -7,27 +7,27 @@
   minutes.{% endblock %}
 
 {% block body %}
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2 well">
-      {% call f.form_tag('issue.support') %}
-        <legend>We're here to help</legend>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 well">
+          {% call f.form_tag('issue.support') %}
+              <legend>We're here to help</legend>
 
-        {% call f.form_group(form.label, css_class='margin-bottom') %}
-        {% endcall %}
+            {% call f.form_group(form.label, css_class='margin-bottom') %}
+            {% endcall %}
 
-        {% call f.form_group(form.email, css_class='margin-bottom',
+            {% call f.form_group(form.email, css_class='margin-bottom',
                              placeholder='E-mail address') %}
-        {% endcall %}
+            {% endcall %}
 
-        {% call f.form_group(form.question, css_class='margin-bottom',
+            {% call f.form_group(form.question, css_class='margin-bottom',
                              placeholder='The more we know, the easier it will be to help you',
                              rows='12') %}
-        {% endcall %}
+            {% endcall %}
 
-        <button type="submit" class="btn btn-primary">
-          Submit this support request
-        </button>
-      {% endcall %}
+              <button type="submit" class="btn btn-primary">
+                  Submit this support request
+              </button>
+          {% endcall %}
+        </div>
     </div>
-  </div>
 {% endblock %}

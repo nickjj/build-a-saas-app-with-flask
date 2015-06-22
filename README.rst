@@ -177,10 +177,10 @@ not adhere to semver perfectly.
 __ https://github.com/nickjj/build-a-saas-app-with-flask/commit/9031114d3f0880e01a9f97df9f924dbb1238a092
 
 .. |Build status| image:: https://secure.travis-ci.org/nickjj/build-a-saas-app-with-flask.png
-   :target: https://travis-ci.org/nickjj/build-a-saas-app-with-flask
+:target: https://travis-ci.org/nickjj/build-a-saas-app-with-flask
 
 .. |Flattr this git repo| image:: http://api.flattr.com/button/flattr-badge-large.png
-   :target: https://flattr.com/submit/auto?user_id=nickjj&url=https://github.com/nickjj/build-a-saas-app-with-flask&title=Build+a+SAAS+app+with+Flask&language=Python&tags=github&category=software
+:target: https://flattr.com/submit/auto?user_id=nickjj&url=https://github.com/nickjj/build-a-saas-app-with-flask&title=Build+a+SAAS+app+with+Flask&language=Python&tags=github&category=software
 
 About the author
 ^^^^^^^^^^^^^^^^

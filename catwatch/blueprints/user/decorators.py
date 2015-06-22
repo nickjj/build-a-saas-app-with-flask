@@ -13,6 +13,7 @@ def anonymous_required(url='/settings'):
     :type url: str
     :return: Function
     """
+
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
@@ -33,6 +34,7 @@ def role_required(*roles):
     :param *roles: 1 or more allowed roles
     :return: Function
     """
+
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):

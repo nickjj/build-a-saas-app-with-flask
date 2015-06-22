@@ -2,7 +2,6 @@ from flask import Flask
 from celery import Celery
 
 from catwatch.blueprints.user.models import User
-
 from catwatch.register import (
     api_keys,
     blueprints,
@@ -14,7 +13,6 @@ from catwatch.register import (
     template_processors
 )
 from catwatch.initialize import authentication, locale
-
 
 CELERY_TASK_LIST = [
     'catwatch.blueprints.user.tasks',

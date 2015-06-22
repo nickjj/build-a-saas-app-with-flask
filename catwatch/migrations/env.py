@@ -8,7 +8,8 @@ from alembic import context
 from psycopg2 import pool
 from sqlalchemy import engine_from_config
 
-from catwatch.app import db, create_app
+from catwatch.extensions import db
+from catwatch.app import create_app
 
 
 # Include the project's folder on the system path.

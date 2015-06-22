@@ -1,4 +1,5 @@
 import logging
+
 import click
 
 from catwatch.app import create_app

@@ -10,7 +10,6 @@ from flask_webpack import Webpack
 from flask_debugtoolbar import DebugToolbarExtension
 from celery import Celery
 
-
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 mail = Mail()

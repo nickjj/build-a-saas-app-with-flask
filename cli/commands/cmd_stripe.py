@@ -10,6 +10,7 @@ STRIPE_PLANS = None
 
 try:
     from instance import settings
+
     STRIPE_SECRET_KEY = settings.STRIPE_SECRET_KEY
     STRIPE_PLANS = settings.STRIPE_PLANS
 except ImportError:

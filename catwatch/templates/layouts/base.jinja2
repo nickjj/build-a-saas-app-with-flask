@@ -8,7 +8,7 @@
 <!doctype html>
 <html lang="">
 <head>
-  <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
   {{ meta_tags.render(csrf_token()) }}
   {{ fav_icons.render(self.title()) }}
 
@@ -32,17 +32,17 @@
 </main>
 
 <footer class="footer text-center">
-  <div class="container">
-    <ul class="list-inline">
-      <li class="text-muted">{{ _('Cat watch') }} &copy; 2015</li>
-      {% block footer %}{% endblock %}
-      {% if current_user.role == 'admin' %}
-        <li>
-          {% include 'admin/_menu.jinja2' %}
-        </li>
-      {% endif %}
-    </ul>
-  </div>
+    <div class="container">
+        <ul class="list-inline">
+            <li class="text-muted">{{ _('Cat watch') }} &copy; 2015</li>
+          {% block footer %}{% endblock %}
+          {% if current_user.role == 'admin' %}
+              <li>
+                {% include 'admin/_menu.jinja2' %}
+              </li>
+          {% endif %}
+        </ul>
+    </div>
 </footer>
 
 {{ javascript_tag('vendor_js', 'app_js') | safe }}

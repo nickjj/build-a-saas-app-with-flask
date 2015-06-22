@@ -1,7 +1,7 @@
-var coupon     = require('./coupon');
-var stripe     = require('./stripe');
+var coupon = require('./coupon');
+var stripe = require('./stripe');
 var BulkDelete = require('./bulk-delete');
-var faye       = require('./faye');
+var faye = require('./faye');
 
 jQuery(function ($) {
     coupon();

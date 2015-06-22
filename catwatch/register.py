@@ -5,6 +5,7 @@ from logging.handlers import SMTPHandler
 import stripe
 from flask import g, request, render_template
 from werkzeug.contrib.fixers import ProxyFix
+
 from jinja2 import ChoiceLoader, FileSystemLoader
 
 from catwatch.lib.http_method_override_middleware import \
@@ -29,7 +30,6 @@ from catwatch.extensions import (
     debug_toolbar
 )
 from catwatch.blueprints.billing.template_processors import format_currency
-
 
 FLASK_BLUEPRINTS = [
     admin,

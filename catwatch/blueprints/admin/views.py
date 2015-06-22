@@ -20,7 +20,6 @@ from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.admin.forms import SearchForm, BulkDeleteForm, \
     UserForm, UserCancelSubscriptionForm, IssueForm, CouponForm
 
-
 admin = Blueprint('admin', __name__,
                   template_folder='templates', url_prefix='/admin')
 
@@ -253,6 +252,7 @@ def coupons_bulk_delete():
 
         # Prevent circular imports.
         from catwatch.blueprints.billing.tasks import delete_coupons
+
         delete_coupons.delay(ids)
 
         flash(_n('%(num)d coupon was scheduled to be deleted.',

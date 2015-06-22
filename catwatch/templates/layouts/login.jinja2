@@ -2,13 +2,13 @@
 
 {% block heading %}
     <a href="{{ url_for('page.home') }}">
-      <img src="{{ asset_url_for('images/cat-watch.png') }}"
-           class="img-responsive center-block margin-bottom"
-           width="229" height="50" title="Cat Watch" alt="Cat Watch"/>
+        <img src="{{ asset_url_for('images/cat-watch.png') }}"
+             class="img-responsive center-block margin-bottom"
+             width="229" height="50" title="Cat Watch" alt="Cat Watch"/>
     </a>
 {% endblock %}
 
 {% block footer %}
-  <li><a href="{{ url_for('issue.support') }}">Help</a></li>
-  <li><a href="{{ url_for('user.signup') }}">Sign up today</a></li>
+    <li><a href="{{ url_for('issue.support') }}">Help</a></li>
+    <li><a href="{{ url_for('user.signup') }}">Sign up today</a></li>
 {% endblock %}

@@ -13,6 +13,7 @@ def handle_stripe_exceptions(f):
     :type f: Function
     :return: Function
     """
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
         try:

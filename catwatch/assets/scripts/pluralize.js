@@ -1,4 +1,4 @@
-var pluralize = function(word, count) {
+var pluralize = function (word, count) {
     if (count === 1) {
         return word;
     }

@@ -127,7 +127,7 @@ var stripe = function () {
 
         $body.on('submit', $('form').closest('button'), function () {
             if (!protectAgainstInvalidCoupon($couponCode,
-                                            $couponCodeStatus)) {
+                    $couponCodeStatus)) {
                 return false;
             }
 
@@ -139,7 +139,7 @@ var stripe = function () {
             var $name = $('#name');
 
             if (!protectAgainstInvalidCoupon($couponCode,
-                                            $couponCodeStatus)) {
+                    $couponCodeStatus)) {
                 return false;
             }
 

@@ -6,85 +6,86 @@
 {% block title %}Admin - Coupons / List{% endblock %}
 
 {% block body %}
-  <div class="row">
-    <div class="col-md-6">
-      {{ f.search('admin.coupons') }}
+    <div class="row">
+        <div class="col-md-6">
+          {{ f.search('admin.coupons') }}
+        </div>
+        <div class="col-md-6">
+            <a href="{{ url_for('admin.coupons_new') }}"
+               class="btn btn-primary pull-right">
+                Create coupon
+            </a>
+        </div>
     </div>
-    <div class="col-md-6">
-      <a href="{{ url_for('admin.coupons_new') }}"
-         class="btn btn-primary pull-right">
-        Create coupon
-      </a>
-    </div>
-  </div>
 
   {% if coupons.total == 0 %}
-    <h3>No results found</h3>
+      <h3>No results found</h3>
     {% if request.args.get('q') %}
-      <p>Try limiting or removing your search terms.</p>
+        <p>Try limiting or removing your search terms.</p>
     {% else %}
-      <p>There are no coupons present, you should <a
-          href="{{ url_for('admin.coupons_new') }}">create one</a>.</p>
+        <p>There are no coupons present, you should <a
+                href="{{ url_for('admin.coupons_new') }}">create one</a>.</p>
     {% endif %}
   {% else %}
     {% call f.form_tag('admin.coupons_bulk_delete') %}
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>
-            <label for="select_all"></label>
-            <input id="select_all" name="select_all" type="checkbox">
-          </th>
-          <th class="col-header">
-            {{ items.sort('created_on', 'Date') }}
-          </th>
-          <th class="col-header">
-            {{ items.sort('code') }}
-          </th>
-          <th class="col-header">
-            {{ items.sort('duration') }}
-          </th>
-          <th class="col-header">
-            {{ items.sort('redeem_by', 'Expires') }}
-          </th>
-          <th class="col-header">
-            {{ items.sort('times_redeemed', 'Redeemed') }}
-          </th>
-          <th id="bulk_actions" colspan="5">
-            <div class="form-inline">
-              {{ f.field(bulk_form.scope, inline=True) }}
-              <button type="submit"
-                      class="btn btn-danger btn-sm">
-                Delete items
-              </button>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for coupon in coupons.items %}
-          <tr class="{{ 'half-faded' if not coupon.valid }}">
-            <td>
-              <label for="bulk_ids"></label>
-              <input class="checkbox-item" id="bulk_ids" name="bulk_ids"
-                     type="checkbox" value="{{ coupon.id }}">
-            </td>
-            <td>{{ coupon.created_on.strftime('%B %d, %Y') }}</td>
-            <td>
-              {{ coupon.code }}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    <label for="select_all"></label>
+                    <input id="select_all" name="select_all" type="checkbox">
+                </th>
+                <th class="col-header">
+                  {{ items.sort('created_on', 'Date') }}
+                </th>
+                <th class="col-header">
+                  {{ items.sort('code') }}
+                </th>
+                <th class="col-header">
+                  {{ items.sort('duration') }}
+                </th>
+                <th class="col-header">
+                  {{ items.sort('redeem_by', 'Expires') }}
+                </th>
+                <th class="col-header">
+                  {{ items.sort('times_redeemed', 'Redeemed') }}
+                </th>
+                <th id="bulk_actions" colspan="5">
+                    <div class="form-inline">
+                      {{ f.field(bulk_form.scope, inline=True) }}
+                        <button type="submit"
+                                class="btn btn-danger btn-sm">
+                            Delete items
+                        </button>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for coupon in coupons.items %}
+                <tr class="{{ 'half-faded' if not coupon.valid }}">
+                    <td>
+                        <label for="bulk_ids"></label>
+                        <input class="checkbox-item" id="bulk_ids"
+                               name="bulk_ids"
+                               type="checkbox" value="{{ coupon.id }}">
+                    </td>
+                    <td>{{ coupon.created_on.strftime('%B %d, %Y') }}</td>
+                    <td>
+                      {{ coupon.code }}
 
-              <p class="small text-muted">
-                {{ billing.coupon_discount(coupon.amount_off, coupon.percent_off) }}
-                discount
-              </p>
-            </td>
-            <td>{{ billing.coupon_duration_tag_for(coupon) }}</td>
-            <td>{{ billing.coupon_expiration(coupon) }}</td>
-            <td>{{ billing.coupon_redeemed(coupon.times_redeemed, coupon.max_redemptions) }}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+                        <p class="small text-muted">
+                          {{ billing.coupon_discount(coupon.amount_off, coupon.percent_off) }}
+                            discount
+                        </p>
+                    </td>
+                    <td>{{ billing.coupon_duration_tag_for(coupon) }}</td>
+                    <td>{{ billing.coupon_expiration(coupon) }}</td>
+                    <td>{{ billing.coupon_redeemed(coupon.times_redeemed, coupon.max_redemptions) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% endcall %}
 
     {{ items.paginate(coupons) }}
