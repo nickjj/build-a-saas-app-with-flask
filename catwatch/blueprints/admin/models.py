@@ -7,29 +7,11 @@ from catwatch.blueprints.billing.models.subscription import Subscription
 
 class Dashboard(object):
     @classmethod
-    def group_and_count_plans(cls):
-        """
-        Perform a group by/count on all subscriber types.
-
-        :return: List of results
-        """
-        count = func.count(Subscription.plan)
-        query = db.session.query(count, Subscription.plan).group_by(
-            Subscription.plan).all()
-
-        results = {
-            'query': query,
-            'total': Subscription.query.count()
-        }
-
-        return results
-
-    @classmethod
     def group_and_count_coupons(cls):
         """
         Obtain coupon usage statistics across all subscribers.
 
-        :return: Coupon stats
+        :return: tuple
         """
         not_null = db.session.query(Subscription).filter(
             Subscription.coupon.isnot(None)).count()
@@ -43,36 +25,49 @@ class Dashboard(object):
         return not_null, total, percent
 
     @classmethod
+    def group_and_count_plans(cls):
+        """
+        Perform a group by/count on all subscriber types.
+
+        :return: dict
+        """
+        return Dashboard._group_and_count(Subscription, Subscription.plan)
+
+    @classmethod
     def group_and_count_users(cls):
         """
         Perform a group by/count on all user types.
 
-        :return: List of results
+        :return: dict
         """
-        count = func.count(User.role)
-        query = db.session.query(count, User.role).group_by(User.role).all()
-
-        results = {
-            'query': query,
-            'total': User.query.count()
-        }
-
-        return results
+        return Dashboard._group_and_count(User, User.role)
 
     @classmethod
     def group_and_count_issues(cls):
         """
         Perform a group by/count on all issue types.
 
-        :return: List of results
+        :return: dict
         """
-        count = func.count(Issue.status)
-        query = db.session.query(count, Issue.status).group_by(
-            Issue.status).all()
+        return Dashboard._group_and_count(Issue, Issue.status)
+
+    @classmethod
+    def _group_and_count(cls, model, field):
+        """
+        Group results for a specific model and field.
+
+        :param model: Name of the model
+        :type model: SQLAlchemy model
+        :param field: Name of the field to group on
+        :type field: SQLAlchemy field
+        :return: dict
+        """
+        count = func.count(field)
+        query = db.session.query(count, field).group_by(field).all()
 
         results = {
             'query': query,
-            'total': Issue.query.count()
+            'total': model.query.count()
         }
 
         return results

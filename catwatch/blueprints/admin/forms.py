@@ -1,8 +1,8 @@
 from collections import OrderedDict
 
 from flask_wtf import Form
-from wtforms import SelectField, StringField, BooleanField, \
-    TextAreaField, FloatField, DateTimeField
+from wtforms import SelectField, StringField, BooleanField, TextAreaField, \
+    FloatField, DateTimeField
 from wtforms.validators import DataRequired, Length, Optional, Regexp, \
     NumberRange
 from wtforms_components import Unique, EmailField, IntegerField
@@ -89,8 +89,8 @@ class CouponForm(Form):
     def validate(self):
         if not Form.validate(self):
             return False
-        result = True
 
+        result = True
         percent_off = self.percent_off.data
         amount_off = self.amount_off.data
 
