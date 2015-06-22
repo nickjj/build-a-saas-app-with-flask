@@ -13,18 +13,98 @@ db.app = app
 SQLALCHEMY_DATABASE_URI = app.config.get('SQLALCHEMY_DATABASE_URI', None)
 
 
-def _execute_psql(command):
-    """
-    Parse a SQLAlchemy database URI.
+class PostgresDatabase(object):
+    def __init__(self, databases):
+        self._config = _parse_database_uri(SQLALCHEMY_DATABASE_URI)
+        self._psql = 'psql -U postgres'
+        self._createdb = 'createdb -U postgres'
+        self._dropdb = 'dropdb -U postgres'
 
-    :param command: SQL command to run
-    :type command: str
-    :return: Full docker command to run
-    """
-    docker = 'docker exec -it website_postgres_1'
-    psql = 'psql -U postgres -c "{0}"'.format(command)
+        self._container = _get_postgres_container()
+        self._docker_exec = 'docker exec {0}'.format(self._container)
 
-    return '{0} {1}'.format(docker, psql)
+        self.databases = databases
+
+        if databases == ():
+            self.databases = [self._config.get('database')]
+
+    @property
+    def config(self):
+        """
+        Return the parsed database URI.
+
+        :return: str
+        """
+        return self._config
+
+    @property
+    def container(self):
+        """
+        Return the docker container ID of the running postgres instance.
+
+        :return: str
+        """
+        return self._container
+
+    def psql(self, command):
+        """
+        Run a psql command and return its results.
+
+        :return: str
+        """
+        pg = '{0} -c "{1}"'.format(self._psql, command)
+        shell_command = '{0} {1}'.format(self._docker_exec, pg)
+
+        return subprocess.call(shell_command, shell=True)
+
+    def _user(self):
+        """
+        Create a database role (user).
+
+        :return: None
+        """
+        create_role = "CREATE USER {0} WITH PASSWORD '{1}'".format(
+            self.config.get('username'), self.config.get('password'))
+
+        return self.psql(create_role)
+
+    def list(self):
+        """
+        List all databases.
+
+        :return: psql result
+        """
+        return self.psql('\l')
+
+    def create(self):
+        """
+        Create each database.
+
+        :return: None
+        """
+        self._user()
+
+        for database in self.databases:
+            pg = '{0} "{1}"'.format(self._createdb, database)
+            command = '{0} {1}'.format(self._docker_exec, pg)
+
+            subprocess.call(command, shell=True)
+
+        return None
+
+    def drop(self):
+        """
+        Drop each database.
+
+        :return: None
+        """
+        for database in self.databases:
+            pg = '{0} "{1}"'.format(self._dropdb, database)
+            command = '{0} {1}'.format(self._docker_exec, pg)
+
+            subprocess.call(command, shell=True)
+
+        return None
 
 
 def _parse_database_uri(uri):
@@ -53,73 +133,20 @@ def _parse_database_uri(uri):
     return db_engine
 
 
-def _create_database_user(user, password, database):
+def _get_postgres_container():
     """
-    Execute a database command to create a new user.
+    Find the name of the postgres container.
 
-    :param user: Database user
-    :type user: str
-    :param password: Database password
-    :type password: str
-    :param database: Database name
-    :type database: str
-    :return: Subprocess call result
+    :return: str
     """
-    _drop_database_user(database)
-    pg = 'CREATE USER {0} WITH PASSWORD \'{1}\';'.format(user, password)
+    find_container = '''
+        for i in $(docker ps  | grep "postgres" | cut -f1 -d" ");
+          do echo $i;
+        done
+    '''
+    container_id = subprocess.check_output(find_container, shell=True)[:-1]
 
-    return subprocess.call(_execute_psql(pg), shell=True)
-
-
-def _grant_user_privileges(user, database):
-    """
-    Execute a database command to grant all privileges to a user.
-
-    :param user: Database user
-    :type user: str
-    :param database: Database name
-    :type database: str
-    :return: Subprocess call result
-    """
-    pg = 'GRANT ALL PRIVILEGES ON DATABASE {0} to {1};'.format(database, user)
-
-    return subprocess.call(_execute_psql(pg), shell=True)
-
-
-def _drop_database_user(database):
-    """
-    Execute a database command to drop a user.
-
-    :param database: Database name
-    :type database: str
-    :return: Subprocess call result
-    """
-    pg = 'DROP USER IF EXISTS {0};'.format(database)
-
-    return subprocess.call(_execute_psql(pg), shell=True)
-
-
-def _interact_with_database(command, database, if_exists=True):
-    """
-    Execute a database command to perform a specific action against it.
-
-    :param command: Name of the command to run.
-    :type command: str
-    :param database: Database name
-    :type database: str
-    :param if_exists: Should we check if it exists or not
-    :type if_exists: bool
-    :return: Subprocess call result
-    """
-    if if_exists:
-        if_exists_flag = '--if-exists'
-    else:
-        if_exists_flag = ''
-
-    cmd = 'docker exec -it website_postgres_1 {0} -U postgres -e {1} {2}' \
-        .format(command, if_exists_flag, database)
-
-    return subprocess.call(cmd, shell=True)
+    return container_id
 
 
 @click.group()
@@ -129,25 +156,44 @@ def cli():
 
 
 @click.command()
+def list():
+    """
+    List all databases.
+
+    :return: psql result
+    """
+    database = PostgresDatabase(())
+    database.list()
+
+
+@click.command()
+@click.argument('command')
+def psql(command):
+    """
+    Exec a psql command against the database.
+
+    Example, to list all users:
+      run db psql "\du"
+
+    Delete a specific user:
+      run db psql "DROP USER foobar"
+
+    :return: psql result
+    """
+    database = PostgresDatabase(())
+    database.psql(command)
+
+
+@click.command()
 @click.argument('databases', nargs=-1)
 def create(databases):
     """
-    Create a user/database.
+    Create 1 or more databases.
 
     :return: db session create_all result
     """
-    db_config = _parse_database_uri(SQLALCHEMY_DATABASE_URI)
-
-    if databases == ():
-        databases = [db_config['database']]
-
-    # We only need to create 1 user.
-    _create_database_user(db_config['username'], db_config['password'],
-                          databases[0])
-
-    for database in databases:
-        _interact_with_database('createdb', database, if_exists=False)
-        _grant_user_privileges(db_config['username'], database)
+    database = PostgresDatabase(databases)
+    database.create()
 
     # We also do a create all to load the initial schema from our models.
     return db.create_all()
@@ -157,22 +203,12 @@ def create(databases):
 @click.argument('databases', nargs=-1)
 def drop(databases):
     """
-    Drop a user/database.
+    Drop 1 or more databases.
 
     :return: None
     """
-    db_config = _parse_database_uri(SQLALCHEMY_DATABASE_URI)
-
-    if databases == ():
-        databases = [db_config['database']]
-
-    for database in databases:
-        _interact_with_database('dropdb', database)
-
-        # We delete the user last, after every db has been dropped already,
-        # otherwise we'll have dependency issues.
-        # TODO: Only do this if no DBs exist,
-        # drop_database_user(db_config['username'])
+    database = PostgresDatabase(databases)
+    database.drop()
 
     return None
 
@@ -201,6 +237,8 @@ def seed():
     return seed_database()
 
 
+cli.add_command(list)
+cli.add_command(psql)
 cli.add_command(create)
 cli.add_command(drop)
 cli.add_command(reset)
