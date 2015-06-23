@@ -278,4 +278,4 @@ class User(UserMixin, ResourceMixin, db.Model):
         self.current_sign_in_on = datetime.datetime.utcnow()
         self.current_sign_in_ip = ip_address
 
-        return db.session.commit()
+        return self.save()
