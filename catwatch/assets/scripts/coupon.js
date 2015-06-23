@@ -1,3 +1,5 @@
+var rome = require('rome');
+
 var coupon = function () {
     var durationSelector = '#duration';
 

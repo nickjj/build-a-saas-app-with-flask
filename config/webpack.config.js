@@ -54,27 +54,23 @@ var chunks = {
     app_css: [
         path.join(contextRoot, assets.styles.path, 'default.scss')
     ],
-    vendor_js: [
-        path.join(contextRoot, assets.scripts.path, 'vendor',
-            'bootstrap.3.3.5.min.js')
-    ],
+    vendor_js: ['bootstrap-sass', 'moment', 'rome'],
     vendor_css: [
-        // Bootstrap configuration settings:
-        //   https://gist.github.com/anonymous/ef4593b01915d647ed88
-        //   http://getbootstrap.com/customize/?id=ef4593b01915d647ed88
+         // Bootstrap configuration settings:
+        // https://gist.github.com/anonymous/ef4593b01915d647ed88
+        // http://getbootstrap.com/customize/?id=ef4593b01915d647ed88
         path.join(contextRoot, assets.styles.path,
-            'vendor', 'bootstrap.3.3.5.min.css'),
+        'vendor', 'bootstrap.3.3.5.min.css'),
         path.join(contextRoot, assets.styles.path,
-            'vendor', 'font-awesome.4.3.0.css'),
+        'vendor', 'font-awesome.4.3.0.css'),
         path.join(contextRoot, assets.styles.path,
-            'vendor', 'rome.2.1.17.css')
+        'vendor', 'rome.2.1.17.css')
     ]
 };
 
 // Avoid parsing this code to speed up rebuilds.
 var noParse = [
-    path.join(contextRoot, assets.styles.path, 'vendor'),
-    path.join(contextRoot, assets.scripts.path, 'vendor')
+    path.join(contextRoot, assets.styles.path, 'vendor')
 ];
 
 // Where will assets get served in development mode? This depends on running
@@ -90,6 +86,9 @@ var publicPath = process.env.PUBLIC_PATH || 'http://localhost:2992/assets/';
 var plugins = [
     // http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
     new webpack.NoErrorsPlugin(),
+
+    // http://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
+    new webpack.optimize.CommonsChunkPlugin('vendor_js', 'vendor_js.js'),
 
     // https://github.com/webpack/extract-text-webpack-plugin
     new ExtractTextPlugin(assets.styles.filename),

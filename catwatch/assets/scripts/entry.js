@@ -3,7 +3,7 @@ var stripe = require('./stripe');
 var BulkDelete = require('./bulk-delete');
 var faye = require('./faye');
 
-jQuery(function ($) {
+$(document).ready(function() {
     coupon();
     stripe();
 

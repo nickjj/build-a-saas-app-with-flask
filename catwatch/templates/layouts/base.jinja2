@@ -37,7 +37,7 @@
             <li class="text-muted">{{ _('Cat watch') }} &copy; 2015</li>
           {% block footer %}{% endblock %}
           {% if current_user.role == 'admin' %}
-              <li>
+              <li data-toggle="tooltip" title="foo">
                 {% include 'admin/_menu.jinja2' %}
               </li>
           {% endif %}
