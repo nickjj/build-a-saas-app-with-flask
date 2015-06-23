@@ -46,7 +46,7 @@ click==4.0
 gunicorn==19.3.0
 
 # Generate fake data
-fake-factory==0.5.1
+fake-factory==0.5.2
 
 # Debug toolbar
 Flask-DebugToolbar==0.10.0
