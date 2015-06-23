@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-17 10:17-0700\n"
+"POT-Creation-Date: 2015-06-23 06:25-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,107 +17,88 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: catwatch/blueprints/admin/forms.py:18
+#: catwatch/blueprints/admin/forms.py:19
 msgid "Search terms"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:19
-msgid "Search"
-msgstr ""
-
-#: catwatch/blueprints/admin/forms.py:28 catwatch/blueprints/admin/forms.py:46
+#: catwatch/blueprints/admin/forms.py:28 catwatch/blueprints/admin/forms.py:45
 msgid "Privileges"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:30
-msgid "Delete items"
-msgstr ""
-
-#: catwatch/blueprints/admin/forms.py:34 catwatch/blueprints/user/forms.py:50
+#: catwatch/blueprints/admin/forms.py:33 catwatch/blueprints/user/forms.py:63
 msgid "Letters, numbers and underscores only please."
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:45
+#: catwatch/blueprints/admin/forms.py:44
 msgid "Full name"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:49
+#: catwatch/blueprints/admin/forms.py:48
 msgid "Yes, allow this user to sign in"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:50 catwatch/blueprints/admin/forms.py:67
-#: catwatch/blueprints/admin/forms.py:93 catwatch/blueprints/user/forms.py:61
-#: catwatch/blueprints/user/forms.py:78
-msgid "Save"
-msgstr ""
-
-#: catwatch/blueprints/admin/forms.py:54
-msgid "Cancel subscription"
-msgstr ""
-
-#: catwatch/blueprints/admin/forms.py:58 catwatch/blueprints/issue/forms.py:12
+#: catwatch/blueprints/admin/forms.py:56 catwatch/blueprints/issue/forms.py:12
 msgid "What do you need help with?"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:60 catwatch/blueprints/issue/forms.py:14
+#: catwatch/blueprints/admin/forms.py:58 catwatch/blueprints/issue/forms.py:14
 msgid "What's your e-mail address?"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:62 catwatch/blueprints/issue/forms.py:16
+#: catwatch/blueprints/admin/forms.py:60 catwatch/blueprints/issue/forms.py:16
 msgid "What's your question or issue?"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:64
+#: catwatch/blueprints/admin/forms.py:62
 msgid "What status is the issue in?"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:71
+#: catwatch/blueprints/admin/forms.py:68
 msgid "Percent off"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:73
+#: catwatch/blueprints/admin/forms.py:70
 msgid "Amount off"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:76
+#: catwatch/blueprints/admin/forms.py:73
 msgid "Code"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:77
+#: catwatch/blueprints/admin/forms.py:74
 msgid "Currency"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:80
+#: catwatch/blueprints/admin/forms.py:77
 msgid "Duration"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:83
+#: catwatch/blueprints/admin/forms.py:80
 msgid "Duration in months"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:87
+#: catwatch/blueprints/admin/forms.py:84
 msgid "Max Redemptions"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:90
+#: catwatch/blueprints/admin/forms.py:87
 msgid "Redeem by"
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:104
-#: catwatch/blueprints/admin/forms.py:105
+#: catwatch/blueprints/admin/forms.py:99 catwatch/blueprints/admin/forms.py:100
 msgid "Pick at least one."
 msgstr ""
 
-#: catwatch/blueprints/admin/forms.py:108
-#: catwatch/blueprints/admin/forms.py:109
+#: catwatch/blueprints/admin/forms.py:103
+#: catwatch/blueprints/admin/forms.py:104
 msgid "Cannot pick both."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:83
+#: catwatch/blueprints/admin/views.py:81
 msgid "You are the last admin, you cannot do that."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:93 catwatch/tests/admin/test_views.py:49
+#: catwatch/blueprints/admin/views.py:91 catwatch/tests/admin/test_views.py:51
 msgid "User has been saved successfully."
 msgstr ""
 
@@ -125,39 +106,35 @@ msgstr ""
 msgid "No users were deleted, something went wrong."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:133
+#: catwatch/blueprints/admin/views.py:131
 #, python-format
 msgid "Subscription has been cancelled for %(user)s."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:136
+#: catwatch/blueprints/admin/views.py:134
 msgid "No subscription was cancelled, something went wrong."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:172
-#: catwatch/tests/admin/test_views.py:127
+#: catwatch/blueprints/admin/views.py:170
+#: catwatch/tests/admin/test_views.py:130
 msgid "Issue has been saved successfully."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:194
+#: catwatch/blueprints/admin/views.py:191
 msgid "No issues were deleted, something went wrong."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:241
-#: catwatch/tests/admin/test_views.py:183
+#: catwatch/blueprints/admin/views.py:238
+#: catwatch/tests/admin/test_views.py:186
 msgid "Coupon has been created successfully."
 msgstr ""
 
-#: catwatch/blueprints/admin/views.py:266
+#: catwatch/blueprints/admin/views.py:263
 msgid "No coupons were deleted, something went wrong."
 msgstr ""
 
 #: catwatch/blueprints/billing/decorators.py:21
 msgid "Sorry, your card was declined. Try again perhaps?"
-msgstr ""
-
-#: catwatch/blueprints/billing/decorators.py:25
-msgid "Our payment gateway did not like that request."
 msgstr ""
 
 #: catwatch/blueprints/billing/decorators.py:28
@@ -181,7 +158,7 @@ msgid "Plan"
 msgstr ""
 
 #: catwatch/blueprints/billing/forms.py:12
-#: catwatch/blueprints/billing/forms.py:20
+#: catwatch/blueprints/billing/forms.py:19
 msgid "Do you have a discount code?"
 msgstr ""
 
@@ -189,102 +166,87 @@ msgstr ""
 msgid "Name on card"
 msgstr ""
 
-#: catwatch/blueprints/billing/forms.py:16
-msgid "Process payment"
-msgstr ""
-
-#: catwatch/blueprints/billing/forms.py:22
-msgid "Change plan"
-msgstr ""
-
-#: catwatch/blueprints/billing/forms.py:26
-msgid "Cancel it"
-msgstr ""
-
-#: catwatch/blueprints/billing/views/billing.py:37
+#: catwatch/blueprints/billing/views/billing.py:36
 #: catwatch/tests/billing/test_views.py:41
 msgid "Discount code cannot be processed."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:43
+#: catwatch/blueprints/billing/views/billing.py:40
 #: catwatch/tests/billing/test_views.py:54
 msgid "Discount code not found."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:53
+#: catwatch/blueprints/billing/views/billing.py:50
 #: catwatch/tests/billing/test_views.py:73
 msgid "You already have an active subscription."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:77
+#: catwatch/blueprints/billing/views/billing.py:72
 msgid "Awesome, thanks for subscribing!"
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:79
-#: catwatch/blueprints/billing/views/billing.py:186
+#: catwatch/blueprints/billing/views/billing.py:74
+#: catwatch/blueprints/billing/views/billing.py:170
 #: catwatch/tests/billing/test_views.py:90
 #: catwatch/tests/billing/test_views.py:174
 msgid "You must enable Javascript for this request."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:125
+#: catwatch/blueprints/billing/views/billing.py:110
 msgid "Your subscription has been updated."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:139
+#: catwatch/blueprints/billing/views/billing.py:124
 #: catwatch/tests/billing/test_views.py:133
 msgid "You do not have an active subscription."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:149
+#: catwatch/blueprints/billing/views/billing.py:134
 #: catwatch/tests/billing/test_views.py:153
 msgid "Sorry to see you go, your subscription has been cancelled."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:163
+#: catwatch/blueprints/billing/views/billing.py:147
 #: catwatch/tests/billing/test_views.py:163
 msgid "You do not have a payment method on file."
 msgstr ""
 
-#: catwatch/blueprints/billing/views/billing.py:184
+#: catwatch/blueprints/billing/views/billing.py:168
 msgid "Your payment method has been updated."
 msgstr ""
 
-#: catwatch/blueprints/issue/forms.py:18
-msgid "Submit this support request"
+#: catwatch/blueprints/issue/tasks.py:26
+#, python-format
+msgid "[Support request] %(label)s"
 msgstr ""
 
-#: catwatch/blueprints/issue/views.py:27 catwatch/tests/issue/test_views.py:37
+#: catwatch/blueprints/issue/views.py:32 catwatch/tests/issue/test_views.py:37
 msgid "Help is on the way, expect a response shortly."
 msgstr ""
 
-#: catwatch/blueprints/user/decorators.py:40
+#: catwatch/blueprints/user/decorators.py:42
 msgid "You do not have permission to do that."
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:15 catwatch/blueprints/user/forms.py:23
+#: catwatch/blueprints/user/forms.py:31 catwatch/blueprints/user/forms.py:38
 msgid "Username or email"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:19
-msgid "Sign in"
-msgstr ""
-
-#: catwatch/blueprints/user/forms.py:28 catwatch/blueprints/user/forms.py:34
-msgid "Continue"
-msgstr ""
-
-#: catwatch/blueprints/user/forms.py:33 catwatch/blueprints/user/forms.py:45
-#: catwatch/blueprints/user/forms.py:77
+#: catwatch/blueprints/user/forms.py:47 catwatch/blueprints/user/forms.py:59
+#: catwatch/blueprints/user/forms.py:89
 msgid "Password"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:46
-msgid "Register"
+#: catwatch/blueprints/user/forms.py:84
+msgid "Current password"
 msgstr ""
 
-#: catwatch/blueprints/user/forms.py:72
-msgid "Current password"
+#: catwatch/blueprints/user/forms.py:93
+msgid "Language preference"
+msgstr ""
+
+#: catwatch/blueprints/user/forms.py:96
+msgid "Timezone"
 msgstr ""
 
 #: catwatch/blueprints/user/tasks.py:28
@@ -299,49 +261,57 @@ msgstr ""
 msgid "Does not match."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:51 catwatch/tests/user/test_views.py:37
+#: catwatch/blueprints/user/views.py:58 catwatch/tests/user/test_views.py:37
 msgid "This account has been disabled."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:53 catwatch/tests/user/test_views.py:43
+#: catwatch/blueprints/user/views.py:60 catwatch/tests/user/test_views.py:43
 msgid "Identity or password is incorrect."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:62 catwatch/tests/user/test_views.py:51
+#: catwatch/blueprints/user/views.py:69 catwatch/tests/user/test_views.py:51
 msgid "You have been logged out."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:79 catwatch/tests/user/test_views.py:96
+#: catwatch/blueprints/user/views.py:81 catwatch/tests/user/test_views.py:96
 #, python-format
 msgid "An email has been sent to %(email)s."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:95 catwatch/tests/user/test_views.py:118
+#: catwatch/blueprints/user/views.py:97 catwatch/tests/user/test_views.py:118
 #: catwatch/tests/user/test_views.py:128
 msgid "Your reset token has expired or was tampered with."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:104 catwatch/tests/user/test_views.py:106
+#: catwatch/blueprints/user/views.py:106 catwatch/tests/user/test_views.py:106
 msgid "Your password has been reset."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:123 catwatch/tests/user/test_views.py:171
+#: catwatch/blueprints/user/views.py:125 catwatch/tests/user/test_views.py:171
 msgid "Awesome, thanks for signing up!"
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:138 catwatch/tests/user/test_views.py:188
+#: catwatch/blueprints/user/views.py:140 catwatch/tests/user/test_views.py:188
 msgid "Sign up is complete, enjoy our services."
 msgstr ""
 
-#: catwatch/blueprints/user/views.py:165 catwatch/tests/user/test_views.py:258
+#: catwatch/blueprints/user/views.py:167 catwatch/tests/user/test_views.py:258
 msgid "Your sign in settings have been updated."
 msgstr ""
 
-#: catwatch/lib/util_wtforms.py:49
+#: catwatch/blueprints/user/views.py:182
+msgid "Your localization settings have been updated."
+msgstr ""
+
+#: catwatch/lib/flask_mailplus.py:44 catwatch/lib/flask_mailplus.py:46
+msgid "You cannot have both a template and body arg."
+msgstr ""
+
+#: catwatch/lib/util_wtforms.py:50 catwatch/lib/util_wtforms.py:85
 msgid "Please select one..."
 msgstr ""
 
-#: catwatch/tests/admin/test_views.py:83
+#: catwatch/tests/admin/test_views.py:86
 #, python-format
 msgid "Subscription has been cancelled for %(user)s"
 msgstr ""

@@ -4,12 +4,13 @@ import subprocess
 import click
 
 APP_ROOT = None
-BABEL_I18N_PATH = 'catwatch/i18n'
+APP_NAME = None
 
 try:
     from instance import settings
 
     APP_ROOT = settings.APP_ROOT
+    APP_NAME = settings.APP_NAME
 except ImportError:
     logging.error('Your instance/ folder must contain an __init__.py file')
     exit(1)
@@ -19,9 +20,12 @@ except AttributeError:
     if APP_ROOT is None:
         APP_ROOT = settings.APP_ROOT
 
+    if APP_NAME is None:
+        APP_NAME = settings.APP_NAME
+
+BABEL_I18N_PATH = '{0}/{1}'.format(APP_NAME, 'translations')
 MESSAGES_PATH = '{0}/{1}/{2}'.format(APP_ROOT, BABEL_I18N_PATH, 'messages.pot')
-TRANSLATION_PATH = '{0}/{1}/{2}'.format(APP_ROOT, BABEL_I18N_PATH,
-                                        'translations')
+TRANSLATION_PATH = '{0}/{1}'.format(APP_ROOT, BABEL_I18N_PATH)
 
 
 @click.group()
@@ -59,7 +63,7 @@ def init(language=None):
 @click.command()
 def compile():
     """
-    Compile new translations.
+    Compile new translations. Remember to remove #, fuzzy lines.
 
     :return: Subprocess call result
     """

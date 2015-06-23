@@ -1,10 +1,26 @@
+import logging
+
 from flask_wtf import Form
-from wtforms import HiddenField, StringField, PasswordField
+from wtforms import HiddenField, StringField, PasswordField, SelectField
 from wtforms.validators import DataRequired, Length, Optional, Regexp
 from wtforms_components import EmailField, Unique, Email
 from flask_babel import lazy_gettext as _
 
-from catwatch.lib.util_wtforms import ModelForm
+try:
+    from instance import settings
+
+    LANGUAGES = settings.LANGUAGES
+except ImportError:
+    logging.error('Your instance/ folder must contain an __init__.py file')
+    exit(1)
+except AttributeError:
+    from config import settings
+
+    LANGUAGES = settings.LANGUAGES
+
+from catwatch.lib.util_wtforms import ModelForm, choices_from_dict, \
+    choices_from_list
+from catwatch.lib.localization import TIMEZONES
 from catwatch.blueprints.user.models import User, db
 from catwatch.blueprints.user.validations import ensure_identity_exists, \
     ensure_existing_password_matches
@@ -71,3 +87,11 @@ class UpdateCredentials(ModelForm):
                                       ensure_existing_password_matches]
                                      )
     password = PasswordField(_('Password'), [Optional(), Length(8, 128)])
+
+
+class UpdateLanguage(ModelForm):
+    locale = SelectField(_('Language preference'), [DataRequired()],
+                         choices=choices_from_dict(LANGUAGES))
+
+    timezone = SelectField(_('Timezone'), [DataRequired()],
+                           choices=choices_from_list(TIMEZONES))

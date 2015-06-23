@@ -1,0 +1,322 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-06-23 06:25-0700\n"
+"PO-Revision-Date: 2015-06-23 05:06-0700\n"
+"Last-Translator: Google\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#: catwatch/blueprints/admin/forms.py:19
+msgid "Search terms"
+msgstr "Los términos de búsqueda"
+
+#: catwatch/blueprints/admin/forms.py:28 catwatch/blueprints/admin/forms.py:45
+msgid "Privileges"
+msgstr "Privilegios"
+
+#: catwatch/blueprints/admin/forms.py:33 catwatch/blueprints/user/forms.py:63
+msgid "Letters, numbers and underscores only please."
+msgstr "Letras, números y guiones bajos sólo por favor."
+
+#: catwatch/blueprints/admin/forms.py:44
+msgid "Full name"
+msgstr "Nombre completo"
+
+#: catwatch/blueprints/admin/forms.py:48
+msgid "Yes, allow this user to sign in"
+msgstr "Sí, deje este usuario a ingresar"
+
+#: catwatch/blueprints/admin/forms.py:56 catwatch/blueprints/issue/forms.py:12
+msgid "What do you need help with?"
+msgstr "Con qué necesitas ayuda?"
+
+#: catwatch/blueprints/admin/forms.py:58 catwatch/blueprints/issue/forms.py:14
+msgid "What's your e-mail address?"
+msgstr "Cuál es su dirección de correo electrónico?"
+
+#: catwatch/blueprints/admin/forms.py:60 catwatch/blueprints/issue/forms.py:16
+msgid "What's your question or issue?"
+msgstr "¿Cuál es tu pregunta o problema?"
+
+#: catwatch/blueprints/admin/forms.py:62
+msgid "What status is the issue in?"
+msgstr "¿Cuál es el estado de la cuestión en?"
+
+#: catwatch/blueprints/admin/forms.py:68
+msgid "Percent off"
+msgstr "Por ciento de descuento"
+
+#: catwatch/blueprints/admin/forms.py:70
+msgid "Amount off"
+msgstr "Importe off"
+
+#: catwatch/blueprints/admin/forms.py:73
+msgid "Code"
+msgstr "Código"
+
+#: catwatch/blueprints/admin/forms.py:74
+msgid "Currency"
+msgstr "Moneda"
+
+#: catwatch/blueprints/admin/forms.py:77
+msgid "Duration"
+msgstr "Duración"
+
+#: catwatch/blueprints/admin/forms.py:80
+msgid "Duration in months"
+msgstr "Duración en meses"
+
+#: catwatch/blueprints/admin/forms.py:84
+msgid "Max Redemptions"
+msgstr "Max reembolsos"
+
+#: catwatch/blueprints/admin/forms.py:87
+msgid "Redeem by"
+msgstr "Canjear por"
+
+#: catwatch/blueprints/admin/forms.py:99 catwatch/blueprints/admin/forms.py:100
+msgid "Pick at least one."
+msgstr "Elige al menos uno."
+
+#: catwatch/blueprints/admin/forms.py:103
+#: catwatch/blueprints/admin/forms.py:104
+msgid "Cannot pick both."
+msgstr "No se puede tomar tanto."
+
+#: catwatch/blueprints/admin/views.py:81
+msgid "You are the last admin, you cannot do that."
+msgstr "Eres la última administración, usted no puede hacer eso."
+
+#: catwatch/blueprints/admin/views.py:91 catwatch/tests/admin/test_views.py:51
+msgid "User has been saved successfully."
+msgstr "El usuario ha sido guardado con éxito."
+
+#: catwatch/blueprints/admin/views.py:116
+msgid "No users were deleted, something went wrong."
+msgstr "No hay usuarios fueron eliminados, algo salió mal."
+
+#: catwatch/blueprints/admin/views.py:131
+#, python-format
+msgid "Subscription has been cancelled for %(user)s."
+msgstr "La suscripción ha sido cancelada por %(user)s."
+
+#: catwatch/blueprints/admin/views.py:134
+msgid "No subscription was cancelled, something went wrong."
+msgstr "Sin suscripción fue cancelada, algo salió mal."
+
+#: catwatch/blueprints/admin/views.py:170
+#: catwatch/tests/admin/test_views.py:130
+msgid "Issue has been saved successfully."
+msgstr "Emisión ha sido guardado con éxito."
+
+#: catwatch/blueprints/admin/views.py:191
+msgid "No issues were deleted, something went wrong."
+msgstr "No hay temas fueron eliminados, algo salió mal."
+
+#: catwatch/blueprints/admin/views.py:238
+#: catwatch/tests/admin/test_views.py:186
+msgid "Coupon has been created successfully."
+msgstr "Cupón se ha creado correctamente."
+
+#: catwatch/blueprints/admin/views.py:263
+msgid "No coupons were deleted, something went wrong."
+msgstr "No hay cupones fueron eliminados, algo salió mal."
+
+#: catwatch/blueprints/billing/decorators.py:21
+msgid "Sorry, your card was declined. Try again perhaps?"
+msgstr "Lo sentimos, su tarjeta fue rechazada. Inténtelo de nuevo, tal vez?"
+
+#: catwatch/blueprints/billing/decorators.py:28
+msgid "Authentication with our payment gateway failed."
+msgstr "Autenticación con nuestra pasarela de pago falló."
+
+#: catwatch/blueprints/billing/decorators.py:32
+msgid "Our payment gateway is experiencing connectivity issues, please try again."
+msgstr ""
+"Nuestra pasarela de pago está experimentando problemas de conectividad, "
+"por favor intente de nuevo."
+
+#: catwatch/blueprints/billing/decorators.py:37
+msgid "Our payment gateway is having issues, please try again."
+msgstr ""
+"Nuestra pasarela de pago está teniendo problemas, por favor intente de "
+"nuevo."
+
+#: catwatch/blueprints/billing/forms.py:8
+msgid "Stripe key"
+msgstr "clave de la Stripe"
+
+#: catwatch/blueprints/billing/forms.py:10
+msgid "Plan"
+msgstr "Plan"
+
+#: catwatch/blueprints/billing/forms.py:12
+#: catwatch/blueprints/billing/forms.py:19
+msgid "Do you have a discount code?"
+msgstr "¿Tiene un código de descuento?"
+
+#: catwatch/blueprints/billing/forms.py:14
+msgid "Name on card"
+msgstr "Nombre en la tarjeta"
+
+#: catwatch/blueprints/billing/views/billing.py:36
+#: catwatch/tests/billing/test_views.py:41
+msgid "Discount code cannot be processed."
+msgstr "Código promocional no se puede procesar."
+
+#: catwatch/blueprints/billing/views/billing.py:40
+#: catwatch/tests/billing/test_views.py:54
+msgid "Discount code not found."
+msgstr "Código promocional no se encuentra."
+
+#: catwatch/blueprints/billing/views/billing.py:50
+#: catwatch/tests/billing/test_views.py:73
+msgid "You already have an active subscription."
+msgstr "Usted ya tiene una suscripción activa."
+
+#: catwatch/blueprints/billing/views/billing.py:72
+msgid "Awesome, thanks for subscribing!"
+msgstr "Impresionante, gracias por suscribirse!"
+
+#: catwatch/blueprints/billing/views/billing.py:74
+#: catwatch/blueprints/billing/views/billing.py:170
+#: catwatch/tests/billing/test_views.py:90
+#: catwatch/tests/billing/test_views.py:174
+msgid "You must enable Javascript for this request."
+msgstr "Debe habilitar Javascript para esta solicitud."
+
+#: catwatch/blueprints/billing/views/billing.py:110
+msgid "Your subscription has been updated."
+msgstr "Su suscripción ha sido actualizada."
+
+#: catwatch/blueprints/billing/views/billing.py:124
+#: catwatch/tests/billing/test_views.py:133
+msgid "You do not have an active subscription."
+msgstr "Usted no tiene una suscripción activa."
+
+#: catwatch/blueprints/billing/views/billing.py:134
+#: catwatch/tests/billing/test_views.py:153
+msgid "Sorry to see you go, your subscription has been cancelled."
+msgstr "Lo sentimos que te vayas, tu suscripción ha sido cancelada."
+
+#: catwatch/blueprints/billing/views/billing.py:147
+#: catwatch/tests/billing/test_views.py:163
+msgid "You do not have a payment method on file."
+msgstr "Usted no tiene un método de pago en el expediente."
+
+#: catwatch/blueprints/billing/views/billing.py:168
+msgid "Your payment method has been updated."
+msgstr "Su método de pago se ha actualizado."
+
+#: catwatch/blueprints/issue/tasks.py:26
+#, python-format
+msgid "[Support request] %(label)s"
+msgstr "[Solicitud de soporte] %(label)s"
+
+#: catwatch/blueprints/issue/views.py:32 catwatch/tests/issue/test_views.py:37
+msgid "Help is on the way, expect a response shortly."
+msgstr "La ayuda está en camino, le espera una respuesta en breve."
+
+#: catwatch/blueprints/user/decorators.py:42
+msgid "You do not have permission to do that."
+msgstr "Usted no tiene permiso para hacer eso."
+
+#: catwatch/blueprints/user/forms.py:31 catwatch/blueprints/user/forms.py:38
+msgid "Username or email"
+msgstr "Nombre de usuario o correo electrónico"
+
+#: catwatch/blueprints/user/forms.py:47 catwatch/blueprints/user/forms.py:59
+#: catwatch/blueprints/user/forms.py:89
+msgid "Password"
+msgstr "Contraseña"
+
+#: catwatch/blueprints/user/forms.py:84
+msgid "Current password"
+msgstr "Contraseña actual"
+
+#: catwatch/blueprints/user/forms.py:93
+msgid "Language preference"
+msgstr "Preferencia de idioma"
+
+#: catwatch/blueprints/user/forms.py:96
+msgid "Timezone"
+msgstr "Zona Horaria"
+
+#: catwatch/blueprints/user/tasks.py:28
+msgid "Password reset from Catwatch"
+msgstr "Contraseña restablecimiento de Catwatch"
+
+#: catwatch/blueprints/user/validations.py:18
+msgid "Unable to locate account."
+msgstr "No se puede localizar la cuenta."
+
+#: catwatch/blueprints/user/validations.py:32
+msgid "Does not match."
+msgstr "No coincide."
+
+#: catwatch/blueprints/user/views.py:58 catwatch/tests/user/test_views.py:37
+msgid "This account has been disabled."
+msgstr "Esta cuenta se ha desactivado."
+
+#: catwatch/blueprints/user/views.py:60 catwatch/tests/user/test_views.py:43
+msgid "Identity or password is incorrect."
+msgstr "Identidad o la contraseña son incorrectos."
+
+#: catwatch/blueprints/user/views.py:69 catwatch/tests/user/test_views.py:51
+msgid "You have been logged out."
+msgstr "Has sido desconectado."
+
+#: catwatch/blueprints/user/views.py:81 catwatch/tests/user/test_views.py:96
+#, python-format
+msgid "An email has been sent to %(email)s."
+msgstr "Un correo electrónico ha sido enviado a %(email)s."
+
+#: catwatch/blueprints/user/views.py:97 catwatch/tests/user/test_views.py:118
+#: catwatch/tests/user/test_views.py:128
+msgid "Your reset token has expired or was tampered with."
+msgstr "Su símbolo de reposición ha caducado o fue manipulado."
+
+#: catwatch/blueprints/user/views.py:106 catwatch/tests/user/test_views.py:106
+msgid "Your password has been reset."
+msgstr "Tu contraseña ha sido restablecida."
+
+#: catwatch/blueprints/user/views.py:125 catwatch/tests/user/test_views.py:171
+msgid "Awesome, thanks for signing up!"
+msgstr "Impresionante, gracias por suscribirse!"
+
+#: catwatch/blueprints/user/views.py:140 catwatch/tests/user/test_views.py:188
+msgid "Sign up is complete, enjoy our services."
+msgstr "Inscríbete es completa, disfrutar de nuestros servicios."
+
+#: catwatch/blueprints/user/views.py:167 catwatch/tests/user/test_views.py:258
+msgid "Your sign in settings have been updated."
+msgstr "Tu signo en entornos se han actualizado."
+
+#: catwatch/blueprints/user/views.py:182
+msgid "Your localization settings have been updated."
+msgstr "La configuración de localización han sido actualizados."
+
+#: catwatch/lib/flask_mailplus.py:44 catwatch/lib/flask_mailplus.py:46
+msgid "You cannot have both a template and body arg."
+msgstr "No se puede tener tanto una plantilla y arg cuerpo."
+
+#: catwatch/lib/util_wtforms.py:50 catwatch/lib/util_wtforms.py:85
+msgid "Please select one..."
+msgstr "Selecciona uno..."
+
+#: catwatch/tests/admin/test_views.py:86
+#, python-format
+msgid "Subscription has been cancelled for %(user)s"
+msgstr "La suscripción ha sido cancelada por %(user)s"
+

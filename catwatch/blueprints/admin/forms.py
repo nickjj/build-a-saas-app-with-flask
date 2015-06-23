@@ -8,10 +8,11 @@ from wtforms.validators import DataRequired, Length, Optional, Regexp, \
 from wtforms_components import Unique, EmailField, IntegerField
 from flask_babel import lazy_gettext as _
 
+from catwatch.lib.localization import Currency
 from catwatch.lib.util_wtforms import ModelForm, choices_from_dict
 from catwatch.blueprints.user.models import db, User
 from catwatch.blueprints.issue.models import Issue
-from catwatch.blueprints.billing.models.coupon import Coupon, Currency
+from catwatch.blueprints.billing.models.coupon import Coupon
 
 
 class SearchForm(Form):

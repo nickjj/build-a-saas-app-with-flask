@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from os import path
 from datetime import timedelta
 
@@ -36,10 +38,12 @@ PUBLIC_BUILD_PATH = path.join(APP_ROOT, 'build', 'public')
 WEBPACK_MANIFEST_PATH = path.join(APP_ROOT, 'build', 'manifest.json')
 
 # Babel i18n translations.
-ACCEPT_LANGUAGES = ['en']
+ACCEPT_LANGUAGES = ['en', 'es']
 LANGUAGES = {
-    'en': 'English'
+    'en': 'English',
+    'es': u'Español'
 }
+BABEL_DEFAULT_LOCALE = 'en'
 
 # Seed settings.
 SEED_ADMIN_EMAIL = 'dev@localhost.com'

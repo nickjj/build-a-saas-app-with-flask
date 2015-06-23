@@ -214,7 +214,7 @@ class TestSettings(ViewTestMixin):
 
 class TestUpdateCredentials(ViewTestMixin):
     def test_update_credentials_page(self):
-        """ Upate credentials renders successfully. """
+        """ Update credentials renders successfully. """
         self.login()
         response = self.client.get(url_for('user.update_credentials'))
 
@@ -297,3 +297,28 @@ class TestUpdateCredentials(ViewTestMixin):
                                     data=user, follow_redirects=True)
 
         assert response.status_code == 200
+
+
+class TestUpdateLocalization(ViewTestMixin):
+    def test_update_localization_page(self):
+        """ Update localization renders successfully. """
+        self.login()
+        response = self.client.get(url_for('user.update_localization'))
+
+        assert response.status_code == 200
+
+    def test_begin_update_localization_locale_timezone(self):
+        """ Update both the locale and timezone. """
+        self.login()
+
+        user = {
+            'locale': 'es',
+            'timezone': 'America/New_York'
+        }
+
+        response = self.client.post(url_for('user.update_localization'),
+                                    data=user, follow_redirects=True)
+
+        assert_status_with_message(200, response,
+                                   _('Your localization settings have been '
+                                     'updated.'))

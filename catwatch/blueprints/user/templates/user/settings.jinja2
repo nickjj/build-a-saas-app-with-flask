@@ -11,17 +11,20 @@
             <div class="list-group">
                 <a class="list-group-item"
                    href="{{ url_for('user.update_credentials') }}">Update email
-                    or password</a>
-
+                    and password</a>
               {% if current_user.username %}
-                  <h5 class="list-group-item quarter-faded text-muted">
+                  <span class="list-group-item quarter-faded text-muted">
                       Your username is
                       <strong>{{ current_user.username }}</strong>
-                  </h5>
+                  </span>
               {% else %}
                   <a class="list-group-item"
                      href="{{ url_for('user.welcome') }}">Pick a username</a>
               {% endif %}
+                <a class="list-group-item"
+                   href="{{ url_for('user.update_localization') }}">
+                    Update language and timezone
+                </a>
             </div>
         </div>
         <div class="col-md-5 col-md-push-1 col-md-offset-1">
