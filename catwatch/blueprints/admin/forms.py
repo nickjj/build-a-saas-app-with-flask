@@ -1,3 +1,4 @@
+import logging
 from collections import OrderedDict
 
 from flask_wtf import Form
@@ -8,8 +9,22 @@ from wtforms.validators import DataRequired, Length, Optional, Regexp, \
 from wtforms_components import Unique, EmailField, IntegerField
 from flask_babel import lazy_gettext as _
 
+try:
+    from instance import settings
+
+    LANGUAGES = settings.LANGUAGES
+except ImportError:
+    logging.error('Your instance/ folder must contain an __init__.py file')
+    exit(1)
+except AttributeError:
+    from config import settings
+
+    LANGUAGES = settings.LANGUAGES
+
 from catwatch.lib.localization import Currency
-from catwatch.lib.util_wtforms import ModelForm, choices_from_dict
+from catwatch.lib.util_wtforms import ModelForm, choices_from_dict, \
+    choices_from_list
+from catwatch.lib.localization import TIMEZONES
 from catwatch.blueprints.user.models import db, User
 from catwatch.blueprints.issue.models import Issue
 from catwatch.blueprints.billing.models.coupon import Coupon
@@ -46,6 +61,11 @@ class UserForm(ModelForm):
                        choices=choices_from_dict(User.ROLE,
                                                  prepend_blank=False))
     active = BooleanField(_('Yes, allow this user to sign in'))
+    locale = SelectField(_('Language preference'), [DataRequired()],
+                         choices=choices_from_dict(LANGUAGES))
+
+    timezone = SelectField(_('Timezone'), [DataRequired()],
+                           choices=choices_from_list(TIMEZONES))
 
 
 class UserCancelSubscriptionForm(Form):
