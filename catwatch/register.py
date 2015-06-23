@@ -50,7 +50,7 @@ def api_keys(app):
     :param app: Flask application instance
     :return: None
     """
-    stripe.api_key = app.config.get('STRIPE_SECRET_KEY', None)
+    stripe.api_key = app.config.get('STRIPE_SECRET_KEY')
     return None
 
 
@@ -111,7 +111,7 @@ def template_processors(app):
     :param app: Flask application instance
     :return: App jinja environment
     """
-    public_build_path = app.config.get('PUBLIC_BUILD_PATH', None)
+    public_build_path = app.config.get('PUBLIC_BUILD_PATH')
 
     if public_build_path:
         multiple_template_loader = ChoiceLoader([

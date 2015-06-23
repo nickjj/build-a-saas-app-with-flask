@@ -17,11 +17,11 @@ def event():
     if not request.json:
         return render_json(406, {'error': 'Mime-type is not application/json'})
 
-    if request.json.get('id', None) is None:
+    if request.json.get('id') is None:
         return render_json(406, {'error': 'Invalid Stripe event'})
 
     try:
-        safe_event = PaymentEvent.retrieve(request.json.get('id', None))
+        safe_event = PaymentEvent.retrieve(request.json.get('id'))
         parsed_event = Invoice.parse_from_event(safe_event)
 
         Invoice.prepare_and_save(parsed_event)

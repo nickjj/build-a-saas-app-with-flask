@@ -30,7 +30,7 @@ def pricing():
 @billing.route('/coupon_code', methods=['POST'])
 @login_required
 def coupon_code():
-    code = request.form.get('coupon_code', None)
+    code = request.form.get('coupon_code')
     if code is None:
         return render_json(422,
                            {'error': _('Discount code cannot be processed.')})
@@ -50,7 +50,7 @@ def create():
         flash(_('You already have an active subscription.'), 'info')
         return redirect(url_for('user.settings'))
 
-    plan = request.args.get('plan', None)
+    plan = request.args.get('plan')
     active_plan = Subscription.get_plan_by_id(plan)
 
     # Guard against an invalid or missing plan.
@@ -63,12 +63,10 @@ def create():
     if form.validate_on_submit():
         subscription = Subscription()
         created = subscription.create(user=current_user,
-                                      name=request.form.get('name', None),
-                                      plan=request.form.get('plan', None),
-                                      coupon=request.form.get('coupon_code',
-                                                              None),
-                                      token=request.form.get('stripe_token',
-                                                             None))
+                                      name=request.form.get('name'),
+                                      plan=request.form.get('plan'),
+                                      coupon=request.form.get('coupon_code'),
+                                      token=request.form.get('stripe_token'))
 
         if created:
             flash(_('Awesome, thanks for subscribing!'), 'success')

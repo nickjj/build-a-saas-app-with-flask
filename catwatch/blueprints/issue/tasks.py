@@ -26,7 +26,7 @@ def deliver_support_email(issue_id):
     send_template_message(subject=_('[Support request] %(label)s',
                                     label=issue.label),
                           sender=issue.email,
-                          recipients=[celery.conf.get('MAIL_USERNAME', None)],
+                          recipients=[celery.conf.get('MAIL_USERNAME')],
                           reply_to=issue.email,
                           template='issue/mail/support', ctx=ctx)
 

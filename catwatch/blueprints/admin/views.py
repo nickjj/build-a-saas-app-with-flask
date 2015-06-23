@@ -76,8 +76,8 @@ def users_edit(id):
 
     if form.validate_on_submit():
         if User.is_last_admin(user,
-                              request.form.get('role', None),
-                              request.form.get('active', None)):
+                              request.form.get('role'),
+                              request.form.get('active')):
             flash(_('You are the last admin, you cannot do that.'),
                   'error')
             return redirect(url_for('admin.users'))
@@ -99,7 +99,7 @@ def users_bulk_delete():
     form = BulkDeleteForm()
 
     if form.validate_on_submit():
-        ids = User.get_bulk_action_ids(request.form.get('scope', None),
+        ids = User.get_bulk_action_ids(request.form.get('scope'),
                                        request.form.getlist('bulk_ids'),
                                        omit_ids=[current_user.id],
                                        query=request.args.get('q', ''))
@@ -123,7 +123,7 @@ def users_cancel_subscription():
     form = UserCancelSubscriptionForm()
 
     if form.validate_on_submit():
-        user = User.query.get(request.form.get('id', None))
+        user = User.query.get(request.form.get('id'))
 
         if user:
             subscription = Subscription()
@@ -178,7 +178,7 @@ def issues_bulk_delete():
     form = BulkDeleteForm()
 
     if form.validate_on_submit():
-        ids = Issue.get_bulk_action_ids(request.form.get('scope', None),
+        ids = Issue.get_bulk_action_ids(request.form.get('scope'),
                                         request.form.getlist('bulk_ids'),
                                         query=request.args.get('q', ''))
 
@@ -247,7 +247,7 @@ def coupons_bulk_delete():
     form = BulkDeleteForm()
 
     if form.validate_on_submit():
-        ids = Coupon.get_bulk_action_ids(request.form.get('scope', None),
+        ids = Coupon.get_bulk_action_ids(request.form.get('scope'),
                                          request.form.getlist('bulk_ids'),
                                          query=request.args.get('q', ''))
 

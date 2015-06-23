@@ -32,9 +32,9 @@ def login():
     form = LoginForm(next=request.args.get('next'))
 
     if form.validate_on_submit():
-        u = User.find_by_identity(request.form.get('identity', None))
+        u = User.find_by_identity(request.form.get('identity'))
 
-        if u and u.authenticated(password=request.form.get('password', None)):
+        if u and u.authenticated(password=request.form.get('password')):
             # As you can see remember me is always enabled, this was a design
             # decision I made because more often than not users want this
             # enabled. This allows for a less complicated login form.
@@ -75,7 +75,7 @@ def begin_password_reset():
     form = BeginPasswordResetForm()
 
     if form.validate_on_submit():
-        u = User.initialize_password_reset(request.form.get('identity', None))
+        u = User.initialize_password_reset(request.form.get('identity'))
 
         flash(_('An email has been sent to %(email)s.',
                 email=u.email), 'success')
@@ -90,7 +90,7 @@ def password_reset():
     form = PasswordResetForm(reset_token=request.args.get('reset_token'))
 
     if form.validate_on_submit():
-        u = User.deserialize_token(request.form.get('reset_token', None))
+        u = User.deserialize_token(request.form.get('reset_token'))
 
         if u is None:
             flash(_('Your reset token has expired or was tampered with.'),
@@ -133,7 +133,7 @@ def welcome():
     form = WelcomeForm()
 
     if form.validate_on_submit():
-        current_user.username = request.form.get('username', None)
+        current_user.username = request.form.get('username')
         current_user.save()
 
         flash(_('Sign up is complete, enjoy our services.'), 'success')
@@ -156,7 +156,7 @@ def update_credentials():
     if form.validate_on_submit():
         # We cannot form.populate_obj() because the password is optional.
         new_password = request.form.get('password', '')
-        current_user.email = request.form.get('email', None)
+        current_user.email = request.form.get('email')
 
         if new_password:
             current_user.password = User.encrypt_password(new_password)
