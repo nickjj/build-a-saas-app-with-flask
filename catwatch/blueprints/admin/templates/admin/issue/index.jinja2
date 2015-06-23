@@ -57,7 +57,12 @@
             </td>
             <td>{{ support.status_icon_for(issue.status) }}</td>
             <td>{{ support.label_tag_for(issue.label) }}</td>
-            <td>{{ issue.created_on.strftime('%B %d, %Y %I:%M %p') }}</td>
+            <td>
+              <time class="from-now"
+                    data-datetime="{{ issue.created_on }}">
+                {{ issue.created_on }}
+              </time>
+            </td>
             <td>
               <a href="{{ url_for('admin.issues_edit', id=issue.id) }}">
                 {{ issue.email }}

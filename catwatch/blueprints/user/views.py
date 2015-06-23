@@ -169,6 +169,7 @@ def update_credentials():
 
     return render_template('user/update_credentials.jinja2', form=form)
 
+
 @user.route('/settings/update_localization', methods=['GET', 'POST'])
 @login_required
 def update_localization():

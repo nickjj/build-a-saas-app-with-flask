@@ -9,68 +9,74 @@
   {{ f.search('admin.users') }}
 
   {% if users.total == 0 %}
-    <h3>No results found</h3>
+      <h3>No results found</h3>
     {% if request.args.get('q') %}
-      <p>Try limiting or removing your search terms.</p>
+        <p>Try limiting or removing your search terms.</p>
     {% else %}
-      <p>There are no users present, you should <a
-          href="{{ url_for('user.signup') }}">sign up</a>.</p>
+        <p>There are no users present, you should <a
+                href="{{ url_for('user.signup') }}">sign up</a>.</p>
     {% endif %}
   {% else %}
     {% call f.form_tag('admin.users_bulk_delete') %}
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>
-            <label for="select_all"></label>
-            <input id="select_all" name="select_all" type="checkbox">
-          </th>
-          <th class="col-header">
-            {{ items.sort('name') }}
-          </th>
-          <th class="col-header">
-            {{ items.sort('last_sign_in_on', 'Last sign in date') }}
-          </th>
-          <th class="col-header">
-            {{ items.sort('sign_in_count', 'Sign in count') }}
-          </th>
-          <th id="bulk_actions" colspan="3">
-            <div class="form-inline">
-              {{ f.field(bulk_form.scope, inline=True) }}
-              <button type="submit"
-                      class="btn btn-danger btn-sm">
-                Delete items
-              </button>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users.items %}
-          <tr>
-            <td>
-              <label for="bulk_ids"></label>
-              <input class="checkbox-item" id="bulk_ids" name="bulk_ids"
-                     type="checkbox" value="{{ user.id }}">
-            </td>
-            <td>
-              <a href="{{ url_for('admin.users_edit', id=user.id) }}">
-                <div class="pull-left">
-                  {{ account.role_icon_for(user) }}
-                </div>
-                <h4 class="media-heading">{{ user.name }}</h4>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    <label for="select_all"></label>
+                    <input id="select_all" name="select_all" type="checkbox">
+                </th>
+                <th class="col-header">
+                  {{ items.sort('name') }}
+                </th>
+                <th class="col-header">
+                  {{ items.sort('last_sign_in_on', 'Last sign in date') }}
+                </th>
+                <th class="col-header">
+                  {{ items.sort('sign_in_count', 'Sign in count') }}
+                </th>
+                <th id="bulk_actions" colspan="3">
+                    <div class="form-inline">
+                      {{ f.field(bulk_form.scope, inline=True) }}
+                        <button type="submit"
+                                class="btn btn-danger btn-sm">
+                            Delete items
+                        </button>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users.items %}
+                <tr>
+                    <td>
+                        <label for="bulk_ids"></label>
+                        <input class="checkbox-item" id="bulk_ids"
+                               name="bulk_ids"
+                               type="checkbox" value="{{ user.id }}">
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin.users_edit', id=user.id) }}">
+                            <div class="pull-left">
+                              {{ account.role_icon_for(user) }}
+                            </div>
+                            <h4 class="media-heading">{{ user.name }}</h4>
 
-                <p class="text-muted">{{ user.email }}</p>
-              </a>
-            </td>
-            <td>
-              {{ user.last_sign_in_on.strftime('%B %d, %Y %I:%M %p') if user.last_sign_in_on }}
-            </td>
-            <td>{{ user.sign_in_count }}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+                            <p class="text-muted">{{ user.email }}</p>
+                        </a>
+                    </td>
+                    <td>
+                      {% if user.last_sign_in_on %}
+                          <time class="from-now"
+                                data-datetime="{{ user.last_sign_in_on }}">
+                            {{ user.last_sign_in_on }}
+                          </time>
+                      {% endif %}
+                    </td>
+                    <td>{{ user.sign_in_count }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% endcall %}
 
     {{ items.paginate(users) }}

@@ -179,8 +179,8 @@ def update_payment_method():
 @handle_stripe_exceptions
 @login_required
 def billing_history():
-    invoices = Invoice.query.filter(Invoice.user_id == current_user.id).limit(
-        12)
+    invoices = Invoice.query.filter(Invoice.user_id == current_user.id) \
+        .order_by(Invoice.created_on.desc()).limit(12)
 
     if current_user.subscription:
         upcoming = Invoice.upcoming(current_user.payment_id)

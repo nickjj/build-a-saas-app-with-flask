@@ -17,8 +17,11 @@
       {% call f.form_tag(endpoint, **form_kwargs) %}
           <legend>{{ legend }}</legend>
           <label for="">Created on</label>
-          <h5 class="sm-margin-bottom text-muted">
-            {{ user.created_on.strftime('%B %d, %Y %I:%M %p') }}
+          <h5 class="sm-margin-bottom">
+              <time class="from-now"
+                    data-datetime="{{ user.created_on }}">
+                {{ user.created_on }}
+              </time>
           </h5>
           <label for="">E-mail address</label>
           <h5 class="sm-margin-bottom text-muted">
@@ -81,16 +84,21 @@
                         <input type="hidden" id="id" name="id"
                                value="{{ user.id }}"/>
                         <button type="submit" class="btn btn-danger">
-                          <img src="{{ asset_url_for('images/spinner.gif') }}"
-                               class="spinner"
-                               width="16" height="11" alt="Spinner"/>
+                            <img src="{{ asset_url_for('images/spinner.gif') }}"
+                                 class="spinner"
+                                 width="16" height="11" alt="Spinner"/>
                             Cancel subscription
                         </button>
                     {% endcall %}
                   {% else %}
                       <dt>Cancelled on</dt>
                       <dd>
-                        {{ user.cancelled_subscription_on.strftime('%B %d, %Y %I:%M %p') if user.cancelled_subscription_on else 'None' }}
+                        {% if user.cancelled_subscription_on %}
+                            <time class="from-now"
+                                  data-datetime="{{ user.cancelled_subscription_on }}">
+                              {{ user.cancelled_subscription_on }}
+                            </time>
+                        {% endif %}
                       </dd>
                   {% endif %}
                 </dl>
@@ -104,11 +112,25 @@
                     <dt>Sign in count</dt>
                     <dd class="sm-margin-bottom">{{ user.sign_in_count }}</dd>
                     <dt>Current sign in date</dt>
-                    <dd class="sm-margin-bottom">{{ user.current_sign_in_on.strftime('%B %d, %Y %I:%M %p') if user.current_sign_in_on else 'None' }}</dd>
+                    <dd class="sm-margin-bottom">
+                      {% if user.current_sign_in_on %}
+                          <time class="from-now"
+                                data-datetime="{{ user.current_sign_in_on }}">
+                            {{ user.current_sign_in_on }}
+                          </time>
+                      {% endif %}
+                    </dd>
                     <dt>Current sign in IP address</dt>
                     <dd class="sm-margin-bottom">{{ user.current_sign_in_ip }}</dd>
                     <dt>Previous sign in date</dt>
-                    <dd class="sm-margin-bottom">{{ user.last_sign_in_on.strftime('%B %d, %Y %I:%M %p') if user.last_sign_in_on else 'None' }}</dd>
+                    <dd class="sm-margin-bottom">
+                      {% if user.last_sign_in_on %}
+                          <time class="from-now"
+                                data-datetime="{{ user.last_sign_in_on }}">
+                            {{ user.last_sign_in_on }}
+                          </time>
+                      {% endif %}
+                    </dd>
                     <dt>Previous sign in IP address</dt>
                     <dd>{{ user.last_sign_in_ip }}</dd>
                 </dl>

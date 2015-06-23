@@ -58,7 +58,7 @@ class User(UserMixin, ResourceMixin, db.Model):
     last_sign_in_ip = db.Column(db.String(45))
 
     # Locale.
-    locale = db.Column(db.String(5),nullable=False, server_default='en')
+    locale = db.Column(db.String(5), nullable=False, server_default='en')
     timezone = db.Column(db.String(32), nullable=False, server_default='UTC')
 
     def __init__(self, **kwargs):

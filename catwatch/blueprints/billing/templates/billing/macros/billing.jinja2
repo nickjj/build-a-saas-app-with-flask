@@ -88,7 +88,10 @@
 
 {% macro coupon_expiration(coupon) -%}
   {% if coupon.redeem_by %}
-    {{ coupon.redeem_by.strftime('%B %d, %Y %I:%M %p') }}
+      <time class="from-now"
+            data-datetime="{{ coupon.redeem_by }}">
+        {{ coupon.redeem_by }}
+      </time>
   {% elif coupon.duration_in_months %}
     &mdash;
   {% else %}

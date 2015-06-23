@@ -80,7 +80,7 @@ class Invoice(ResourceMixin, db.Model):
         invoice = {
             'plan': plan_info['name'],
             'description': plan_info['statement_descriptor'],
-            'next_bill_on': date.strftime('%B %d, %Y'),
+            'next_bill_on': date,
             'amount_due': payload['amount_due'],
             'interval': plan_info['interval']
         }

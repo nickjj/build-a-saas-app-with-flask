@@ -30,7 +30,12 @@
           <tr>
               <td>{{ upcoming.plan }}</td>
               <td>{{ upcoming.description }}</td>
-              <td>{{ upcoming.next_bill_on }}</td>
+              <td>
+                  <time class="short-date"
+                        data-datetime="{{ upcoming.next_bill_on }}">
+                    {{ upcoming.next_bill_on }}
+                  </time>
+              </td>
               <td>
                   ${{ upcoming.amount_due | format_currency }}
                   <span class="color--muted"> / {{ upcoming.interval }}</span>
@@ -58,15 +63,31 @@
           <tbody>
           {% for invoice in invoices %}
               <tr>
-                  <td>{{ invoice.created_on.strftime('%B %d, %Y') }}</td>
-                  <td>{{ invoice.brand }} ****{{ invoice.last4 }}</td>
-                  <td>{{ invoice.description }}</td>
                   <td>
-                    {{ invoice.period_start_on.strftime('%B %d, %Y') }} <span
-                          class="color--muted">&mdash;</span> {{ invoice.period_end_on.strftime('%B %d, %Y') }}
+                      <time class="from-now"
+                            data-datetime="{{ invoice.created_on }}">
+                        {{ invoice.created_on }}
+                      </time>
                   </td>
-                  <td>{{ invoice.tax }}</td>
-                  <td title="{{ invoice.currency }}">${{ invoice.total }}</td>
+                  <td class="small">
+                    {{ invoice.brand }} ****{{ invoice.last4 }}
+                  </td>
+                  <td class="small">{{ invoice.description }}</td>
+                  <td>
+                      <time class="short-date"
+                            data-datetime="{{ invoice.period_start_on }}">
+                        {{ invoice.period_start_on }}
+                      </time>
+                      <span class="text-info">&mdash;</span>
+                      <time class="short-date"
+                            data-datetime="{{ invoice.period_end_on }}">
+                        {{ invoice.period_end_on }}
+                      </time>
+                  </td>
+                  <td title="{{ invoice.tax_percent | round(2) }}%">
+                      ${{ invoice.tax | format_currency }}
+                  </td>
+                  <td title="{{ invoice.currency }}">${{ invoice.total | format_currency }}</td>
               </tr>
           {% endfor %}
           </tbody>

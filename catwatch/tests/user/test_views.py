@@ -300,14 +300,14 @@ class TestUpdateCredentials(ViewTestMixin):
 
 
 class TestUpdateLocalization(ViewTestMixin):
-    def test_update_localization_page(self):
+    def test_update_localization_page(self, users):
         """ Update localization renders successfully. """
         self.login()
         response = self.client.get(url_for('user.update_localization'))
 
         assert response.status_code == 200
 
-    def test_begin_update_localization_locale_timezone(self):
+    def test_begin_update_localization_locale_timezone(self, users):
         """ Update both the locale and timezone. """
         self.login()
 

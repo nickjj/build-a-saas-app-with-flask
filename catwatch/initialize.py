@@ -30,6 +30,7 @@ def authentication(app, user_model):
 
         return user_model.query.get(user_uid)
 
+
 def locale(app):
     """
     Initialize a locale and timezone for the current request.
@@ -42,8 +43,8 @@ def locale(app):
         if current_user.is_authenticated():
             return current_user.locale
 
-            accept_languages = app.config.get('ACCEPT_LANGUAGES')
-            return request.accept_languages.best_match(accept_languages)
+        accept_languages = app.config.get('ACCEPT_LANGUAGES')
+        return request.accept_languages.best_match(accept_languages)
 
     @babel.timezoneselector
     def get_timezone():

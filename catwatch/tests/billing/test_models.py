@@ -212,8 +212,10 @@ class TestInvoice(object):
         """ Parse out the data correctly from a Stripe invoice payload. """
         parsed_payload = Invoice.upcoming('cus_000')
 
+        next_bill_on = datetime.datetime(2015, 5, 30, 20, 46, 10)
+
         assert parsed_payload['plan'] == 'Gold'
         assert parsed_payload['description'] == 'GOLD MONTHLY'
-        assert parsed_payload['next_bill_on'] == 'May 30, 2015'
+        assert parsed_payload['next_bill_on'] == next_bill_on
         assert parsed_payload['amount_due'] == 500
         assert parsed_payload['interval'] == 'month'

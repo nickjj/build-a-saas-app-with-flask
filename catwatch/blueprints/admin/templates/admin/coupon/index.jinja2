@@ -70,7 +70,12 @@
                                name="bulk_ids"
                                type="checkbox" value="{{ coupon.id }}">
                     </td>
-                    <td>{{ coupon.created_on.strftime('%B %d, %Y') }}</td>
+                    <td>
+                        <time class="from-now"
+                              data-datetime="{{ coupon.created_on }}">
+                          {{ coupon.created_on }}
+                        </time>
+                    </td>
                     <td>
                       {{ coupon.code }}
 
