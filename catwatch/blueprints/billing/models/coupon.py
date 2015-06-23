@@ -7,12 +7,14 @@ from os import urandom
 from binascii import hexlify
 
 from sqlalchemy import or_, and_
+
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from catwatch.lib.util_sqlalchemy import ResourceMixin
+from catwatch.lib.money import cents_to_dollars, dollars_to_cents
 from catwatch.extensions import db
-from catwatch.blueprints.billing.models.credit_card import Money
-from catwatch.blueprints.billing.services import StripeCoupon
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Coupon as PaymentCoupon
 
 
 class Coupon(ResourceMixin, db.Model):
@@ -86,7 +88,7 @@ class Coupon(ResourceMixin, db.Model):
         Inspired by:
           http://stackoverflow.com/a/22333563
 
-        :return: Random coupon code
+        :return: str
         """
         random_string = hexlify(urandom(20))
         long_code = random_string.translate(maketrans('0123456789abcdefghij',
@@ -111,7 +113,7 @@ class Coupon(ResourceMixin, db.Model):
             compare_datetime = datetime.datetime.today()
 
         condition = Coupon.redeem_by <= compare_datetime
-        Coupon.query.filter(condition)\
+        Coupon.query.filter(condition) \
             .update({Coupon.valid: not Coupon.valid})
 
         return db.session.commit()
@@ -123,19 +125,19 @@ class Coupon(ResourceMixin, db.Model):
 
         :return: bool
         """
-        stripe_params = params
+        payment_params = params
 
-        if stripe_params['amount_off']:
-            stripe_params['amount_off'] = \
-                Money.dollars_to_cents(stripe_params['amount_off'])
+        if payment_params.get('amount_off'):
+            payment_params['amount_off'] = \
+                dollars_to_cents(payment_params['amount_off'])
 
-        StripeCoupon.create(stripe_params)
+        PaymentCoupon.create(payment_params)
 
-        if 'id' in stripe_params:
-            stripe_params['code'] = stripe_params['id']
-            del stripe_params['id']
+        if 'id' in payment_params:
+            payment_params['code'] = payment_params['id']
+            del payment_params['id']
 
-        coupon = Coupon(**stripe_params)
+        coupon = Coupon(**payment_params)
 
         db.session.add(coupon)
         db.session.commit()
@@ -150,7 +152,7 @@ class Coupon(ResourceMixin, db.Model):
 
         :param ids: List of ids to be deleted
         :type ids: list
-        :return: Number of deleted instances
+        :return: int
         """
         delete_count = 0
 
@@ -161,7 +163,7 @@ class Coupon(ResourceMixin, db.Model):
                 return 0
 
             # Delete on Stripe.
-            stripe_response = StripeCoupon.delete(coupon.code)
+            stripe_response = PaymentCoupon.delete(coupon.code)
 
             # If successful, delete it locally.
             if stripe_response.get('deleted'):
@@ -170,11 +172,26 @@ class Coupon(ResourceMixin, db.Model):
 
         return delete_count
 
+    @classmethod
+    def find_by_code(cls, code):
+        """
+        Find a coupon by its code.
+
+        :param code: Coupon code to find
+        :type code: str
+        :return: Coupon instance
+        """
+        formatted_code = code.upper()
+        coupon = Coupon.query.filter(Coupon.redeemable,
+                                     Coupon.code == formatted_code).first()
+
+        return coupon
+
     def redeem(self):
         """
         Update the redeem stats for this coupon.
 
-        :return: The result of saving the record
+        :return: Result of saving the record
         """
         self.times_redeemed += 1
 
@@ -188,7 +205,7 @@ class Coupon(ResourceMixin, db.Model):
         """
         Return JSON fields to render the coupon code status.
 
-        :return: Coupon fields
+        :return: dict
         """
         params = {
             'duration': self.duration,
@@ -196,7 +213,7 @@ class Coupon(ResourceMixin, db.Model):
         }
 
         if self.amount_off:
-            params['amount_off'] = Money.cents_to_dollars(self.amount_off)
+            params['amount_off'] = cents_to_dollars(self.amount_off)
 
         if self.percent_off:
             params['percent_off'] = self.percent_off,
@@ -354,6 +371,6 @@ class Currency(object):
 
         :param currency_code: Currency abbreviation
         :type currency_code: str
-        :return: Full currency name
+        :return: str
         """
         return Currency.TYPES[currency_code]

@@ -3,6 +3,7 @@ from collections import OrderedDict
 from hashlib import md5
 
 from flask import current_app
+
 from flask_login import UserMixin
 
 from itsdangerous import URLSafeTimedSerializer, \
@@ -14,7 +15,6 @@ from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.blueprints.billing.models.credit_card import CreditCard
 from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.billing.models.invoice import Invoice
-from catwatch.blueprints.billing.services import StripeSubscription
 from catwatch.extensions import db, bcrypt
 
 
@@ -47,7 +47,7 @@ class User(UserMixin, ResourceMixin, db.Model):
 
     # Billing.
     name = db.Column(db.String(128), index=True)
-    stripe_customer_id = db.Column(db.String(128), index=True)
+    payment_id = db.Column(db.String(128), index=True)
     cancelled_subscription_on = db.Column(db.DateTime)
 
     # Activity tracking.
@@ -168,14 +168,14 @@ class User(UserMixin, ResourceMixin, db.Model):
             if user is None:
                 return 0
 
-            if user.stripe_customer_id is None:
+            if user.payment_id is None:
                 user.delete()
             else:
-                stripe_response = StripeSubscription.cancel(
-                    user.stripe_customer_id)
+                subscription = Subscription()
+                cancelled = subscription.cancel(user=user)
 
                 # If successful, delete it locally.
-                if stripe_response.get('canceled_at'):
+                if cancelled:
                     user.delete()
 
             delete_count += 1

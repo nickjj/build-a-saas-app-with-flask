@@ -5,30 +5,6 @@ from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
 
 
-class Money(object):
-    @classmethod
-    def cents_to_dollars(cls, cents):
-        """
-        Convert cents to dollars.
-
-        :param cents: Amount in cents
-        :type cents: int
-        :return: float
-        """
-        return round(cents / 100.0, 2)
-
-    @classmethod
-    def dollars_to_cents(cls, dollars):
-        """
-        Convert dollars to cents.
-
-        :param dollars: Amount in dollars
-        :type dollars: float
-        :return: int
-        """
-        return int(dollars * 100)
-
-
 class CreditCard(ResourceMixin, db.Model):
     IS_EXPIRING_THRESHOLD_MONTHS = 2
 
@@ -72,7 +48,7 @@ class CreditCard(ResourceMixin, db.Model):
 
         :param compare_date: Date to compare at
         :type compare_date: date
-        :return: The result of updating the records
+        :return: Result of updating the records
         """
         today_with_delta = timedelta_months(
             CreditCard.IS_EXPIRING_THRESHOLD_MONTHS, compare_date)
@@ -83,15 +59,15 @@ class CreditCard(ResourceMixin, db.Model):
         return db.session.commit()
 
     @classmethod
-    def extract_card_params(cls, stripe_customer):
+    def extract_card_params(cls, customer):
         """
-        Extract the credit card info from a stripe customer object.
+        Extract the credit card info from a payment customer object.
 
-        :param stripe_customer: Stripe customer
-        :type stripe_customer: Stripe customer
-        :return: Credit card dict
+        :param customer: Payment customer
+        :type customer: Payment customer
+        :return: dict
         """
-        card_data = stripe_customer.cards.data[0]
+        card_data = customer.cards.data[0]
         exp_date = datetime.date(card_data.exp_year, card_data.exp_month, 1)
 
         card = {

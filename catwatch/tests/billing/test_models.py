@@ -1,6 +1,7 @@
 import datetime
 
-from catwatch.blueprints.billing.models.credit_card import CreditCard, Money
+from catwatch.lib.money import cents_to_dollars, dollars_to_cents
+from catwatch.blueprints.billing.models.credit_card import CreditCard
 from catwatch.blueprints.billing.models.coupon import Coupon
 from catwatch.blueprints.billing.models.invoice import Invoice
 
@@ -8,17 +9,17 @@ from catwatch.blueprints.billing.models.invoice import Invoice
 class TestMoney(object):
     def test_cents_convert_to_dollars(self):
         """ Cents become dollars. """
-        assert Money.cents_to_dollars(0) == 0.0
-        assert Money.cents_to_dollars(5) == 0.05
-        assert Money.cents_to_dollars(-20) == -0.2
-        assert Money.cents_to_dollars(100) == 1
+        assert cents_to_dollars(0) == 0.0
+        assert cents_to_dollars(5) == 0.05
+        assert cents_to_dollars(-20) == -0.2
+        assert cents_to_dollars(100) == 1
 
     def test_cents_dollars_to_cents(self):
         """ Dollars become cents. """
-        assert Money.dollars_to_cents(2.33) == 233
-        assert Money.dollars_to_cents(-4) == -400
-        assert Money.dollars_to_cents(1) == 100
-        assert Money.dollars_to_cents(-0) == 0
+        assert dollars_to_cents(2.33) == 233
+        assert dollars_to_cents(-4) == -400
+        assert dollars_to_cents(1) == 100
+        assert dollars_to_cents(-0) == 0
 
 
 class TestCreditCard(object):
@@ -196,7 +197,7 @@ class TestInvoice(object):
 
         parsed_payload = Invoice.parse_from_event(event_payload)
 
-        assert parsed_payload['stripe_customer_id'] == 'cus_000'
+        assert parsed_payload['payment_id'] == 'cus_000'
         assert parsed_payload['plan'] == 'Gold'
         assert parsed_payload['receipt_number'] == '0009000'
         assert parsed_payload['description'] == 'GOLD MONTHLY'

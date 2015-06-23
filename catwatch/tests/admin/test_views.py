@@ -63,9 +63,10 @@ class TestUsers(ViewTestMixin):
                                     data=params, follow_redirects=True)
 
         assert_status_with_message(200, response,
-                                   _n('%(num)d user was deleted.',
-                                      '%(num)d users were deleted.',
-                                      num=0))
+                                   _n('%(num)d user was scheduled to be '
+                                      'deleted.',
+                                      '%(num)d users were scheduled to be '
+                                      'deleted.', num=0))
 
         new_count = User.query.count()
         assert old_count == new_count

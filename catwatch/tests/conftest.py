@@ -12,8 +12,15 @@ from catwatch.blueprints.issue.models import Issue
 from catwatch.blueprints.billing.models.credit_card import CreditCard
 from catwatch.blueprints.billing.models.coupon import Coupon
 from catwatch.blueprints.billing.models.subscription import Subscription
-from catwatch.blueprints.billing.services import StripeCoupon, StripeEvent, \
-    StripeCard, StripeSubscription, StripeInvoice
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Coupon as PaymentCoupon
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Event as PaymentEvent
+from catwatch.blueprints.billing.gateways.stripecom import Card as PaymentCard
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Subscription as PaymentSubscription
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Invoice as PaymentInvoice
 
 
 # App and database fixtures ---------------------------------------------------
@@ -267,7 +274,7 @@ def subscriptions(db):
         'email': 'subscriber@localhost.com',
         'name': 'Subby',
         'password': 'password',
-        'stripe_customer_id': 'cus_000'
+        'payment_id': 'cus_000'
     }
 
     admin = User(**params)
@@ -276,24 +283,24 @@ def subscriptions(db):
     db.session.add(admin)
     db.session.commit()
 
+    # Create a subscription.
     params = {
-        'user': admin,
+        'user_id': admin.id,
         'plan': 'gold'
     }
-
     subscription = Subscription(**params)
+    db.session.add(subscription)
 
+    # Create a credit card.
     params = {
         'user_id': admin.id,
         'brand': 'Visa',
         'last4': '4242',
         'exp_date': datetime.date(2015, 06, 01)
     }
-
     credit_card = CreditCard(**params)
-
-    db.session.add(subscription)
     db.session.add(credit_card)
+
     db.session.commit()
 
     return db
@@ -307,13 +314,13 @@ def mock_stripe():
 
     :return:
     """
-    StripeCoupon.create = Mock(return_value={})
-    StripeCoupon.delete = Mock(return_value={})
-    StripeEvent.retrieve = Mock(return_value={})
-    StripeCard.update = Mock(return_value={})
-    StripeSubscription.create = Mock(return_value={})
-    StripeSubscription.update = Mock(return_value={})
-    StripeSubscription.cancel = Mock(return_value={})
+    PaymentCoupon.create = Mock(return_value={})
+    PaymentCoupon.delete = Mock(return_value={})
+    PaymentEvent.retrieve = Mock(return_value={})
+    PaymentCard.update = Mock(return_value={})
+    PaymentSubscription.create = Mock(return_value={})
+    PaymentSubscription.update = Mock(return_value={})
+    PaymentSubscription.cancel = Mock(return_value={})
 
     upcoming_api = {
         'date': 1433018770,
@@ -389,4 +396,4 @@ def mock_stripe():
         'description': None,
         'receipt_number': None
     }
-    StripeInvoice.upcoming = Mock(return_value=upcoming_api)
+    PaymentInvoice.upcoming = Mock(return_value=upcoming_api)

@@ -1,10 +1,11 @@
 from flask import Blueprint, request
-from stripe import InvalidRequestError
+from stripe.error import InvalidRequestError
 
 from catwatch.lib.util_json import render_json
 from catwatch.extensions import csrf
 from catwatch.blueprints.billing.models.invoice import Invoice
-from catwatch.blueprints.billing.services import StripeEvent
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Event as PaymentEvent
 
 stripe_webhook = Blueprint('stripe_webhook', __name__,
                            url_prefix='/stripe_webhook')
@@ -20,7 +21,7 @@ def event():
         return render_json(406, {'error': 'Invalid Stripe event'})
 
     try:
-        safe_event = StripeEvent.retrieve(request.json.get('id', None))
+        safe_event = PaymentEvent.retrieve(request.json.get('id', None))
         parsed_event = Invoice.parse_from_event(safe_event)
 
         Invoice.prepare_and_save(parsed_event)

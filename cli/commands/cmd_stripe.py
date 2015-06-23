@@ -3,7 +3,7 @@ import logging
 import click
 import stripe
 
-from catwatch.blueprints.billing.services import StripePlan
+from catwatch.blueprints.billing.gateways.stripecom import Plan as PaymentPlan
 
 STRIPE_SECRET_KEY = None
 STRIPE_PLANS = None
@@ -42,11 +42,15 @@ def sync_plans():
         return None
 
     for _, value in STRIPE_PLANS.iteritems():
-        plan = StripePlan.retrieve(value['id'])
+        plan = PaymentPlan.retrieve(value.get('id'))
         if plan:
-            StripePlan.update(value)
+            PaymentPlan.update(id=value.get('id'),
+                               name=value.get('name'),
+                               metadata=value.get('metadata'),
+                               statement_descriptor=value.get(
+                                   'statement_descriptor'))
         else:
-            StripePlan.create(value)
+            PaymentPlan.create(**value)
 
     return None
 
@@ -60,7 +64,7 @@ def delete_plans(plan_ids):
     :return: None
     """
     for plan_id in plan_ids:
-        StripePlan.delete(plan_id)
+        PaymentPlan.delete(plan_id)
 
     return None
 
@@ -70,9 +74,9 @@ def list_plans():
     """
     List all existing plans on Stripe.
 
-    :return: Stripe plan list
+    :return: Stripe plans
     """
-    return logging.info(StripePlan.list())
+    return logging.info(PaymentPlan.list())
 
 
 cli.add_command(sync_plans)

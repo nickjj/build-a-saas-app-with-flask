@@ -22,7 +22,8 @@ from catwatch.extensions import db
 from catwatch.blueprints.issue.models import Issue
 from catwatch.blueprints.user.models import User
 from catwatch.blueprints.billing.models.coupon import Coupon
-from catwatch.blueprints.billing.services import StripeCoupon
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Coupon as PaymentCoupon
 
 fake = Faker()
 app = create_app()
@@ -169,7 +170,7 @@ def coupons():
             duration_in_months = random.randint(1, 12)
             params['duration_in_months'] = duration_in_months
 
-        StripeCoupon.create(params)
+        PaymentCoupon.create(**params)
 
         # Our database requires a Date object, not a unix timestamp.
         if redeem_by:
@@ -177,7 +178,7 @@ def coupons():
                 .strftime('%Y-%m-%d %H:%M:%S')
 
         if 'id' in params:
-            params['code'] = params['id']
+            params['code'] = params.get('id')
             del params['id']
 
         data.append(params)

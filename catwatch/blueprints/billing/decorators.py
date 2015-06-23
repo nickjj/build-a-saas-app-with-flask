@@ -13,7 +13,6 @@ def handle_stripe_exceptions(f):
     :type f: Function
     :return: Function
     """
-
     @wraps(f)
     def decorated_function(*args, **kwargs):
         try:
@@ -22,8 +21,8 @@ def handle_stripe_exceptions(f):
             flash(_('Sorry, your card was declined. Try again perhaps?'),
                   'error')
             return redirect(url_for('user.settings'))
-        except stripe.error.InvalidRequestError:
-            flash(_('Our payment gateway did not like that request.'), 'error')
+        except stripe.error.InvalidRequestError as e:
+            flash(e, 'error')
             return redirect(url_for('user.settings'))
         except stripe.error.AuthenticationError:
             flash(_('Authentication with our payment gateway failed.'),

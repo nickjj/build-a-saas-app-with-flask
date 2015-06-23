@@ -5,7 +5,6 @@ from logging.handlers import SMTPHandler
 import stripe
 from flask import g, request, render_template
 from werkzeug.contrib.fixers import ProxyFix
-
 from jinja2 import ChoiceLoader, FileSystemLoader
 
 from catwatch.lib.http_method_override_middleware import \

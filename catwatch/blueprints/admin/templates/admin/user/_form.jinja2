@@ -67,8 +67,8 @@
                         {{ user.subscription.plan | title }}
                         {% if user.subscription.coupon %}
                             <span class="small text-muted">
-              (code: {{ user.subscription.coupon }})
-            </span>
+                                (code: {{ user.subscription.coupon }})
+                            </span>
                         {% endif %}
                       </dd>
                       <dt>Credit card</dt>
@@ -81,6 +81,9 @@
                         <input type="hidden" id="id" name="id"
                                value="{{ user.id }}"/>
                         <button type="submit" class="btn btn-danger">
+                          <img src="{{ asset_url_for('images/spinner.gif') }}"
+                               class="spinner"
+                               width="16" height="11" alt="Spinner"/>
                             Cancel subscription
                         </button>
                     {% endcall %}

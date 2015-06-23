@@ -72,10 +72,10 @@ Initialize everything and view the app
 --------------------------------------
 
 - Open a new terminal window
-- Type ``run`` to see a list of what's available
 - Type ``run assets build`` to create the build directory
+- Type ``run`` to see a list of what's available
 - Type ``run db reset`` to initialize the database
-- Type ``run stripe sync_plans`` to sync your ``STRIPE_PLANS`` to Stripe
+- Type ``run stripe sync_plans`` to sync your ``STRIPE_PLANS`` to the gateway
 - Type ``run all`` to start everything
 - Visit http://localhost:8000 in your browser
 - If you wish to login, email: ``dev@localhost.com`` / password: ``password``

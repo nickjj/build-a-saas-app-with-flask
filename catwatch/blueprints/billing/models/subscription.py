@@ -5,7 +5,9 @@ from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
 from catwatch.blueprints.billing.models.credit_card import CreditCard
 from catwatch.blueprints.billing.models.coupon import Coupon
-from catwatch.blueprints.billing.services import StripeCard, StripeSubscription
+from catwatch.blueprints.billing.gateways.stripecom import Card as PaymentCard
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Subscription as PaymentSubscription
 
 
 class Subscription(ResourceMixin, db.Model):
@@ -23,106 +25,84 @@ class Subscription(ResourceMixin, db.Model):
     coupon = db.Column(db.String(32))
 
     def __init__(self, **kwargs):
-        """
-        For creation, it expects the following call signature:
-          params = {
-            'user': User object (ie. current_user),
-            'name': 'Mr or Mrs. Foo',
-            'plan': 'gold',
-            'coupon': '10PCTOFF',
-            'source': 'the_stripe_token'
-          }
-          subscription = Subscription(**params)
-          subscription.create()
-
-        or, for updating:
-
-        params = {
-            'user': User object (ie. current_user),
-            'plan': 'bronze'
-        }
-        subscription = Subscription(**params)
-        subscription.update()
-
-        or, for cancelling:
-
-          params = {
-            'user': User object (ie. current_user)
-          }
-          subscription = Subscription(**params)
-          subscription.cancel()
-
-        :param user: Subscriber's user account
-        :type user: User
-        :param name: Subscriber's full name
-        :type name: str
-        :param plan: Subscriber's plan
-        :type plan: str
-        :param source: Stripe token
-        :type source: str
-        :return: Subscription
-        """
-        self.params = kwargs
-
-        self.user_id = kwargs['user'].id
-
-        if kwargs.get('plan', None):
-            self.plan = kwargs['plan']
-
-        if kwargs.get('coupon', None):
-            self.coupon = kwargs['coupon']
-
-        super(Subscription, self).__init__(user_id=self.user_id,
-                                           plan=self.plan,
-                                           coupon=self.coupon)
+        # Call Flask-SQLAlchemy's constructor.
+        super(Subscription, self).__init__(**kwargs)
 
     @classmethod
-    def get_plan_by_stripe_id(cls, id):
+    def get_plan_by_id(cls, plan):
         """
-        Pick the plan based on the Stripe ID.
+        Pick the plan based on the plan identifier.
 
-        :param id: Stripe ID
-        :type id: str
-        :return: Dict of the plan or None
+        :param plan: Plan identifier
+        :type plan: str
+        :return: dict or None
         """
         for key, value in settings.STRIPE_PLANS.iteritems():
-            if value['id'] == id:
+            if value.get('id') == plan:
                 return settings.STRIPE_PLANS[key]
 
         return None
 
-    def create(self):
+    @classmethod
+    def get_new_plan(cls, keys):
         """
-        Return whether or not the subscription was created successfully.
+        Pick the plan based on the plan identifier.
 
+        :param keys: Keys to look through
+        :type keys: list
+        :return: str or None
+        """
+        for key in keys:
+            split_key = key.split('submit_')
+
+            if isinstance(split_key, list) and len(split_key) == 2:
+                if Subscription.get_plan_by_id(split_key[1]):
+                    return split_key[1]
+
+        return None
+
+    def create(self, user=None, name=None, plan=None, coupon=None, token=None):
+        """
+        Create a recurring subscription.
+
+        :param user: User to apply the subscription to
+        :type user: User instance
+        :param name: User's billing name
+        :type name: str
+        :param plan: Plan identifier
+        :type plan: str
+        :param coupon: Coupon code to apply
+        :type coupon: str
+        :param token: Token returned by javascript
+        :type token: str
         :return: bool
         """
-        if self.params['stripe_token'] is None:
+        if token is None:
             return False
 
-        user = self.params['user']
-
-        # Create the customer on Stripe's end.
-        stripe_params = {
-            'source': self.params['stripe_token'],
-            'email': user.email,
-            'plan': self.plan,
-            'coupon': self.coupon
-        }
-        customer = StripeSubscription.create(stripe_params)
+        customer = PaymentSubscription.create(token=token,
+                                              email=user.email,
+                                              plan=plan,
+                                              coupon=coupon)
 
         # Update the user account.
-        user.stripe_customer_id = customer.id
-        user.name = self.params['name']
+        user.payment_id = customer.id
+        user.name = name
         user.cancelled_subscription_on = None
+
+        # Set the subscription details.
+        self.user_id = user.id
+        self.plan = plan
+        if coupon:
+            self.coupon = coupon
 
         # Create the credit card.
         credit_card = CreditCard(user_id=user.id,
                                  **CreditCard.extract_card_params(customer))
 
-        # Redeem the coupon.
-        if self.coupon:
-            coupon = Coupon.query.filter(Coupon.code == self.coupon).first()
+        # Redeem any coupons.
+        if coupon:
+            coupon = Coupon.query.filter(Coupon.code == coupon).first()
             coupon.redeem()
 
         db.session.add(user)
@@ -133,48 +113,46 @@ class Subscription(ResourceMixin, db.Model):
 
         return True
 
-    def update(self):
+    def update(self, user=None, coupon=None, plan=None):
         """
-        Return whether or not the subscription was updated successfully.
+        Update an existing subscription.
 
+        :param user: User to apply the subscription to
+        :type user: User instance
+        :param coupon: Coupon code to apply
+        :type coupon: str
+        :param plan: Plan identifier
+        :type plan: str
         :return: bool
         """
-        user = self.params['user']
+        PaymentSubscription.update(user.payment_id, coupon, plan)
 
-        # Update the subscription on Stripe's end
-        stripe_params = {
-            'customer_id': user.stripe_customer_id,
-            'plan': self.plan,
-            'coupon': self.coupon
-        }
+        user.subscription.plan = plan
+        if coupon:
+            user.subscription.coupon = coupon
+            coupon = Coupon.query.filter(Coupon.code == coupon).first()
 
-        StripeSubscription.update(stripe_params)
-
-        user.subscription.plan = self.plan
-        if self.coupon:
-            user.subscription.coupon = self.coupon
-            coupon = Coupon.query.filter(Coupon.code == self.coupon).first()
-            coupon.redeem()
+            if coupon:
+                coupon.redeem()
 
         db.session.add(user.subscription)
         db.session.commit()
 
         return True
 
-    def cancel(self, at_period_end=False, discard_credit_card=True):
+    def cancel(self, user=None, discard_credit_card=True):
         """
-        Return whether or not the subscription was cancelled successfully.
+        Cancel an existing subscription.
 
-        :param discard_credit_card: If true, delete the user's credit card
+        :param user: User to apply the subscription to
+        :type user: User instance
+        :param discard_credit_card: Delete the user's credit card
         :type discard_credit_card: bool
         :return: bool
         """
-        user = self.params['user']
+        PaymentSubscription.cancel(user.payment_id)
 
-        StripeSubscription.cancel(user.stripe_customer_id)
-
-        # Update the user account.
-        user.stripe_customer_id = None
+        user.payment_id = None
         user.cancelled_subscription_on = datetime.datetime.utcnow()
 
         db.session.add(user)
@@ -191,22 +169,23 @@ class Subscription(ResourceMixin, db.Model):
 
         return True
 
-    def update_payment_method(self):
+    def update_payment_method(self, user=None, name=None, token=None):
         """
-        Return whether or not the subscription payment method
-        was updated successfully.
+        Update the subscription.
 
+        :param user: User to apply the subscription to
+        :type user: User instance
+        :param name: User's billing name
+        :type name: str
+        :param token: Token returned by javascript
+        :type token: str
         :return: bool
         """
-        if self.params['stripe_token'] is None:
+        if token is None:
             return False
 
-        user = self.params['user']
-
-        customer = StripeCard.update(user.stripe_customer_id,
-                                     self.params['stripe_token'])
-
-        user.name = self.params['name']
+        customer = PaymentCard.update(user.payment_id, token)
+        user.name = name
 
         # Create the new credit card.
         credit_card = CreditCard(user_id=user.id,

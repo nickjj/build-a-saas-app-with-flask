@@ -60,7 +60,7 @@ def users(page):
 
     paginated_users = User.query \
         .filter(User.search(request.args.get('q', ''))) \
-        .order_by(User.role.desc(), User.stripe_customer_id,
+        .order_by(User.role.desc(), User.payment_id,
                   text(order_values)) \
         .paginate(page, 20, True)
 
@@ -104,11 +104,14 @@ def users_bulk_delete():
                                        omit_ids=[current_user.id],
                                        query=request.args.get('q', ''))
 
-        delete_count = User.bulk_delete(ids)
+        # Prevent circular imports.
+        from catwatch.blueprints.billing.tasks import delete_users
 
-        flash(_n('%(num)d user was deleted.',
-                 '%(num)d users were deleted.',
-                 num=delete_count), 'success')
+        delete_users.delay(ids)
+
+        flash(_n('%(num)d user was scheduled to be deleted.',
+                 '%(num)d users were scheduled to be deleted.',
+                 num=len(ids)), 'success')
     else:
         flash(_('No users were deleted, something went wrong.'), 'error')
 
@@ -123,10 +126,8 @@ def users_cancel_subscription():
         user = User.query.get(request.form.get('id', None))
 
         if user:
-            params = {'user': user}
-
-            subscription = Subscription(**params)
-            if subscription.cancel():
+            subscription = Subscription()
+            if subscription.cancel(user):
                 flash(_('Subscription has been cancelled for %(user)s.',
                         user=user.name), 'success')
         else:

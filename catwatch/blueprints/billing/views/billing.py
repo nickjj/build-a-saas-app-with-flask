@@ -35,9 +35,7 @@ def coupon_code():
         return render_json(422,
                            {'error': _('Discount code cannot be processed.')})
 
-    formatted_code = code.upper()
-    coupon = Coupon.query.filter(Coupon.redeemable,
-                                 Coupon.code == formatted_code).first()
+    coupon = Coupon.find_by_code(code)
     if coupon is None:
         return render_json(404, {'error': _('Discount code not found.')})
 
@@ -53,26 +51,26 @@ def create():
         return redirect(url_for('user.settings'))
 
     plan = request.args.get('plan', None)
-    active_plan = Subscription.get_plan_by_stripe_id(plan)
+    active_plan = Subscription.get_plan_by_id(plan)
 
     # Guard against an invalid or missing plan.
     if active_plan is None and request.method == 'GET':
         return redirect(url_for('billing.pricing'))
 
-    stripe_key = current_app.config['STRIPE_PUBLISHABLE_KEY']
+    stripe_key = current_app.config.get('STRIPE_PUBLISHABLE_KEY')
     form = CreditCardForm(stripe_key=stripe_key, plan=plan)
 
     if form.validate_on_submit():
-        params = {
-            'user': current_user,
-            'name': request.form.get('name', None),
-            'plan': request.form.get('plan', None),
-            'coupon': request.form.get('coupon_code', None),
-            'stripe_token': request.form.get('stripe_token', None)
-        }
+        subscription = Subscription()
+        created = subscription.create(user=current_user,
+                                      name=request.form.get('name', None),
+                                      plan=request.form.get('plan', None),
+                                      coupon=request.form.get('coupon_code',
+                                                              None),
+                                      token=request.form.get('stripe_token',
+                                                             None))
 
-        subscription = Subscription(**params)
-        if subscription.create():
+        if created:
             flash(_('Awesome, thanks for subscribing!'), 'success')
         else:
             flash(_('You must enable Javascript for this request.'), 'warn')
@@ -91,18 +89,10 @@ def update():
         return redirect(url_for('billing.pricing'))
 
     current_plan = current_user.subscription.plan
-    active_plan = Subscription.get_plan_by_stripe_id(current_plan)
+    active_plan = Subscription.get_plan_by_id(current_plan)
+    new_plan = Subscription.get_new_plan(request.form.keys())
 
-    new_plan = None
-    for key in request.form.keys():
-        split_key = key.split('submit_')
-
-        if isinstance(split_key, list) and len(split_key) == 2:
-            if Subscription.get_plan_by_stripe_id(split_key[1]):
-                new_plan = split_key[1]
-                break
-
-    plan = Subscription.get_plan_by_stripe_id(new_plan)
+    plan = Subscription.get_plan_by_id(new_plan)
 
     # Guard against an invalid, missing or identical plan.
     is_same_plan = new_plan == active_plan['id']
@@ -113,14 +103,12 @@ def update():
     form = UpdateSubscriptionForm()
 
     if form.validate_on_submit():
-        params = {
-            'user': current_user,
-            'plan': plan['id'],
-            'coupon': request.form.get('coupon_code', None)
-        }
+        subscription = Subscription()
+        updated = subscription.update(user=current_user,
+                                      coupon=request.form.get('coupon_code'),
+                                      plan=plan.get('id'))
 
-        subscription = Subscription(**params)
-        if subscription.update():
+        if updated:
             flash(_('Your subscription has been updated.'), 'success')
             return redirect(url_for('user.settings'))
 
@@ -141,17 +129,16 @@ def cancel():
     form = CancelSubscriptionForm()
 
     if form.validate_on_submit():
-        params = {'user': current_user}
+        subscription = Subscription()
+        cancelled = subscription.cancel(user=current_user)
 
-        subscription = Subscription(**params)
-        if subscription.cancel():
+        if cancelled:
             flash(_(
                 'Sorry to see you go, your subscription has been cancelled.'),
                 'success')
             return redirect(url_for('user.settings'))
 
-    return render_template('billing/cancel.jinja2',
-                           form=form)
+    return render_template('billing/cancel.jinja2', form=form)
 
 
 @billing.route('/update_payment_method', methods=['GET', 'POST'])
@@ -162,24 +149,24 @@ def update_payment_method():
         flash(_('You do not have a payment method on file.'), 'error')
         return redirect(url_for('user.settings'))
 
-    active_plan = Subscription.get_plan_by_stripe_id(
+    active_plan = Subscription.get_plan_by_id(
         current_user.subscription.plan)
 
     card_last4 = str(current_user.credit_card.last4)
-    stripe_key = current_app.config['STRIPE_PUBLISHABLE_KEY']
+    stripe_key = current_app.config.get('STRIPE_PUBLISHABLE_KEY')
     form = CreditCardForm(stripe_key=stripe_key,
                           plan=active_plan,
                           name=current_user.name)
 
     if form.validate_on_submit():
-        params = {
-            'user': current_user,
-            'name': request.form.get('name', None),
-            'stripe_token': request.form.get('stripe_token', None)
-        }
+        subscription = Subscription()
+        updated = subscription.update_payment_method(user=current_user,
+                                                     name=request.form.get(
+                                                         'name'),
+                                                     token=request.form.get(
+                                                         'stripe_token'))
 
-        subscription = Subscription(**params)
-        if subscription.update_payment_method():
+        if updated:
             flash(_('Your payment method has been updated.'), 'success')
         else:
             flash(_('You must enable Javascript for this request.'), 'warn')
@@ -198,7 +185,7 @@ def billing_history():
         12)
 
     if current_user.subscription:
-        upcoming = Invoice.upcoming(current_user.stripe_customer_id)
+        upcoming = Invoice.upcoming(current_user.payment_id)
         coupon = Coupon.query \
             .filter(Coupon.code == current_user.subscription.coupon).first()
     else:

@@ -23,8 +23,8 @@
                 {% if plan_name %}
                   {{ plan_name | title }} subscription<br>
                     <span class="small text-muted">
-                This plan costs ${{ plan.amount | format_currency }} / {{ plan.interval }}
-            </span>
+                        This plan costs ${{ plan.amount | format_currency }} / {{ plan.interval }}
+                    </span>
                 {% else %}
                   {{ title }}
                 {% endif %}
@@ -102,10 +102,9 @@
                   <img src="{{ asset_url_for('images/credit-cards/mastercard.png') }}"
                        width="40" height="24" class="cc-images"
                        alt="Mastercard"/>
-                  <img
-                          src="{{ asset_url_for('images/credit-cards/american-express.png') }}"
-                          width="40" height="24" class="cc-images"
-                          alt="American Express"/>
+                  <img src="{{ asset_url_for('images/credit-cards/american-express.png') }}"
+                       width="40" height="24" class="cc-images"
+                       alt="American Express"/>
                   <img src="{{ asset_url_for('images/credit-cards/jcb.png') }}"
                        width="40" height="24" class="cc-images" alt="J.C.B"/>
                   <img src="{{ asset_url_for('images/credit-cards/diners-club.png') }}"

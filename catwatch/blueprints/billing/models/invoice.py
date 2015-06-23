@@ -2,7 +2,8 @@ import datetime
 
 from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
-from catwatch.blueprints.billing.services import StripeInvoice
+from catwatch.blueprints.billing.gateways.stripecom import \
+    Invoice as PaymentInvoice
 
 
 class Invoice(ResourceMixin, db.Model):
@@ -41,7 +42,7 @@ class Invoice(ResourceMixin, db.Model):
         """
         Parse and return the invoice information that will get saved locally.
 
-        :return: Invoice dict
+        :return: dict
         """
         data = payload['data']['object']
         plan_info = data['lines']['data'][0]['plan']
@@ -52,7 +53,7 @@ class Invoice(ResourceMixin, db.Model):
             data['lines']['data'][0]['period']['end']).date()
 
         invoice = {
-            'stripe_customer_id': data['customer'],
+            'payment_id': data['customer'],
             'plan': plan_info['name'],
             'receipt_number': data['receipt_number'],
             'description': plan_info['statement_descriptor'],
@@ -71,7 +72,7 @@ class Invoice(ResourceMixin, db.Model):
         """
         Parse and return the invoice information we are interested in.
 
-        :return: Invoice dict
+        :return: dict
         """
         plan_info = payload['lines']['data'][0]['plan']
         date = datetime.datetime.utcfromtimestamp(payload['date'])
@@ -99,8 +100,8 @@ class Invoice(ResourceMixin, db.Model):
         from catwatch.blueprints.user.models import User
 
         # Only save the invoice if the user is valid at this point.
-        id = parsed_event['stripe_customer_id']
-        user = User.query.filter((User.stripe_customer_id == id)).first()
+        id = parsed_event.get('payment_id')
+        user = User.query.filter((User.payment_id == id)).first()
 
         if user and user.credit_card:
             parsed_event['user_id'] = user.id
@@ -108,7 +109,7 @@ class Invoice(ResourceMixin, db.Model):
             parsed_event['last4'] = user.credit_card.last4
             parsed_event['exp_date'] = user.credit_card.exp_date
 
-            del parsed_event['stripe_customer_id']
+            del parsed_event['payment_id']
 
             invoice = Invoice(**parsed_event)
             return invoice.save()
@@ -124,6 +125,6 @@ class Invoice(ResourceMixin, db.Model):
         :type customer_id: int
         :return: Stripe invoice object
         """
-        stripe_invoice = StripeInvoice.upcoming(customer_id)
+        invoice = PaymentInvoice.upcoming(customer_id)
 
-        return Invoice.parse_from_api(stripe_invoice)
+        return Invoice.parse_from_api(invoice)
