@@ -3,7 +3,6 @@ import random
 from datetime import datetime
 
 import click
-import pytz
 from faker import Faker
 
 try:
