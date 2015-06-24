@@ -22,6 +22,9 @@ var context = path.join(__dirname, '..');
 var rootAssetPath = './catwatch/assets';
 var contextRoot = path.join(context, rootAssetPath);
 
+// Which human languages do you want to support? (regex)
+var languages = /en|es/;
+
 // Where will the files get built to?
 var buildOutputPath = './build/public';
 
@@ -92,6 +95,9 @@ var plugins = [
 
     // https://github.com/webpack/extract-text-webpack-plugin
     new ExtractTextPlugin(assets.styles.filename),
+
+    // http://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, languages),
 
     // https://github.com/nickjj/manifest-revision-webpack-plugin
     new ManifestRevisionPlugin(path.join('build', 'manifest.json'), {

@@ -17,7 +17,7 @@
 
   {{ analytics.google_ua() }}
 </head>
-<body>
+<body{{ ' data-locale="' + current_user.locale + '"' if current_user.is_authenticated() }}>
 {% block header %}{% endblock %}
 
 {{ billing.card_expiring_warning() }}

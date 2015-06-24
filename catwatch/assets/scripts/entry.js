@@ -6,6 +6,8 @@ var BulkDelete = require('./bulk-delete');
 var faye = require('./faye');
 
 $(document).ready(function () {
+    moment.locale($('body').data('locale'));
+
     coupon();
     stripe();
 
