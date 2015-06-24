@@ -25,6 +25,8 @@ Install Docker
 - https://docs.docker.com/installation (docker itself)
 - https://github.com/docker/compose/releases (docker-compose tool for development)
 
+Make sure you get `docker-compose v1.3.1+`.
+
 Install nodejs
 ''''''''''''''
 
@@ -72,7 +74,7 @@ Initialize everything and view the app
 --------------------------------------
 
 - Open a new terminal window
-- Type ``run assets build`` to create the build directory
+- Type ``run assets build`` to create the build directory and manifest file
 - Type ``run`` to see a list of what's available
 - Type ``run db reset`` to initialize the database
 - Type ``run stripe sync_plans`` to sync your ``STRIPE_PLANS`` to the gateway
