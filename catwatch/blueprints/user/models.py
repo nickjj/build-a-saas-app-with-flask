@@ -60,7 +60,6 @@ class User(UserMixin, ResourceMixin, db.Model):
 
     # Locale.
     locale = db.Column(db.String(5), nullable=False, server_default='en')
-    timezone = db.Column(db.String(32), nullable=False, server_default='UTC')
 
     def __init__(self, **kwargs):
         # Call Flask-SQLAlchemy's constructor.

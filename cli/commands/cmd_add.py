@@ -5,17 +5,25 @@ from datetime import datetime
 import click
 from faker import Faker
 
+SEED_ADMIN_EMAIL = None
+ACCEPT_LANGUAGES = None
+
 try:
     from instance import settings
 
     SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
+    ACCEPT_LANGUAGES = settings.ACCEPT_LANGUAGES
 except ImportError:
     logging.error('Your instance/ folder must contain an __init__.py file')
     exit(1)
 except AttributeError:
     from config import settings
 
-    SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
+    if SEED_ADMIN_EMAIL is None:
+        SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
+
+    if ACCEPT_LANGUAGES is None:
+        ACCEPT_LANGUAGES = settings.ACCEPT_LANGUAGES
 
 from catwatch.app import create_app
 from catwatch.extensions import db
@@ -99,7 +107,8 @@ def users():
             'role': random.choice(User.ROLE.keys()),
             'email': email,
             'password': User.encrypt_password('password'),
-            'name': fake.name()
+            'name': fake.name(),
+            'locale': random.choice(ACCEPT_LANGUAGES)
         }
 
         # Ensure the seeded admin is always an admin.

@@ -18,9 +18,7 @@ except AttributeError:
 
     LANGUAGES = settings.LANGUAGES
 
-from catwatch.lib.util_wtforms import ModelForm, choices_from_dict, \
-    choices_from_list
-from catwatch.lib.localization import TIMEZONES
+from catwatch.lib.util_wtforms import ModelForm, choices_from_dict
 from catwatch.blueprints.user.models import User, db
 from catwatch.blueprints.user.validations import ensure_identity_exists, \
     ensure_existing_password_matches
@@ -89,9 +87,6 @@ class UpdateCredentials(ModelForm):
     password = PasswordField(_('Password'), [Optional(), Length(8, 128)])
 
 
-class UpdateLanguage(ModelForm):
+class UpdateLocale(ModelForm):
     locale = SelectField(_('Language preference'), [DataRequired()],
                          choices=choices_from_dict(LANGUAGES))
-
-    timezone = SelectField(_('Timezone'), [DataRequired()],
-                           choices=choices_from_list(TIMEZONES))

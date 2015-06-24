@@ -22,7 +22,7 @@ from catwatch.blueprints.user.forms import (
     SignupForm,
     WelcomeForm,
     UpdateCredentials,
-    UpdateLanguage)
+    UpdateLocale)
 
 user = Blueprint('user', __name__, template_folder='templates')
 
@@ -170,17 +170,16 @@ def update_credentials():
     return render_template('user/update_credentials.jinja2', form=form)
 
 
-@user.route('/settings/update_localization', methods=['GET', 'POST'])
+@user.route('/settings/update_locale', methods=['GET', 'POST'])
 @login_required
-def update_localization():
-    form = UpdateLanguage(locale=current_user.locale,
-                          timezone=current_user.timezone)
+def update_locale():
+    form = UpdateLocale(locale=current_user.locale)
 
     if form.validate_on_submit():
         form.populate_obj(current_user)
         current_user.save()
 
-        flash(_('Your localization settings have been updated.'), 'success')
+        flash(_('Your locale settings have been updated.'), 'success')
         return redirect(url_for('user.settings'))
 
-    return render_template('user/update_localization.jinja2', form=form)
+    return render_template('user/update_locale.jinja2', form=form)

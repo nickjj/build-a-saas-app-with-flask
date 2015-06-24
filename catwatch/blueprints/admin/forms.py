@@ -21,10 +21,8 @@ except AttributeError:
 
     LANGUAGES = settings.LANGUAGES
 
-from catwatch.lib.localization import Currency
-from catwatch.lib.util_wtforms import ModelForm, choices_from_dict, \
-    choices_from_list
-from catwatch.lib.localization import TIMEZONES
+from catwatch.lib.locale import Currency
+from catwatch.lib.util_wtforms import ModelForm, choices_from_dict
 from catwatch.blueprints.user.models import db, User
 from catwatch.blueprints.issue.models import Issue
 from catwatch.blueprints.billing.models.coupon import Coupon
@@ -63,9 +61,6 @@ class UserForm(ModelForm):
     active = BooleanField(_('Yes, allow this user to sign in'))
     locale = SelectField(_('Language preference'), [DataRequired()],
                          choices=choices_from_dict(LANGUAGES))
-
-    timezone = SelectField(_('Timezone'), [DataRequired()],
-                           choices=choices_from_list(TIMEZONES))
 
 
 class UserCancelSubscriptionForm(Form):
