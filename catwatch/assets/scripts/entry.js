@@ -20,7 +20,7 @@ $(document).ready(function () {
         (function updateTime() {
             var time = moment($(e).data('datetime'));
             $(e).text(time.fromNow());
-            $(e).attr('title', time.format('MMMM Do YYYY, h:mm:ss a'));
+            $(e).attr('title', time.format('MMMM Do YYYY, h:mm:ss a Z'));
             setTimeout(updateTime, 1000);
         })();
     });
@@ -28,6 +28,6 @@ $(document).ready(function () {
     $('.short-date').each(function (i, e) {
         var time = moment($(e).data('datetime'));
         $(e).text(time.format('MMM Do YYYY'));
-        $(e).attr('title', time.format('MMMM Do YYYY, h:mm:ss a'));
+        $(e).attr('title', time.format('MMMM Do YYYY, h:mm:ss a Z'));
     });
 });
