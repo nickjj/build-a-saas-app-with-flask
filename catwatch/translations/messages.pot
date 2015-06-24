@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-24 12:48-0700\n"
+"POT-Creation-Date: 2015-06-24 13:18-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,6 +196,10 @@ msgstr ""
 msgid "Name on card"
 msgstr ""
 
+#: catwatch/blueprints/billing/templates/billing/billing_history.jinja2:98
+msgid "Go back to your account"
+msgstr ""
+
 #: catwatch/blueprints/billing/templates/billing/cancel.jinja2:29
 msgid "Cancel it"
 msgstr ""
@@ -204,6 +208,14 @@ msgstr ""
 #: catwatch/blueprints/user/templates/user/update_credentials.jinja2:35
 #: catwatch/blueprints/user/templates/user/update_locale.jinja2:25
 msgid "Nevermind"
+msgstr ""
+
+#: catwatch/blueprints/billing/templates/billing/payment_method.jinja2:8
+msgid "Process payment"
+msgstr ""
+
+#: catwatch/blueprints/billing/templates/billing/payment_method.jinja2:12
+msgid "Update payment method"
 msgstr ""
 
 #: catwatch/blueprints/billing/templates/billing/pricing.jinja2:5
@@ -379,6 +391,10 @@ msgstr ""
 #: catwatch/blueprints/user/templates/user/login.jinja2:29
 #: catwatch/blueprints/user/templates/user/signup.jinja2:57
 msgid "Register"
+msgstr ""
+
+#: catwatch/blueprints/user/templates/user/login.jinja2:38
+msgid "Forgot your password?"
 msgstr ""
 
 #: catwatch/blueprints/user/templates/user/signup.jinja2:64

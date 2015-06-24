@@ -5,11 +5,11 @@
 {% if plan_name %}
   {% set title = 'Enter payment information' %}
   {% set endpoint = 'billing.create' %}
-  {% set button = 'Process payment' %}
+  {% set button = _('Process payment') %}
 {% else %}
   {% set title = 'Update payment information' %}
   {% set endpoint = 'billing.update_payment_method' %}
-  {% set button = 'Update payment method' %}
+  {% set button = _('Update payment method') %}
 {% endif %}
 
 {% block title %}{{ title }}{% endblock %}

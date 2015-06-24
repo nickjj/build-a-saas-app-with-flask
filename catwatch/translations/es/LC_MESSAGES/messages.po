@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-24 12:48-0700\n"
+"POT-Creation-Date: 2015-06-24 13:18-0700\n"
 "PO-Revision-Date: 2015-06-23 05:06-0700\n"
 "Last-Translator: Google\n"
 "Language-Team: es <LL@li.org>\n"
@@ -200,6 +200,10 @@ msgstr "¿Tiene un código de descuento?"
 msgid "Name on card"
 msgstr "Nombre en la tarjeta"
 
+#: catwatch/blueprints/billing/templates/billing/billing_history.jinja2:98
+msgid "Go back to your account"
+msgstr "Ir a su cuenta"
+
 #: catwatch/blueprints/billing/templates/billing/cancel.jinja2:29
 msgid "Cancel it"
 msgstr "Cancelarlo"
@@ -209,6 +213,15 @@ msgstr "Cancelarlo"
 #: catwatch/blueprints/user/templates/user/update_locale.jinja2:25
 msgid "Nevermind"
 msgstr "Olvídalo"
+
+#: catwatch/blueprints/billing/templates/billing/payment_method.jinja2:8
+msgid "Process payment"
+msgstr "Proceso de pago"
+
+#: catwatch/blueprints/billing/templates/billing/payment_method.jinja2:12
+#, fuzzy
+msgid "Update payment method"
+msgstr "Usted no tiene un método de pago en el expediente."
 
 #: catwatch/blueprints/billing/templates/billing/pricing.jinja2:5
 #: catwatch/blueprints/page/templates/page/terms.jinja2:9
@@ -386,6 +399,10 @@ msgstr "Registrarse"
 #: catwatch/blueprints/user/templates/user/signup.jinja2:57
 msgid "Register"
 msgstr "Registrarse"
+
+#: catwatch/blueprints/user/templates/user/login.jinja2:38
+msgid "Forgot your password?"
+msgstr "Forgot your password?"
 
 #: catwatch/blueprints/user/templates/user/signup.jinja2:64
 msgid "Looking to sign in?"
