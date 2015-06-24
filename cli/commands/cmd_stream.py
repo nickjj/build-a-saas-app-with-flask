@@ -5,10 +5,19 @@ from time import sleep
 
 import click
 import pytz
+
 from faker import Faker
 
 from catwatch.blueprints.stream.twitter import TwitterStream
 from catwatch.blueprints.stream.tasks import broadcast_message
+
+TWITTER_CONSUMER_KEY = None
+TWITTER_CONSUMER_SECRET = None
+TWITTER_ACCESS_TOKEN = None
+TWITTER_ACCESS_SECRET = None
+
+BROADCAST_PUSH_TOKEN = None
+BROADCAST_INTERNAL_URL = None
 
 try:
     from instance import settings
@@ -18,11 +27,31 @@ try:
     TWITTER_ACCESS_TOKEN = settings.TWITTER_ACCESS_TOKEN
     TWITTER_ACCESS_SECRET = settings.TWITTER_ACCESS_SECRET
 
-    BROADCAST_INTERNAL_URL = settings.BROADCAST_INTERNAL_URL
     BROADCAST_PUSH_TOKEN = settings.BROADCAST_PUSH_TOKEN
+    BROADCAST_INTERNAL_URL = settings.BROADCAST_INTERNAL_URL
 except ImportError:
     logging.error('Your instance/ folder must contain an __init__.py file')
     exit(1)
+except AttributeError:
+    from config import settings
+
+    if TWITTER_CONSUMER_KEY is None:
+        TWITTER_CONSUMER_KEY = settings.TWITTER_CONSUMER_KEY
+
+    if TWITTER_CONSUMER_SECRET is None:
+        TWITTER_CONSUMER_SECRET = settings.TWITTER_CONSUMER_SECRET
+
+    if TWITTER_ACCESS_TOKEN is None:
+        TWITTER_ACCESS_TOKEN = settings.TWITTER_ACCESS_TOKEN
+
+    if TWITTER_ACCESS_SECRET is None:
+        TWITTER_ACCESS_SECRET = settings.TWITTER_ACCESS_SECRET
+
+    if BROADCAST_PUSH_TOKEN is None:
+        BROADCAST_PUSH_TOKEN = settings.BROADCAST_PUSH_TOKEN
+
+    if BROADCAST_INTERNAL_URL is None:
+        BROADCAST_INTERNAL_URL = settings.BROADCAST_INTERNAL_URL
 
 
 @click.group()
@@ -53,9 +82,15 @@ def broadcast():
 
     :return: Twitter stream
     """
+    if None in ('TWITTER_CONSUMER_KEY',
+                TWITTER_CONSUMER_SECRET,
+                TWITTER_ACCESS_TOKEN,
+                TWITTER_ACCESS_SECRET):
+        logging.error('Unable to broadcast, missing twitter settings')
+        exit(1)
+
     if BROADCAST_INTERNAL_URL is None or BROADCAST_PUSH_TOKEN is None:
-        logging.error('Unable to broadcast, missing BROADCAST_INTERNAL_URL '
-                      'and/or BROADCAST_PUSH_TOKEN')
+        logging.error('Unable to broadcast, missing broadcast settings')
         exit(1)
 
     stream = TwitterStream(consumer_key=TWITTER_CONSUMER_KEY,
@@ -77,9 +112,6 @@ def fake_broadcast():
     :return: None
     """
     fake = Faker()
-
-    print BROADCAST_INTERNAL_URL
-    print BROADCAST_PUSH_TOKEN
 
     while True:
         random_types = ('tweet', 'retweet', 'favorite')
