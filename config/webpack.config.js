@@ -56,15 +56,15 @@ var chunks = {
     ],
     vendor_js: ['bootstrap-sass', 'moment', 'rome'],
     vendor_css: [
-         // Bootstrap configuration settings:
+        // Bootstrap configuration settings:
         // https://gist.github.com/anonymous/ef4593b01915d647ed88
         // http://getbootstrap.com/customize/?id=ef4593b01915d647ed88
         path.join(contextRoot, assets.styles.path,
-        'vendor', 'bootstrap.3.3.5.min.css'),
+            'vendor', 'bootstrap.3.3.5.min.css'),
         path.join(contextRoot, assets.styles.path,
-        'vendor', 'font-awesome.4.3.0.css'),
+            'vendor', 'font-awesome.4.3.0.css'),
         path.join(contextRoot, assets.styles.path,
-        'vendor', 'rome.2.1.17.css')
+            'vendor', 'rome.2.1.17.css')
     ]
 };
 
