@@ -4,12 +4,12 @@
   {% set endpoint = 'admin.issues_new' %}
   {% set form_kwargs = {} %}
   {% set legend = 'Add a new issue' %}
-  {% set button = 'Add' %}
+  {% set button = _('Add') %}
 {% else %}
   {% set endpoint = 'admin.issues_edit' %}
   {% set form_kwargs = {'id': issue.id} %}
   {% set legend = 'Update this issue' %}
-  {% set button = 'Save' %}
+  {% set button = _('Save') %}
 {% endif %}
 
 <div class="row">
@@ -50,7 +50,7 @@
                   <div class="visible-xs visible-sm sm-margin-top"></div>
                   <a href="{{ url_for('admin.issues') }}"
                      class="btn btn-default btn-block">
-                      Cancel
+                      {{ _('Cancel') }}
                   </a>
               </div>
           </div>

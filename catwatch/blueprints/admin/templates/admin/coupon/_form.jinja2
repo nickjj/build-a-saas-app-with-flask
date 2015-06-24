@@ -4,12 +4,12 @@
   {% set endpoint = 'admin.coupons_new' %}
   {% set form_kwargs = {} %}
   {% set legend = 'Add a new coupon' %}
-  {% set button = 'Add' %}
+  {% set button = _('Add') %}
 {% else %}
   {% set endpoint = 'admin.coupons_edit' %}
   {% set form_kwargs = {'id': coupon.id} %}
   {% set legend = 'Update this coupon' %}
-  {% set button = 'Save' %}
+  {% set button = _('Save') %}
 {% endif %}
 
 <div class="row">
@@ -65,7 +65,7 @@
                   <div class="visible-xs visible-sm sm-margin-top"></div>
                   <a href="{{ url_for('admin.coupons') }}"
                      class="btn btn-default btn-block">
-                      Cancel
+                      {{ _('Cancel') }}
                   </a>
               </div>
           </div>

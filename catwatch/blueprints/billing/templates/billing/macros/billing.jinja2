@@ -23,8 +23,9 @@
               {% if current_user.is_authenticated() %}
                 {% if current_user.subscription %}
                   {% if plan == active_plan %}
-                      <strong class="btn btn-default btn-lg btn-block">Current
-                          plan</strong>
+                      <strong class="btn btn-default btn-lg btn-block">
+                          {{ _('Current plan') }}
+                      </strong>
                   {% else %}
                       <button id="submit_{{ plan.id }}"
                               name="submit_{{ plan.id }}"
@@ -32,7 +33,7 @@
                           <img src="{{ asset_url_for('images/spinner.gif') }}"
                                class="spinner"
                                width="16" height="11" alt="Spinner"/>
-                          Change plan
+                          {{ _('Change plan') }}
                       </button>
                   {% endif %}
                 {% else %}
@@ -42,7 +43,7 @@
               {% else %}
                   <a href="{{ url_for('user.signup') }}"
                      class="btn btn-primary btn-lg btn-block">
-                      Sign up
+                      {{ _('Sign up') }}
                   </a>
               {% endif %}
 

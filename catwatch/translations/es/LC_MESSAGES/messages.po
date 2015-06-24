@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-23 06:25-0700\n"
+"POT-Creation-Date: 2015-06-24 12:48-0700\n"
 "PO-Revision-Date: 2015-06-23 05:06-0700\n"
 "Last-Translator: Google\n"
 "Language-Team: es <LL@li.org>\n"
@@ -17,80 +17,85 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: catwatch/blueprints/admin/forms.py:19
+#: catwatch/blueprints/admin/forms.py:32
 msgid "Search terms"
 msgstr "Los términos de búsqueda"
 
-#: catwatch/blueprints/admin/forms.py:28 catwatch/blueprints/admin/forms.py:45
+#: catwatch/blueprints/admin/forms.py:41 catwatch/blueprints/admin/forms.py:58
 msgid "Privileges"
 msgstr "Privilegios"
 
-#: catwatch/blueprints/admin/forms.py:33 catwatch/blueprints/user/forms.py:63
+#: catwatch/blueprints/admin/forms.py:46 catwatch/blueprints/user/forms.py:61
 msgid "Letters, numbers and underscores only please."
 msgstr "Letras, números y guiones bajos sólo por favor."
 
-#: catwatch/blueprints/admin/forms.py:44
+#: catwatch/blueprints/admin/forms.py:57
 msgid "Full name"
 msgstr "Nombre completo"
 
-#: catwatch/blueprints/admin/forms.py:48
+#: catwatch/blueprints/admin/forms.py:61
 msgid "Yes, allow this user to sign in"
 msgstr "Sí, deje este usuario a ingresar"
 
-#: catwatch/blueprints/admin/forms.py:56 catwatch/blueprints/issue/forms.py:12
+#: catwatch/blueprints/admin/forms.py:62 catwatch/blueprints/user/forms.py:91
+msgid "Language preference"
+msgstr "Preferencia de idioma"
+
+#: catwatch/blueprints/admin/forms.py:71 catwatch/blueprints/issue/forms.py:12
 msgid "What do you need help with?"
 msgstr "Con qué necesitas ayuda?"
 
-#: catwatch/blueprints/admin/forms.py:58 catwatch/blueprints/issue/forms.py:14
+#: catwatch/blueprints/admin/forms.py:73 catwatch/blueprints/issue/forms.py:14
 msgid "What's your e-mail address?"
 msgstr "Cuál es su dirección de correo electrónico?"
 
-#: catwatch/blueprints/admin/forms.py:60 catwatch/blueprints/issue/forms.py:16
+#: catwatch/blueprints/admin/forms.py:75 catwatch/blueprints/issue/forms.py:16
 msgid "What's your question or issue?"
 msgstr "¿Cuál es tu pregunta o problema?"
 
-#: catwatch/blueprints/admin/forms.py:62
+#: catwatch/blueprints/admin/forms.py:77
 msgid "What status is the issue in?"
 msgstr "¿Cuál es el estado de la cuestión en?"
 
-#: catwatch/blueprints/admin/forms.py:68
+#: catwatch/blueprints/admin/forms.py:83
 msgid "Percent off"
 msgstr "Por ciento de descuento"
 
-#: catwatch/blueprints/admin/forms.py:70
+#: catwatch/blueprints/admin/forms.py:85
 msgid "Amount off"
 msgstr "Importe off"
 
-#: catwatch/blueprints/admin/forms.py:73
+#: catwatch/blueprints/admin/forms.py:88
 msgid "Code"
 msgstr "Código"
 
-#: catwatch/blueprints/admin/forms.py:74
+#: catwatch/blueprints/admin/forms.py:89
 msgid "Currency"
 msgstr "Moneda"
 
-#: catwatch/blueprints/admin/forms.py:77
+#: catwatch/blueprints/admin/forms.py:92
 msgid "Duration"
 msgstr "Duración"
 
-#: catwatch/blueprints/admin/forms.py:80
+#: catwatch/blueprints/admin/forms.py:95
 msgid "Duration in months"
 msgstr "Duración en meses"
 
-#: catwatch/blueprints/admin/forms.py:84
+#: catwatch/blueprints/admin/forms.py:99
 msgid "Max Redemptions"
 msgstr "Max reembolsos"
 
-#: catwatch/blueprints/admin/forms.py:87
+#: catwatch/blueprints/admin/forms.py:102
 msgid "Redeem by"
 msgstr "Canjear por"
 
-#: catwatch/blueprints/admin/forms.py:99 catwatch/blueprints/admin/forms.py:100
+#: catwatch/blueprints/admin/forms.py:114
+#: catwatch/blueprints/admin/forms.py:115
 msgid "Pick at least one."
 msgstr "Elige al menos uno."
 
-#: catwatch/blueprints/admin/forms.py:103
-#: catwatch/blueprints/admin/forms.py:104
+#: catwatch/blueprints/admin/forms.py:118
+#: catwatch/blueprints/admin/forms.py:119
 msgid "Cannot pick both."
 msgstr "No se puede tomar tanto."
 
@@ -133,6 +138,31 @@ msgstr "Cupón se ha creado correctamente."
 msgid "No coupons were deleted, something went wrong."
 msgstr "No hay cupones fueron eliminados, algo salió mal."
 
+#: catwatch/blueprints/admin/templates/admin/coupon/_form.jinja2:7
+#: catwatch/blueprints/admin/templates/admin/issue/_form.jinja2:7
+#: catwatch/blueprints/admin/templates/admin/user/_form.jinja2:7
+msgid "Add"
+msgstr "Añadir"
+
+#: catwatch/blueprints/admin/templates/admin/coupon/_form.jinja2:12
+#: catwatch/blueprints/admin/templates/admin/issue/_form.jinja2:12
+#: catwatch/blueprints/admin/templates/admin/user/_form.jinja2:12
+#: catwatch/blueprints/user/templates/user/update_credentials.jinja2:28
+#: catwatch/blueprints/user/templates/user/update_locale.jinja2:18
+#: catwatch/blueprints/user/templates/user/welcome.jinja2:37
+msgid "Save"
+msgstr "Guardar"
+
+#: catwatch/blueprints/admin/templates/admin/coupon/_form.jinja2:68
+#: catwatch/blueprints/admin/templates/admin/issue/_form.jinja2:53
+#: catwatch/blueprints/admin/templates/admin/user/_form.jinja2:58
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: catwatch/blueprints/admin/templates/admin/user/_form.jinja2:93
+msgid "Cancel subscription"
+msgstr "Cancelar suscripción"
+
 #: catwatch/blueprints/billing/decorators.py:21
 msgid "Sorry, your card was declined. Try again perhaps?"
 msgstr "Lo sentimos, su tarjeta fue rechazada. Inténtelo de nuevo, tal vez?"
@@ -169,6 +199,40 @@ msgstr "¿Tiene un código de descuento?"
 #: catwatch/blueprints/billing/forms.py:14
 msgid "Name on card"
 msgstr "Nombre en la tarjeta"
+
+#: catwatch/blueprints/billing/templates/billing/cancel.jinja2:29
+msgid "Cancel it"
+msgstr "Cancelarlo"
+
+#: catwatch/blueprints/billing/templates/billing/cancel.jinja2:36
+#: catwatch/blueprints/user/templates/user/update_credentials.jinja2:35
+#: catwatch/blueprints/user/templates/user/update_locale.jinja2:25
+msgid "Nevermind"
+msgstr "Olvídalo"
+
+#: catwatch/blueprints/billing/templates/billing/pricing.jinja2:5
+#: catwatch/blueprints/page/templates/page/terms.jinja2:9
+#: catwatch/blueprints/page/templates/page/terms.jinja2:13
+#: catwatch/blueprints/page/templates/page/terms.jinja2:128
+#: catwatch/templates/layouts/base.jinja2:37
+msgid "Cat watch"
+msgstr "Cat watch"
+
+#: catwatch/blueprints/billing/templates/billing/macros/billing.jinja2:27
+#, fuzzy
+msgid "Current plan"
+msgstr "Contraseña actual"
+
+#: catwatch/blueprints/billing/templates/billing/macros/billing.jinja2:36
+msgid "Change plan"
+msgstr "Cambiar el plan"
+
+#: catwatch/blueprints/billing/templates/billing/macros/billing.jinja2:46
+#: catwatch/blueprints/page/templates/page/home.jinja2:39
+#: catwatch/blueprints/page/templates/page/home.jinja2:50
+#: catwatch/blueprints/page/templates/page/home.jinja2:61
+msgid "Sign up"
+msgstr "Contratar"
 
 #: catwatch/blueprints/billing/views/billing.py:36
 #: catwatch/tests/billing/test_views.py:41
@@ -228,30 +292,27 @@ msgstr "[Solicitud de soporte] %(label)s"
 msgid "Help is on the way, expect a response shortly."
 msgstr "La ayuda está en camino, le espera una respuesta en breve."
 
+#: catwatch/blueprints/page/templates/page/home.jinja2:20
+#, fuzzy
+msgid "Sign up today"
+msgstr "Contratar"
+
 #: catwatch/blueprints/user/decorators.py:42
 msgid "You do not have permission to do that."
 msgstr "Usted no tiene permiso para hacer eso."
 
-#: catwatch/blueprints/user/forms.py:31 catwatch/blueprints/user/forms.py:38
+#: catwatch/blueprints/user/forms.py:29 catwatch/blueprints/user/forms.py:36
 msgid "Username or email"
 msgstr "Nombre de usuario o correo electrónico"
 
-#: catwatch/blueprints/user/forms.py:47 catwatch/blueprints/user/forms.py:59
-#: catwatch/blueprints/user/forms.py:89
+#: catwatch/blueprints/user/forms.py:45 catwatch/blueprints/user/forms.py:57
+#: catwatch/blueprints/user/forms.py:87
 msgid "Password"
 msgstr "Contraseña"
 
-#: catwatch/blueprints/user/forms.py:84
+#: catwatch/blueprints/user/forms.py:82
 msgid "Current password"
 msgstr "Contraseña actual"
-
-#: catwatch/blueprints/user/forms.py:93
-msgid "Language preference"
-msgstr "Preferencia de idioma"
-
-#: catwatch/blueprints/user/forms.py:96
-msgid "Timezone"
-msgstr "Zona Horaria"
 
 #: catwatch/blueprints/user/tasks.py:28
 msgid "Password reset from Catwatch"
@@ -303,9 +364,36 @@ msgstr "Inscríbete es completa, disfrutar de nuestros servicios."
 msgid "Your sign in settings have been updated."
 msgstr "Tu signo en entornos se han actualizado."
 
-#: catwatch/blueprints/user/views.py:182
-msgid "Your localization settings have been updated."
+#: catwatch/blueprints/user/views.py:182 catwatch/tests/user/test_views.py:322
+msgid "Your locale settings have been updated."
 msgstr "La configuración de localización han sido actualizados."
+
+#: catwatch/blueprints/user/templates/user/begin_password_reset.jinja2:22
+#: catwatch/blueprints/user/templates/user/password_reset.jinja2:18
+msgid "Continue"
+msgstr "Continuar"
+
+#: catwatch/blueprints/user/templates/user/begin_password_reset.jinja2:29
+#: catwatch/blueprints/user/templates/user/password_reset.jinja2:25
+msgid "Back to login"
+msgstr "Volver a identificarse"
+
+#: catwatch/blueprints/user/templates/user/login.jinja2:22
+msgid "Sign in"
+msgstr "Registrarse"
+
+#: catwatch/blueprints/user/templates/user/login.jinja2:29
+#: catwatch/blueprints/user/templates/user/signup.jinja2:57
+msgid "Register"
+msgstr "Registrarse"
+
+#: catwatch/blueprints/user/templates/user/signup.jinja2:64
+msgid "Looking to sign in?"
+msgstr "Buscando acceder?"
+
+#: catwatch/blueprints/user/templates/user/welcome.jinja2:44
+msgid "Do it later"
+msgstr "Hágalo después"
 
 #: catwatch/lib/flask_mailplus.py:44 catwatch/lib/flask_mailplus.py:46
 msgid "You cannot have both a template and body arg."
@@ -319,4 +407,7 @@ msgstr "Selecciona uno..."
 #, python-format
 msgid "Subscription has been cancelled for %(user)s"
 msgstr "La suscripción ha sido cancelada por %(user)s"
+
+#~ msgid "Timezone"
+#~ msgstr "Zona Horaria"
 
