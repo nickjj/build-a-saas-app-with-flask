@@ -14,7 +14,7 @@ try:
     SEED_ADMIN_EMAIL = settings.SEED_ADMIN_EMAIL
     ACCEPT_LANGUAGES = settings.ACCEPT_LANGUAGES
 except ImportError:
-    logging.error('Your instance/ folder must contain an __init__.py file')
+    logging.error('Ensure __init__.py and settings.py both exist in instance/')
     exit(1)
 except AttributeError:
     from config import settings
