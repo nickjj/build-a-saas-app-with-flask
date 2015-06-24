@@ -3,6 +3,7 @@ import random
 from datetime import datetime
 
 import click
+import pytz
 from faker import Faker
 
 try:
@@ -177,7 +178,7 @@ def coupons():
         # Our database requires a Date object, not a unix timestamp.
         if redeem_by:
             params['redeem_by'] = datetime.utcfromtimestamp(float(redeem_by)) \
-                .strftime('%Y-%m-%d %H:%M:%S')
+                .strftime('%Y-%m-%dT%H:%M:%S Z')
 
         if 'id' in params:
             params['code'] = params.get('id')
@@ -200,6 +201,8 @@ def invoices():
     for user in users:
         for i in range(0, random.randint(1, 12)):
             # Create a fake unix timestamp in the future.
+            created_on = fake.date_time_between(
+                start_date='-1y', end_date='now').strftime('%s')
             period_start_on = fake.date_time_between(
                 start_date='now', end_date='+1y').strftime('%s')
             period_end_on = fake.date_time_between(
@@ -207,6 +210,8 @@ def invoices():
             exp_date = fake.date_time_between(
                 start_date='now', end_date='+2y').strftime('%s')
 
+            created_on = datetime.utcfromtimestamp(
+                float(created_on)).strftime('%Y-%m-%dT%H:%M:%S Z')
             period_start_on = datetime.utcfromtimestamp(
                 float(period_start_on)).strftime('%Y-%m-%d')
             period_end_on = datetime.utcfromtimestamp(
@@ -219,8 +224,8 @@ def invoices():
                      'J.C.B', "Diner's Club"]
 
             params = {
-                'created_on': fake.date_time_this_year(),
-                'updated_on': fake.date_time_this_year(),
+                'created_on': created_on,
+                'updated_on': created_on,
                 'user_id': user.id,
                 'receipt_number': fake.md5(),
                 'description': '{0} MONTHLY'.format(random.choice(plans)),

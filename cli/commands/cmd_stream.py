@@ -4,6 +4,7 @@ import random
 from time import sleep
 
 import click
+import pytz
 from faker import Faker
 
 from catwatch.blueprints.stream.twitter import TwitterStream
@@ -85,7 +86,7 @@ def fake_broadcast():
         random_tweet = fake.text(max_nb_chars=140)
 
         data = {
-            'created_at': str(datetime.datetime.utcnow()),
+            'created_at': str(datetime.datetime.now(pytz.utc)),
             'type': random.choice(random_types),
             'tweet': random_tweet,
             'user': fake.user_name()

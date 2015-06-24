@@ -1,7 +1,8 @@
 import datetime
 
-from mock import Mock
 import pytest
+import pytz
+from mock import Mock
 
 from config import settings
 from catwatch.app import create_app
@@ -196,7 +197,8 @@ def credit_cards(db):
     db.session.query(CreditCard).delete()
 
     may_29_2015 = datetime.date(2015, 05, 29)
-    june_29_2015 = datetime.datetime(2015, 06, 29)
+    june_29_2015 = datetime.datetime(2015, 06, 29, 0, 0, 0)
+    june_29_2015 = pytz.utc.localize(june_29_2015)
 
     credit_cards = [
         {
@@ -231,8 +233,11 @@ def coupons(db):
     """
     db.session.query(Coupon).delete()
 
-    may_29_2015 = datetime.date(2015, 05, 29)
+    may_29_2015 = datetime.datetime(2015, 05, 29, 0, 0, 0)
+    may_29_2015 = pytz.utc.localize(may_29_2015)
+
     june_29_2015 = datetime.datetime(2015, 06, 29)
+    june_29_2015 = pytz.utc.localize(june_29_2015)
 
     coupons = [
         {

@@ -4,11 +4,12 @@ from string import maketrans
 from os import urandom
 from binascii import hexlify
 
+import pytz
 from sqlalchemy import or_, and_
 
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from catwatch.lib.util_sqlalchemy import ResourceMixin
+from catwatch.lib.util_sqlalchemy import ResourceMixin, AwareDateTime
 from catwatch.lib.money import cents_to_dollars, dollars_to_cents
 from catwatch.extensions import db
 from catwatch.blueprints.billing.gateways.stripecom import \
@@ -34,7 +35,7 @@ class Coupon(ResourceMixin, db.Model):
     currency = db.Column(db.String(8))
     duration_in_months = db.Column(db.Integer())
     max_redemptions = db.Column(db.Integer(), index=True)
-    redeem_by = db.Column(db.DateTime(), index=True)
+    redeem_by = db.Column(AwareDateTime(), index=True)
     times_redeemed = db.Column(db.Integer(), index=True,
                                nullable=False, default=0)
     valid = db.Column(db.Boolean(), nullable=False, server_default='1')
@@ -58,7 +59,7 @@ class Coupon(ResourceMixin, db.Model):
         :return: SQLAlchemy query object
         """
         is_redeemable = or_(self.redeem_by.is_(None),
-                            self.redeem_by >= datetime.datetime.utcnow())
+                            self.redeem_by >= datetime.datetime.now(pytz.utc))
 
         return and_(self.valid, is_redeemable)
 
@@ -108,7 +109,7 @@ class Coupon(ResourceMixin, db.Model):
         :return: The result of updating the records
         """
         if compare_datetime is None:
-            compare_datetime = datetime.datetime.today()
+            compare_datetime = datetime.datetime.now(pytz.utc)
 
         condition = Coupon.redeem_by <= compare_datetime
         Coupon.query.filter(condition) \

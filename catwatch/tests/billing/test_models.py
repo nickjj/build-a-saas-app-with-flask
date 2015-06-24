@@ -1,5 +1,7 @@
 import datetime
 
+import pytz
+
 from catwatch.lib.money import cents_to_dollars, dollars_to_cents
 from catwatch.blueprints.billing.models.credit_card import CreditCard
 from catwatch.blueprints.billing.models.coupon import Coupon
@@ -82,8 +84,11 @@ class TestCoupon(object):
 
     def test_coupon_should_get_invalidated(self, session, coupons):
         """ Coupons that are not redeemable should expire. """
-        may_29_2015 = datetime.date(2015, 05, 29)
-        june_29_2015 = datetime.datetime(2015, 06, 29)
+        may_29_2015 = datetime.datetime(2015, 05, 29, 0, 0, 0)
+        may_29_2015 = pytz.utc.localize(may_29_2015)
+
+        june_29_2015 = datetime.datetime(2015, 06, 29, 0, 0, 0)
+        june_29_2015 = pytz.utc.localize(june_29_2015)
 
         Coupon.expire_old_coupons(june_29_2015)
 
@@ -92,8 +97,11 @@ class TestCoupon(object):
 
     def test_coupon_should_not_get_invalidated(self, session, coupons):
         """ Coupons that haven't expired should remain valid. """
-        may_29_2015 = datetime.datetime(2015, 05, 29)
-        june_29_2015 = datetime.datetime(2015, 06, 29)
+        may_29_2015 = datetime.datetime(2015, 05, 29, 0, 0, 0)
+        may_29_2015 = pytz.utc.localize(may_29_2015)
+
+        june_29_2015 = datetime.datetime(2015, 06, 29, 0, 0, 0)
+        june_29_2015 = pytz.utc.localize(june_29_2015)
 
         Coupon.expire_old_coupons(may_29_2015)
 

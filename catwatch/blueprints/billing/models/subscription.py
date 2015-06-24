@@ -1,5 +1,7 @@
 import datetime
 
+import pytz
+
 from config import settings
 from catwatch.lib.util_sqlalchemy import ResourceMixin
 from catwatch.extensions import db
@@ -153,7 +155,7 @@ class Subscription(ResourceMixin, db.Model):
         PaymentSubscription.cancel(user.payment_id)
 
         user.payment_id = None
-        user.cancelled_subscription_on = datetime.datetime.utcnow()
+        user.cancelled_subscription_on = datetime.datetime.now(pytz.utc)
 
         db.session.add(user)
         db.session.delete(user.subscription)

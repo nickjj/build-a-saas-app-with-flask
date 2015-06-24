@@ -2,6 +2,7 @@ import datetime
 from collections import OrderedDict
 from hashlib import md5
 
+import pytz
 from flask import current_app
 
 from flask_login import UserMixin
@@ -11,7 +12,7 @@ from itsdangerous import URLSafeTimedSerializer, \
 
 from sqlalchemy import or_
 
-from catwatch.lib.util_sqlalchemy import ResourceMixin
+from catwatch.lib.util_sqlalchemy import ResourceMixin, AwareDateTime
 from catwatch.blueprints.billing.models.credit_card import CreditCard
 from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.billing.models.invoice import Invoice
@@ -48,13 +49,13 @@ class User(UserMixin, ResourceMixin, db.Model):
     # Billing.
     name = db.Column(db.String(128), index=True)
     payment_id = db.Column(db.String(128), index=True)
-    cancelled_subscription_on = db.Column(db.DateTime)
+    cancelled_subscription_on = db.Column(AwareDateTime())
 
     # Activity tracking.
     sign_in_count = db.Column(db.Integer, nullable=False, default=0)
-    current_sign_in_on = db.Column(db.DateTime)
+    current_sign_in_on = db.Column(AwareDateTime())
     current_sign_in_ip = db.Column(db.String(45))
-    last_sign_in_on = db.Column(db.DateTime)
+    last_sign_in_on = db.Column(AwareDateTime())
     last_sign_in_ip = db.Column(db.String(45))
 
     # Locale.
@@ -275,7 +276,7 @@ class User(UserMixin, ResourceMixin, db.Model):
         self.last_sign_in_on = self.current_sign_in_on
         self.last_sign_in_ip = self.current_sign_in_ip
 
-        self.current_sign_in_on = datetime.datetime.utcnow()
+        self.current_sign_in_on = datetime.datetime.now(pytz.utc)
         self.current_sign_in_ip = ip_address
 
         return self.save()
