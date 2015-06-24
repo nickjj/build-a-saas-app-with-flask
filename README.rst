@@ -25,7 +25,7 @@ Install Docker
 - https://docs.docker.com/installation (docker itself)
 - https://github.com/docker/compose/releases (docker-compose tool for development)
 
-Make sure you get `docker-compose v1.3.1+`.
+Make sure you get ``docker-compose v1.3.1+``.
 
 Install nodejs
 ''''''''''''''
