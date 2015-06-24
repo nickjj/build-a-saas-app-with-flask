@@ -34,6 +34,11 @@
                   {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                  {% if current_user.role == 'admin' %}
+                      <li data-toggle="tooltip" title="foo">
+                        {% include 'admin/_menu.jinja2' %}
+                      </li>
+                  {% endif %}
                   {% if current_user.is_authenticated() %}
                       <li class="dropdown">
                           <a href="#" class="dropdown-toggle"
