@@ -10,6 +10,7 @@ alembic==0.7.6
 # Background worker and cache
 redis==2.10.3
 celery==3.1.18
+flower==0.8.2
 Flask-Cache==0.13.1
 
 # Authentication and authorization

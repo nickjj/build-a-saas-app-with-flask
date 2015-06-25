@@ -35,7 +35,7 @@ cadvisor:
   - 8080:8080
 
 # If you want to run everything in a container locally then make sure you
-# remove the web, worker and beat entries from the Procfile.
+# remove the web, worker, beat and flower entries from the Procfile.
 #
 # If you plan to develop with everything in a container then make sure to
 # set up volumes for live code feedback as well as gunicorn reloads.
@@ -54,3 +54,11 @@ cadvisor:
 #  links:
 #    - redis
 #    - postgres
+#
+#flower:
+#  build: .
+#  command: flower -A catwatch.blueprints.user.tasks --port=8081
+#  links:
+#    - redis
+#  ports:
+#    - 8081:8081

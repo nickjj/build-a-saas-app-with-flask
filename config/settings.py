@@ -93,6 +93,7 @@ MAIL_PASSWORD = 'awesomepassword'
 
 # External end points.
 ENDPOINT_CADVISOR = 'http://localhost:8080/containers/'
+ENDPOINT_FLOWER = 'http://localhost:8081'
 
 # Stripe settings.
 #
