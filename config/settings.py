@@ -91,6 +91,9 @@ MAIL_USE_SSL = False
 MAIL_USERNAME = 'you@gmail.com'
 MAIL_PASSWORD = 'awesomepassword'
 
+# External end points.
+ENDPOINT_CADVISOR = 'http://localhost:8080/containers/'
+
 # Stripe settings.
 #
 # API keys, NOTE: you should NOT supply them in this config, put them

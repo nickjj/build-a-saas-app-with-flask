@@ -108,15 +108,21 @@
     </div>
   </div>
   <hr>
-  <div class="row">
-    <div class="col-md-12">
       <p class="small text-muted">You may want to include a list of
         external links so you can easily get to those services.</p>
+  <div class="row">
+    <div class="col-md-6">
       <dl>
         <dt>Primary e-mail</dt>
         <dd class="sm-margin-bottom"><a href="#">catwatch@gmail.com</a></dd>
-        <dt>Digital Ocean</dt>
-        <dd><a href="#">Admin panel</a></dd>
+        <dt>Hosting provider</dt>
+        <dd><a href="#">Digital Ocean</a></dd>
+      </dl>
+    </div>
+    <div class="col-md-6">
+      <dl>
+        <dt>System metrics</dt>
+        <dd class="sm-margin-bottom"><a href="{{ config.get('ENDPOINT_CADVISOR') }}">cAdvisor</a></dd>
       </dl>
     </div>
   </div>

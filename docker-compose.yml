@@ -16,10 +16,20 @@ redis:
     - ~/.docker-volumes/catwatch/redis/data:/var/lib/redis/data
 
 faye:
-  image: nickjj/faye
+  image: nickjj/faye:latest
   links:
     - redis
   ports:
     - 4242:4242
   environment:
     FAYE_PUSH_TOKEN: 123notsecure
+
+cadvisor:
+  image: google/cadvisor:latest
+  volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+  ports:
+  - 8080:8080
