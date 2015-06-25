@@ -33,3 +33,24 @@ cadvisor:
     - /var/lib/docker/:/var/lib/docker:ro
   ports:
   - 8080:8080
+
+# If you want to run everything in a container locally then make sure you
+# remove the web, worker and beat entries from the Procfile.
+#
+# If you plan to develop with everything in a container then make sure to
+# set up volumes for live code feedback as well as gunicorn reloads.
+#website:
+#  build: .
+#  links:
+#    - redis
+#    - postgres
+#    - faye
+#  ports:
+#    - 8000:8000
+#
+#celery:
+#  build: .
+#  command: celery worker -B -A catwatch.blueprints.user.tasks -l info
+#  links:
+#    - redis
+#    - postgres
