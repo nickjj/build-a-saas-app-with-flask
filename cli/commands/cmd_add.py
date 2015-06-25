@@ -114,6 +114,7 @@ def users():
         # Ensure the seeded admin is always an admin.
         if email == SEED_ADMIN_EMAIL:
             params['role'] = 'admin'
+            params['locale'] = 'en'
 
         data.append(params)
 
