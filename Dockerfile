@@ -3,7 +3,7 @@ FROM python:2.7.10-slim
 MAINTAINER Nick Janetakis <nick.janetakis@gmail.com>
 
 # Install any packages that must be installed.
-RUN apt-get update && apt-get install -qq -y build-essential nodejs nodejs-legacy npm libpq-dev postgresql-client-9.4 --fix-missing --no-install-recommends
+RUN apt-get update && apt-get install -qq -y build-essential nodejs nodejs-legacy npm libpq-dev postgresql-client-9.4 libpng-dev --fix-missing --no-install-recommends
 
 # Setup the install path for this service.
 ENV INSTALL_PATH /catwatch
