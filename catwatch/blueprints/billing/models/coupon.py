@@ -130,11 +130,16 @@ class Coupon(ResourceMixin, db.Model):
             payment_params['amount_off'] = \
                 dollars_to_cents(payment_params['amount_off'])
 
-        PaymentCoupon.create(payment_params)
+        PaymentCoupon.create(**payment_params)
 
         if 'id' in payment_params:
             payment_params['code'] = payment_params['id']
             del payment_params['id']
+
+        if 'redeem_by' in payment_params:
+            if payment_params.get('redeem_by') is not None:
+                params['redeem_by'] = payment_params.get('redeem_by').replace(
+                    tzinfo=pytz.UTC)
 
         coupon = Coupon(**payment_params)
 
