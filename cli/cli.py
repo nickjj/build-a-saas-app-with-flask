@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 
@@ -39,8 +40,8 @@ class CLI(click.MultiCommand):
             mod = __import__('cli.commands.cmd_' + name,
                              None, None, ['cli'])
         except ImportError as e:
-            print 'Error importing module {0}:\n{0}'.format(name, e)
-            return
+            logging.error('Error importing module {0}:\n{0}'.format(name, e))
+            exit(1)
 
         return mod.cli
 
