@@ -57,7 +57,12 @@ var chunks = {
     app_css: [
         path.join(contextRoot, assets.styles.path, 'default.scss')
     ],
-    vendor_js: ['bootstrap-sass', 'moment', 'rome'],
+    vendor_js: [
+        'bootstrap',
+        'moment',
+        path.join(contextRoot, assets.scripts.path,
+            'vendor', 'eonasdan-bootstrap-datetimepicker.4.14.30.min.js')
+    ],
     vendor_css: [
         // Bootstrap configuration settings:
         // https://gist.github.com/anonymous/ef4593b01915d647ed88
@@ -67,12 +72,13 @@ var chunks = {
         path.join(contextRoot, assets.styles.path,
             'vendor', 'font-awesome.4.3.0.css'),
         path.join(contextRoot, assets.styles.path,
-            'vendor', 'rome.2.1.17.css')
+            'vendor', 'eonasdan-bootstrap-datetimepicker.4.14.30.min.css')
     ]
 };
 
 // Avoid parsing this code to speed up rebuilds.
 var noParse = [
+    path.join(contextRoot, assets.scripts.path, 'vendor'),
     path.join(contextRoot, assets.styles.path, 'vendor')
 ];
 
@@ -127,6 +133,9 @@ module.exports = {
         publicPath: publicPath,
         filename: assets.scripts.filename,
         chunkFilename: assets.scripts.chunkFilename
+    },
+    externals: {
+        'jquery': 'jQuery'
     },
     resolve: {
         // Allow requiring files without supplying the extension.

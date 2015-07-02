@@ -1,5 +1,3 @@
-var rome = require('rome');
-
 var coupon = function () {
     var durationSelector = '#duration';
 
@@ -18,10 +16,15 @@ var coupon = function () {
     });
 
     if ($redeem_by.length) {
-        rome(redeem_by, {
-            min: new Date(),
-            inputFormat: 'YYYY-MM-DD HH:mm:ss',
-            timeInterval: 300
+        $redeem_by.datetimepicker({
+            widgetParent: '.dt',
+            format: 'YYYY-MM-DD HH:mm:ss',
+            icons: {
+                time: 'fa fa-clock-o',
+                date: 'fa fa-calendar',
+                up: 'fa fa-arrow-up',
+                down: 'fa fa-arrow-down'
+            }
         });
     }
 };

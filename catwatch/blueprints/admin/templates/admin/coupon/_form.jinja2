@@ -48,8 +48,10 @@
         {% call f.form_group(form.max_redemptions, css_class='sm-margin-bottom') %}
         {% endcall %}
 
-        {% call f.form_group(form.redeem_by) %}
-        {% endcall %}
+          <div class="dt relative">
+            {% call f.form_group(form.redeem_by) %}
+            {% endcall %}
+          </div>
 
           <hr>
           <div class="row">
@@ -65,7 +67,7 @@
                   <div class="visible-xs visible-sm sm-margin-top"></div>
                   <a href="{{ url_for('admin.coupons') }}"
                      class="btn btn-default btn-block">
-                      {{ _('Cancel') }}
+                    {{ _('Cancel') }}
                   </a>
               </div>
           </div>
