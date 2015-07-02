@@ -43,7 +43,7 @@ mock==1.0.1
 # Command line tasks
 click==4.0
 
-# Deployment
+# App server
 gunicorn==19.3.0
 
 # Generate fake data
