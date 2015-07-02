@@ -201,7 +201,7 @@ def coupons(page):
     bulk_form = BulkDeleteForm()
 
     sort_by = Coupon.sort_by(request.args.get('sort', 'created_on'),
-                             request.args.get('direction', 'asc'))
+                             request.args.get('direction', 'desc'))
     order_values = '{0} {1}'.format(sort_by[0], sort_by[1])
 
     paginated_coupons = Coupon.query \
