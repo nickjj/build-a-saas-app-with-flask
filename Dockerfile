@@ -16,12 +16,12 @@ WORKDIR $INSTALL_PATH
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# Copy the source from the build machine to the image at the WORKDIR path.
-COPY . .
-
 # Ensure frontend packages are cached and only get updated when necessary.
 COPY package.json package.json
 RUN npm install
+
+# Copy the source from the build machine to the image at the WORKDIR path.
+COPY . .
 
 # Process all of the assets.
 RUN npm run-script build
