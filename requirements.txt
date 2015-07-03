@@ -3,7 +3,7 @@ Flask==0.10.1
 Flask-Mail==0.9.1
 
 # Database and migrations
-psycopg2==2.6
+psycopg2==2.6.1
 Flask-SQLAlchemy==2.0
 alembic==0.7.6
 
@@ -20,7 +20,7 @@ itsdangerous==0.24
 flask-bouncer==0.1.13
 
 # Asset management
-Flask-Webpack==0.0.5
+Flask-Webpack==0.0.6
 
 # I18n
 Flask-Babel==0.9
@@ -36,7 +36,7 @@ Flask-WTF==0.11
 WTForms-Components==0.9.7
 
 # Testing
-pytest==2.7.1
+pytest==2.7.2
 pytest-cov==1.8.1
 mock==1.0.1
 
