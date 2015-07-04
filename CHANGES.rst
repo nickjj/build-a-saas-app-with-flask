@@ -1,3 +1,18 @@
+Version 0.2.0 (2015-07-04)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fix IP address logging by using request.remote_addr
+- Fix exception when g.start could not exist
+- Update psycopg2, Flask-Webpack and pytest dependencies
+- Fix missing payment errors alert in credit card form
+- Fix legacy print call in the CLI module
+- Replace the rome datetime picker with a Bootstrap 3 dt picker
+- Fix Coupon redeem_by not being timezone aware
+- Add web UI component for monitoring Celery tasks
+- Fix the seeded admin account so it's always set to an English locale
+- Add Dockerfile
+- Add web UI component for system health monitoring
+
 Version 0.1.0 (2015-06-24)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
