@@ -137,7 +137,7 @@ def logging_handler(app):
     @app.before_request
     def before_request():
         """
-        Save when the request started.
+        Save time when the request started.
 
         :return: None
         """
@@ -152,7 +152,12 @@ def logging_handler(app):
 
         :return: Flask response
         """
-        response_time_in_ms = int((time.time() - g.start) * 1000)
+        if 'start' in g:
+            response_time = (time.time() - g.start)
+        else:
+            response_time = 0
+
+        response_time_in_ms = int(response_time * 1000)
 
         params = {
             'method': request.method,
