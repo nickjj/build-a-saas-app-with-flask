@@ -163,7 +163,7 @@ def logging_handler(app):
             'method': request.method,
             'in': response_time_in_ms,
             'url': request.path,
-            'ip': request.environ.get('REMOTE_ADDR')
+            'ip': request.remote_addr
         }
 
         app.logger.info('%(method)s "%(url)s" in %(in)sms for %(ip)s', params)
