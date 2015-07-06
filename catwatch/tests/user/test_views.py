@@ -201,7 +201,7 @@ class TestSignup(ViewTestMixin):
                                     follow_redirects=True)
 
         assert_status_with_message(200, response,
-                                   _('You already picked a username'))
+                                   _('You already picked a username.'))
 
 
 class TestSettings(ViewTestMixin):

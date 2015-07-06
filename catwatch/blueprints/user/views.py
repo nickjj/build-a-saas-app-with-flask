@@ -132,7 +132,7 @@ def signup():
 @login_required
 def welcome():
     if current_user.username:
-        flash(_('You already picked a username'), 'warning')
+        flash(_('You already picked a username.'), 'warning')
         return redirect(url_for('user.settings'))
 
     form = WelcomeForm()
