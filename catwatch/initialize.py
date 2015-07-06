@@ -33,7 +33,7 @@ def authentication(app, user_model):
 
 def locale(app):
     """
-    Initialize a locale and timezone for the current request.
+    Initialize a locale for the current request.
 
     :param app: Flask application instance
     :return: str
@@ -45,8 +45,3 @@ def locale(app):
 
         accept_languages = app.config.get('ACCEPT_LANGUAGES')
         return request.accept_languages.best_match(accept_languages)
-
-    @babel.timezoneselector
-    def get_timezone():
-        if current_user.is_authenticated():
-            return current_user.timezone
