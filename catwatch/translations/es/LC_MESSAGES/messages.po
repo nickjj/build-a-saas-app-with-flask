@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-06-24 13:18-0700\n"
+"POT-Creation-Date: 2015-07-06 10:10-0400\n"
 "PO-Revision-Date: 2015-06-23 05:06-0700\n"
 "Last-Translator: Google\n"
 "Language-Team: es <LL@li.org>\n"
@@ -153,7 +153,7 @@ msgstr "Añadir"
 msgid "Save"
 msgstr "Guardar"
 
-#: catwatch/blueprints/admin/templates/admin/coupon/_form.jinja2:68
+#: catwatch/blueprints/admin/templates/admin/coupon/_form.jinja2:70
 #: catwatch/blueprints/admin/templates/admin/issue/_form.jinja2:53
 #: catwatch/blueprints/admin/templates/admin/user/_form.jinja2:58
 msgid "Cancel"
@@ -369,15 +369,19 @@ msgstr "Tu contraseña ha sido restablecida."
 msgid "Awesome, thanks for signing up!"
 msgstr "Impresionante, gracias por suscribirse!"
 
-#: catwatch/blueprints/user/views.py:140 catwatch/tests/user/test_views.py:188
+#: catwatch/blueprints/user/views.py:135 catwatch/tests/user/test_views.py:204
+msgid "You already picked a username"
+msgstr "Usted ya eligió un nombre de usuario"
+
+#: catwatch/blueprints/user/views.py:144 catwatch/tests/user/test_views.py:188
 msgid "Sign up is complete, enjoy our services."
 msgstr "Inscríbete es completa, disfrutar de nuestros servicios."
 
-#: catwatch/blueprints/user/views.py:167 catwatch/tests/user/test_views.py:258
+#: catwatch/blueprints/user/views.py:171 catwatch/tests/user/test_views.py:259
 msgid "Your sign in settings have been updated."
 msgstr "Tu signo en entornos se han actualizado."
 
-#: catwatch/blueprints/user/views.py:182 catwatch/tests/user/test_views.py:322
+#: catwatch/blueprints/user/views.py:186 catwatch/tests/user/test_views.py:323
 msgid "Your locale settings have been updated."
 msgstr "La configuración de localización han sido actualizados."
 

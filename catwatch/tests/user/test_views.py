@@ -200,7 +200,8 @@ class TestSignup(ViewTestMixin):
         response = self.client.post(url_for('user.welcome'), data=user,
                                     follow_redirects=True)
 
-        assert_status_with_message(200, response, 'Already exists.')
+        assert_status_with_message(200, response,
+                                   _('You already picked a username'))
 
 
 class TestSettings(ViewTestMixin):

@@ -131,6 +131,10 @@ def signup():
 @user.route('/welcome', methods=['GET', 'POST'])
 @login_required
 def welcome():
+    if current_user.username:
+        flash(_('You already picked a username'), 'warning')
+        return redirect(url_for('user.settings'))
+
     form = WelcomeForm()
 
     if form.validate_on_submit():
