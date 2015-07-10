@@ -126,6 +126,8 @@ class Coupon(ResourceMixin, db.Model):
         """
         payment_params = params
 
+        payment_params['code'] = payment_params['code'].upper()
+
         if payment_params.get('amount_off'):
             payment_params['amount_off'] = \
                 dollars_to_cents(payment_params['amount_off'])

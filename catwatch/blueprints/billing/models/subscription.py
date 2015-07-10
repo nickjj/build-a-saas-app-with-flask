@@ -82,10 +82,13 @@ class Subscription(ResourceMixin, db.Model):
         if token is None:
             return False
 
+        if coupon:
+            self.coupon = coupon.upper()
+
         customer = PaymentSubscription.create(token=token,
                                               email=user.email,
                                               plan=plan,
-                                              coupon=coupon)
+                                              coupon=self.coupon)
 
         # Update the user account.
         user.payment_id = customer.id
@@ -95,17 +98,15 @@ class Subscription(ResourceMixin, db.Model):
         # Set the subscription details.
         self.user_id = user.id
         self.plan = plan
+
+        # Redeem the coupon.
         if coupon:
-            self.coupon = coupon
+            coupon = Coupon.query.filter(Coupon.code == self.coupon).first()
+            coupon.redeem()
 
         # Create the credit card.
         credit_card = CreditCard(user_id=user.id,
                                  **CreditCard.extract_card_params(customer))
-
-        # Redeem any coupons.
-        if coupon:
-            coupon = Coupon.query.filter(Coupon.code == coupon).first()
-            coupon.redeem()
 
         db.session.add(user)
         db.session.add(credit_card)
