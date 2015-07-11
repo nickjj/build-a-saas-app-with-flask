@@ -21,6 +21,7 @@ def subscription_required(f):
 
     return decorated_function
 
+
 def handle_stripe_exceptions(f):
     """
     Handle stripe exceptions so they do not throw 500s.

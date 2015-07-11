@@ -94,7 +94,7 @@ def update():
     # Guard against an invalid, missing or identical plan.
     is_same_plan = new_plan == active_plan['id']
     if ((new_plan is not None and plan is None) or is_same_plan) and \
-                    request.method == 'POST':
+            request.method == 'POST':
         return redirect(url_for('billing.update'))
 
     form = UpdateSubscriptionForm()
