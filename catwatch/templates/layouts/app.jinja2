@@ -21,7 +21,7 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                  {% if current_user.is_authenticated() %}
+                  {% if current_user.is_authenticated() and current_user.subscription %}
                       <li><a href="{{ url_for('stream.live_stream') }}">Live
                           stream</a>
                       </li>
