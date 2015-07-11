@@ -2,8 +2,24 @@ from functools import wraps
 
 import stripe
 from flask import redirect, url_for, flash
+from flask_login import current_user
 from flask_babel import gettext as _
 
+
+def subscription_required(f):
+    """
+    Ensure a user is subscribed, if not redirect them to the pricing table.
+
+    :return: Function
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.subscription:
+            return redirect(url_for('billing.pricing'))
+
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 def handle_stripe_exceptions(f):
     """

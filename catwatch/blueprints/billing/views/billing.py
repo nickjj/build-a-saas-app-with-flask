@@ -10,7 +10,8 @@ from catwatch.blueprints.billing.forms import CreditCardForm, \
 from catwatch.blueprints.billing.models.coupon import Coupon
 from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.billing.models.invoice import Invoice
-from catwatch.blueprints.billing.decorators import handle_stripe_exceptions
+from catwatch.blueprints.billing.decorators import subscription_required, \
+    handle_stripe_exceptions
 
 billing = Blueprint('billing', __name__, template_folder='../templates',
                     url_prefix='/subscription')
@@ -81,11 +82,9 @@ def create():
 
 @billing.route('/update', methods=['GET', 'POST'])
 @handle_stripe_exceptions
+@subscription_required
 @login_required
 def update():
-    if not current_user.subscription:
-        return redirect(url_for('billing.pricing'))
-
     current_plan = current_user.subscription.plan
     active_plan = Subscription.get_plan_by_id(current_plan)
     new_plan = Subscription.get_new_plan(request.form.keys())
@@ -95,7 +94,7 @@ def update():
     # Guard against an invalid, missing or identical plan.
     is_same_plan = new_plan == active_plan['id']
     if ((new_plan is not None and plan is None) or is_same_plan) and \
-            request.method == 'POST':
+                    request.method == 'POST':
         return redirect(url_for('billing.update'))
 
     form = UpdateSubscriptionForm()
