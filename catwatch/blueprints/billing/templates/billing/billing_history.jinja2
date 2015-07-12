@@ -84,7 +84,7 @@
                         {{ invoice.period_end_on }}
                       </time>
                   </td>
-                  <td title="{{ invoice.tax_percent | round(2) + '%' if invoice.tax_percent }}">
+                  <td title="{{ (invoice.tax_percent | round(2)) | string + '%' if invoice.tax_percent }}">
                       {{ '$' + invoice.tax | format_currency if invoice.tax }}
                   </td>
                   <td title="{{ invoice.currency }}">${{ invoice.total | format_currency }}</td>
