@@ -67,6 +67,13 @@ def listen():
 
     :return: Twitter stream
     """
+    if None in ('TWITTER_CONSUMER_KEY',
+                TWITTER_CONSUMER_SECRET,
+                TWITTER_ACCESS_TOKEN,
+                TWITTER_ACCESS_SECRET):
+        logging.error('Unable to broadcast, missing twitter settings')
+        exit(1)
+
     stream = TwitterStream(consumer_key=TWITTER_CONSUMER_KEY,
                            consumer_secret=TWITTER_CONSUMER_SECRET,
                            access_token=TWITTER_ACCESS_TOKEN,
