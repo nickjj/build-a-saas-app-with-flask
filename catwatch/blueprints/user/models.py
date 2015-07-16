@@ -34,7 +34,7 @@ class User(UserMixin, ResourceMixin, db.Model):
                                   passive_deletes=True)
     subscription = db.relationship(Subscription, uselist=False,
                                    backref='users', passive_deletes=True)
-    invoices = db.relationship(Invoice, backref='users')
+    invoices = db.relationship(Invoice, backref='users', passive_deletes=True)
 
     # Authentication.
     role = db.Column(db.Enum(*ROLE, name='role_types'),
