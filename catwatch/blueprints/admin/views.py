@@ -161,6 +161,10 @@ def issues(page):
 @admin.route('/issues/edit/<int:id>', methods=['GET', 'POST'])
 def issues_edit(id):
     issue = Issue.query.get(id)
+
+    if request.method == 'GET' and issue and issue.status == 'unread':
+        issue = Issue.unread_to_open(issue)
+
     form = IssueForm(obj=issue)
 
     if form.validate_on_submit():

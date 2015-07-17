@@ -49,3 +49,17 @@ class Issue(ResourceMixin, db.Model):
         search_query = '%{0}%'.format(query)
 
         return or_(Issue.email.ilike(search_query))
+
+    @classmethod
+    def unread_to_open(cls, issue):
+        """
+        Change unread issues to open.
+
+        :param issue: Search query
+        :type issue: Issue instance
+        :return: Issue instance
+        """
+        issue.status = 'open'
+        issue.save()
+
+        return issue
