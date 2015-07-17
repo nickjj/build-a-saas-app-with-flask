@@ -1,0 +1,32 @@
+<div class="modal fade" id="issues_contact" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                  You are about to send an e-mail
+                </h4>
+            </div>
+          {% call f.form_tag('admin.issues_contact', **form_kwargs) %}
+              <div class="modal-body">
+                {% call f.form_group(contact_form.subject, css_class='sm-margin-bottom',
+                           autofocus='autofocus') %}
+                {% endcall %}
+                {% call f.form_group(contact_form.message, css_class='margin-bottom', rows='12') %}
+                {% endcall %}
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">
+                    {{ _('Send') }}
+                  </button>
+                  <button type="button" class="btn btn-default"
+                          data-dismiss="modal">
+                    {{ _('Cancel') }}
+                  </button>
+              </div>
+          {% endcall %}
+        </div>
+    </div>
+</div>

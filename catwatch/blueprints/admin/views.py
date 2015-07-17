@@ -18,7 +18,8 @@ from catwatch.blueprints.billing.decorators import handle_stripe_exceptions
 from catwatch.blueprints.billing.models.coupon import Coupon
 from catwatch.blueprints.billing.models.subscription import Subscription
 from catwatch.blueprints.admin.forms import SearchForm, BulkDeleteForm, \
-    UserForm, UserCancelSubscriptionForm, IssueForm, CouponForm
+    UserForm, UserCancelSubscriptionForm, IssueForm, IssueContactForm, \
+    CouponForm
 
 admin = Blueprint('admin', __name__,
                   template_folder='templates', url_prefix='/admin')
@@ -167,6 +168,18 @@ def issues_edit(id):
 
     form = IssueForm(obj=issue)
 
+    subject = _('[Catwatch issue] Re: %(issue_type)s',
+                issue_type=issue.LABEL[issue.label])
+
+    # Shenanigans to comply with PEP-8's formatting style.
+    body_string = '\n\nYou opened an issue regarding:'
+    issue_string = '\n\n---\n{0}\n---\n\n'.format(issue.question)
+    message = _('Hello,%(body)s:%(issue)s\n\nThanks,\nCatwatch support team',
+                body=body_string, issue=issue_string)
+
+    contact_form = IssueContactForm(email=issue.email,
+                                    subject=subject, message=message)
+
     if form.validate_on_submit():
         form.populate_obj(issue)
         issue.save()
@@ -174,7 +187,8 @@ def issues_edit(id):
         flash(_('Issue has been saved successfully.'), 'success')
         return redirect(url_for('admin.issues'))
 
-    return render_template('admin/issue/edit.jinja2', form=form, issue=issue)
+    return render_template('admin/issue/edit.jinja2', form=form,
+                           contact_form=contact_form, issue=issue)
 
 
 @admin.route('/issues/bulk_delete', methods=['POST'])
@@ -193,6 +207,26 @@ def issues_bulk_delete():
                  num=delete_count), 'success')
     else:
         flash(_('No issues were deleted, something went wrong.'), 'error')
+
+    return redirect(url_for('admin.issues'))
+
+
+@admin.route('/issues/contact/<int:id>', methods=['POST'])
+def issues_contact(id):
+    issue = Issue.query.get(id)
+
+    if issue:
+        from catwatch.blueprints.admin.tasks import deliver_support_email
+        deliver_support_email.delay(id,
+                                    request.form.get('subject'),
+                                    request.form.get('message'))
+
+        Issue.set_as_contacted(issue)
+
+        flash(_('The person who sent the issue has been contacted.'),
+              'success')
+    else:
+        flash(_('Issue no longer exists, no e-mail was sent.'), 'error')
 
     return redirect(url_for('admin.issues'))
 

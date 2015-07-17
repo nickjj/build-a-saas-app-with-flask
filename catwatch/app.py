@@ -19,6 +19,7 @@ CELERY_TASK_LIST = [
     'catwatch.blueprints.issue.tasks',
     'catwatch.blueprints.billing.tasks',
     'catwatch.blueprints.stream.tasks',
+    'catwatch.blueprints.admin.tasks',
 ]
 
 

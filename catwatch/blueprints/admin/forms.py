@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from flask_wtf import Form
 from wtforms import SelectField, StringField, BooleanField, TextAreaField, \
-    FloatField, DateTimeField
+    FloatField, DateTimeField, HiddenField
 from wtforms.validators import DataRequired, Length, Optional, Regexp, \
     NumberRange
 from wtforms_components import Unique, EmailField, IntegerField
@@ -77,6 +77,12 @@ class IssueForm(Form):
     status = SelectField(_('What status is the issue in?'), [DataRequired()],
                          choices=choices_from_dict(Issue.STATUS,
                                                    prepend_blank=False))
+
+
+class IssueContactForm(Form):
+    subject = StringField(_('Subject'), [DataRequired(), Length(1, 254)])
+    message = TextAreaField(_('Message to be sent'),
+                            [DataRequired(), Length(1, 8192)])
 
 
 class CouponForm(Form):

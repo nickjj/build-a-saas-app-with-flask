@@ -55,11 +55,25 @@ class Issue(ResourceMixin, db.Model):
         """
         Change unread issues to open.
 
-        :param issue: Search query
+        :param issue: Issue instance
         :type issue: Issue instance
         :return: Issue instance
         """
         issue.status = 'open'
+        issue.save()
+
+        return issue
+
+    @classmethod
+    def set_as_contacted(cls, issue):
+        """
+        Change an unknown issue type to contacted.
+
+        :param issue: Issue instance
+        :type issue: Issue instance
+        :return: Issue instance
+        """
+        issue.status = 'contacted'
         issue.save()
 
         return issue

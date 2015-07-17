@@ -50,10 +50,20 @@
                   <div class="visible-xs visible-sm sm-margin-top"></div>
                   <a href="{{ url_for('admin.issues') }}"
                      class="btn btn-default btn-block">
-                      {{ _('Cancel') }}
+                    {{ _('Cancel') }}
                   </a>
               </div>
           </div>
       {% endcall %}
+
+      {% include 'admin/issue/_contact.jinja2' with context %}
+        <hr>
+        <h4><strong>Contact the person who issued this ticket</strong></h4>
+        <div class="visible-xs visible-sm sm-margin-top"></div>
+        <a href="#issues_contact" class="btn btn-info btn-block"
+           data-toggle="modal" data-target="#issues_contact">
+          {{ _('Contact') }}
+        </a>
+
     </div>
 </div>
