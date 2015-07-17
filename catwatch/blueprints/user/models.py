@@ -170,7 +170,7 @@ class User(UserMixin, ResourceMixin, db.Model):
             user = User.query.get(id)
 
             if user is None:
-                return 0
+                continue
 
             if user.payment_id is None:
                 user.delete()
