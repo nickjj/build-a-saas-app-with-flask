@@ -166,7 +166,7 @@ class Coupon(ResourceMixin, db.Model):
             coupon = Coupon.query.get(id)
 
             if coupon is None:
-                return 0
+                continue
 
             # Delete on Stripe.
             stripe_response = PaymentCoupon.delete(coupon.code)
