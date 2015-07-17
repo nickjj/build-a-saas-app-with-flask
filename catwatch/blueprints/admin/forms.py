@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from flask_wtf import Form
 from wtforms import SelectField, StringField, BooleanField, TextAreaField, \
-    FloatField, DateTimeField, HiddenField
+    FloatField, DateTimeField
 from wtforms.validators import DataRequired, Length, Optional, Regexp, \
     NumberRange
 from wtforms_components import Unique, EmailField, IntegerField
