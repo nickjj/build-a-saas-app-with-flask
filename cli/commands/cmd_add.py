@@ -144,7 +144,7 @@ def issues():
 @click.command()
 def coupons():
     """
-    Create random coupons (this actually creates them on Stripe too).
+    Create random coupons.
     """
     data = []
 
