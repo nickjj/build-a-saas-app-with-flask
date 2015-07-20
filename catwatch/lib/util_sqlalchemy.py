@@ -88,7 +88,7 @@ class ResourceMixin(object):
     @classmethod
     def bulk_delete(cls, ids):
         """
-        Delete 1 or more model instances
+        Delete 1 or more model instances.
 
         :param ids: List of ids to be deleted
         :type ids: list
