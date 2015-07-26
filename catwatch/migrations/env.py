@@ -2,14 +2,25 @@ from __future__ import with_statement
 
 import os
 import sys
+import logging
 from logging.config import fileConfig
 
 from alembic import context
-from psycopg2 import pool
 from sqlalchemy import engine_from_config
 
+try:
+    from instance import settings
+
+    SQLALCHEMY_DATABASE_URI = settings.SQLALCHEMY_DATABASE_URI
+except ImportError:
+    logging.error('Ensure __init__.py and settings.py both exist in instance/')
+    exit(1)
+except AttributeError:
+    from config import settings
+
+    SQLALCHEMY_DATABASE_URI = settings.SQLALCHEMY_DATABASE_URI
+
 from catwatch.extensions import db
-from catwatch.app import create_app
 
 
 # Include the project's folder on the system path.
@@ -23,10 +34,11 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 
+# Get the SQLAlchemy database URI.
+config.set_main_option('sqlalchemy.url', SQLALCHEMY_DATABASE_URI)
+
 # Required for --autogenerate to work so that Alembic can attempt to find
 # the difference between the current database and our models automatically.
-app = create_app()
-config.set_main_option('sqlalchemy.url', app.config['SQLALCHEMY_DATABASE_URI'])
 target_metadata = db.metadata
 
 # other values from the config, defined by the needs of env.py,
@@ -47,10 +59,8 @@ def run_migrations_offline():
     script output.
 
     """
-    url = config.get_main_option('sqlalchemy.url')
-
-    # Possibly remove target_metadata if it doesn't work.
-    context.configure(url=url, target_metadata=target_metadata)
+    context.configure(url=SQLALCHEMY_DATABASE_URI,
+                      target_metadata=target_metadata, literal_binds=True)
 
     with context.begin_transaction():
         context.run_migrations()
@@ -64,22 +74,17 @@ def run_migrations_online():
 
     """
     engine = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix='sqlalchemy.',
-        poolclass=pool.NullPool)
+                config.get_section(config.config_ini_section), prefix='sqlalchemy.')
 
-    connection = engine.connect()
-    context.configure(
-        connection=connection,
-        target_metadata=target_metadata
-    )
+    with engine.connect() as connection:
+        context.configure(
+                    url=SQLALCHEMY_DATABASE_URI,
+                    connection=connection,
+                    target_metadata=target_metadata
+                    )
 
-    try:
         with context.begin_transaction():
             context.run_migrations()
-    finally:
-        connection.close()
-
 
 if context.is_offline_mode():
     run_migrations_offline()
