@@ -74,14 +74,14 @@ def run_migrations_online():
 
     """
     engine = engine_from_config(
-                config.get_section(config.config_ini_section), prefix='sqlalchemy.')
+        config.get_section(config.config_ini_section),
+        prefix='sqlalchemy.')
 
     with engine.connect() as connection:
         context.configure(
-                    url=SQLALCHEMY_DATABASE_URI,
-                    connection=connection,
-                    target_metadata=target_metadata
-                    )
+            url=SQLALCHEMY_DATABASE_URI,
+            connection=connection,
+            target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
