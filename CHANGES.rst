@@ -1,3 +1,21 @@
+Version 1.0.0 (2015-08-17)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Remove the ``migrate`` command in favor of using Alembic directly
+- Fix ``PUBLIC_PATH`` in the ``Dockerfile``
+- Add a way to contact issue openers through the admin
+- Fix aborting bulk delete if 1 resource is invalid
+- Add passive deletes to invoices
+- Fix live stream menu from showing when unsubscribed
+- Add new decorator ``subscription_required``
+- Fix unsubscribed users from being able to see the Twitter stream
+- Fix null template error for tax/tax_percent calculations
+- Fix coupons to ensure they are always capitalized when created
+- Remove unused timezone from initializer
+- Fix users from being able to change their username
+- Add new CLI command ``run secret`` to generate a random token
+- Reorganize production settings
+
 Version 0.2.0 (2015-07-04)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
