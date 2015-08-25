@@ -230,6 +230,17 @@ def reset(ctx, databases):
 
 
 @click.command()
+def init():
+    """
+    Initialize the database.
+
+    :return: db session create_all result
+    """
+    db.drop_all()
+    return db.create_all()
+
+
+@click.command()
 def seed():
     """
     Seed the database with your own data.
@@ -242,4 +253,5 @@ cli.add_command(psql)
 cli.add_command(create)
 cli.add_command(drop)
 cli.add_command(reset)
+cli.add_command(init)
 cli.add_command(seed)
