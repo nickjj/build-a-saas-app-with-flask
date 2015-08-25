@@ -1,3 +1,9 @@
+Version 1.1.0 (2015-08-25)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Add a new ``run db init`` command to quickly initialize a new database
+- Set ``NODE_ENV`` to ``production`` when building assets
+
 Version 1.0.0 (2015-08-17)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
