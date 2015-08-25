@@ -24,7 +24,7 @@ RUN npm install
 COPY . .
 
 # Process all of the assets.
-RUN PUBLIC_PATH='/' npm run-script build
+RUN PUBLIC_PATH='/' NODE_ENV='production' npm run-script build
 
 # Give access to the CLI script.
 RUN pip install --editable .
