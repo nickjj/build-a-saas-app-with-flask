@@ -1,9 +1,9 @@
 import datetime
 
-import pytz
 from sqlalchemy import DateTime
 from sqlalchemy.types import TypeDecorator
 
+from catwatch.lib.util_datetime import tzware_datetime
 from catwatch.extensions import db
 
 
@@ -28,10 +28,10 @@ class AwareDateTime(TypeDecorator):
 class ResourceMixin(object):
     # Keep track when records are created and updated.
     created_on = db.Column(AwareDateTime(),
-                           default=datetime.datetime.now(pytz.utc))
+                           default=tzware_datetime)
     updated_on = db.Column(AwareDateTime(),
-                           default=datetime.datetime.now(pytz.utc),
-                           onupdate=datetime.datetime.now(pytz.utc))
+                           default=tzware_datetime,
+                           onupdate=tzware_datetime)
 
     @classmethod
     def sort_by(cls, field, direction):
