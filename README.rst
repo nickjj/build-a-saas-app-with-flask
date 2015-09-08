@@ -5,7 +5,7 @@ What is this project?
 
 This is the source code for the **Build a SAAS app with Flask** project that
 was funded on `Kickstarter <https://www.kickstarter.com/projects/nickjj/build-a-saas-app-with-flask-and-deploy-it-with-doc>`_ thanks to the awesome community. For
-more information please visit http://buildasaaswithflask.com.
+more information please visit https://buildasaaswithflask.com.
 
 Installation instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -25,7 +25,7 @@ Install Docker
 - https://docs.docker.com/installation (docker itself)
 - https://github.com/docker/compose/releases (docker-compose tool for development)
 
-Make sure you get ``docker-compose v1.3.1+``.
+Make sure you get ``docker-compose v1.4.0+``.
 
 Install nodejs
 ''''''''''''''
@@ -76,7 +76,7 @@ Initialize everything and view the app
 - Open a new terminal window
 - Type ``run assets build`` to create the build directory and manifest file
 - Type ``run`` to see a list of what's available
-- Type ``run db reset`` to initialize the database
+- Type ``run db reset catwatch catwatch_test`` to initialize the databases
 - Type ``run stripe sync_plans`` to sync your ``STRIPE_PLANS`` to the gateway
 - Type ``run all`` to start everything
 - Visit http://localhost:8000 in your browser
