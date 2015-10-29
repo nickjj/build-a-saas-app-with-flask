@@ -1,3 +1,10 @@
+Version 1.1.1 (2015-10-29)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Fix the Stripe API version so that customer.card exists
+- Fix inaccurate created/updated at timestamps on all resources
+- Update the favicon
+
 Version 1.1.0 (2015-08-25)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
