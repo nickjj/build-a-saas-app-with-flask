@@ -51,6 +51,7 @@ def api_keys(app):
     :return: None
     """
     stripe.api_key = app.config.get('STRIPE_SECRET_KEY')
+    stripe.api_version = app.config.get('STRIPE_API_VERSION')
     return None
 
 
