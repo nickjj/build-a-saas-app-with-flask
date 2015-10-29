@@ -106,7 +106,7 @@ STRIPE_PUBLISHABLE_KEY = None
 
 # The Stripe API version to use. More information can be found on their docs:
 #  https://stripe.com/docs/api/python#versioning
-STRIPE_API_VERSION = '2015-04-07'
+STRIPE_API_VERSION = '2015-01-26'
 
 # Documentation for each plan field below can be found on Stripe's API docs:
 #  https://stripe.com/docs/api#create_plan
