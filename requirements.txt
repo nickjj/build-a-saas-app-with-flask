@@ -1,59 +1,24 @@
-# Flask
 Flask==0.10.1
-Flask-Mail==0.9.1
 
-# Database and migrations
-psycopg2==2.6.1
-Flask-SQLAlchemy==2.0
-alembic==0.7.6
+# Application server for both development and production.
+gunicorn==19.4.5
 
-# Background worker and cache
-redis==2.10.3
-celery==3.1.18
-flower==0.8.2
-Flask-Cache==0.13.1
+# Testing and static analysis.
+pytest==2.9.1
+pytest-cov==2.2.1
+flake8==2.5.4
 
-# Authentication and authorization
-Flask-Login==0.2.11
-Flask-Bcrypt==0.6.2
-itsdangerous==0.24
-flask-bouncer==0.1.13
+# CLI.
+Click==6.4
 
-# Asset management
-Flask-Webpack==0.0.6
+# Data and workers.
+redis==2.10.5
+celery==3.1.23
 
-# I18n
-Flask-Babel==0.9
-
-# Billing
-stripe==1.22.3
-
-# Twitter
-tweepy==3.3.0
-
-# Forms
-Flask-WTF==0.11
+# Forms.
+Flask-WTF==0.9.5
 WTForms-Components==0.9.7
 
-# Testing
-pytest==2.7.2
-pytest-cov==1.8.1
-mock==1.0.1
-
-# Command line tasks
-click==4.0
-
-# App server
-gunicorn==19.3.0
-
-# Generate fake data
-fake-factory==0.5.2
-
-# Debug toolbar
-Flask-DebugToolbar==0.10.0
-
-# Manage multiple processes in development
-honcho==0.6.6
-
-# Analyze code base
-flake8>=2.4.1
+# Extensions.
+flask-debugtoolbar==0.10.0
+Flask-Mail==0.9.1

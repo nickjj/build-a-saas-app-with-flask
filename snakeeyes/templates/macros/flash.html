@@ -1,0 +1,14 @@
+{# Render Flask messages. #}
+{%- macro render() -%}
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <div id="flash-messages" class="row sm-margin-top">
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }}" role="alert">
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+{%- endmacro -%}

@@ -1,5 +1,2 @@
 .git
-.idea
-tmp/*
-log/*
 .dockerignore

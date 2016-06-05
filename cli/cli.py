@@ -1,11 +1,9 @@
-import logging
 import os
-import sys
 
 import click
 
-cmd_folder = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                          'commands'))
+cmd_folder = os.path.join(os.path.dirname(__file__), 'commands')
+cmd_prefix = 'cmd_'
 
 
 class CLI(click.MultiCommand):
@@ -14,14 +12,14 @@ class CLI(click.MultiCommand):
         Obtain a list of all available commands.
 
         :param ctx: Click context
-        :return: List of commands
+        :return: List of sorted commands
         """
         commands = []
 
         for filename in os.listdir(cmd_folder):
-            if filename.endswith('.py') and \
-                    filename.startswith('cmd_'):
+            if filename.endswith('.py') and filename.startswith(cmd_prefix):
                 commands.append(filename[4:-3])
+
         commands.sort()
 
         return commands
@@ -34,16 +32,15 @@ class CLI(click.MultiCommand):
         :param name: Command name
         :return: Module's cli function
         """
-        try:
-            if sys.version_info[0] == 2:
-                name = name.encode('ascii', 'replace')
-            mod = __import__('cli.commands.cmd_' + name,
-                             None, None, ['cli'])
-        except ImportError as e:
-            logging.error('Error importing module {0}:\n{0}'.format(name, e))
-            exit(1)
+        ns = {}
 
-        return mod.cli
+        filename = os.path.join(cmd_folder, cmd_prefix + name + '.py')
+
+        with open(filename) as f:
+            code = compile(f.read(), filename, 'exec')
+            eval(code, ns, ns)
+
+        return ns['cli']
 
 
 @click.command(cls=CLI)

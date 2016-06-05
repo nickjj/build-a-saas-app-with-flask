@@ -1,64 +1,35 @@
-postgres:
-  image: postgres:9.4.3
-  environment:
-    POSTGRES_USER: catwatch
-    POSTGRES_PASSWORD: bestpassword
-  ports:
-    - 5432:5432
-  volumes:
-    - ~/.docker-volumes/catwatch/postgresql/data:/var/lib/postgresql/data
+version: '2'
 
-redis:
-  image: redis:2.8.21
-  ports:
-    - 6379:6379
-  volumes:
-    - ~/.docker-volumes/catwatch/redis/data:/var/lib/redis/data
+services:
+  redis:
+    image: 'redis:3.0-alpine'
+    command: redis-server --requirepass devpassword
+    volumes:
+      - 'redis:/var/lib/redis/data'
+    ports:
+      - '6379:6379'
 
-faye:
-  image: nickjj/faye:latest
-  links:
-    - redis
-  ports:
-    - 4242:4242
-  environment:
-    FAYE_PUSH_TOKEN: 123notsecure
+  website:
+    build: .
+    command: >
+      gunicorn -b 0.0.0.0:8000
+        --access-logfile -
+        --reload
+        "snakeeyes.app:create_app()"
+    environment:
+      PYTHONUNBUFFERED: 'true'
+    volumes:
+      - '.:/snakeeyes'
+    ports:
+      - '8000:8000'
 
-cadvisor:
-  image: google/cadvisor:latest
-  volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:rw
-    - /sys:/sys:ro
-    - /var/lib/docker/:/var/lib/docker:ro
-  ports:
-  - 8080:8080
+  celery:
+    build: .
+    command: celery worker -l info -A snakeeyes.blueprints.contact.tasks
+    env_file:
+      - '.env'
+    volumes:
+      - '.:/snakeeyes'
 
-# If you want to run everything in a container locally then make sure you
-# remove the web, worker, beat and flower entries from the Procfile.
-#
-# If you plan to develop with everything in a container then make sure to
-# set up volumes for live code feedback as well as gunicorn reloads.
-#website:
-#  build: .
-#  links:
-#    - redis
-#    - postgres
-#    - faye
-#  ports:
-#    - 8000:8000
-#
-#celery:
-#  build: .
-#  command: celery worker -B -A catwatch.blueprints.user.tasks -l info
-#  links:
-#    - redis
-#    - postgres
-#
-#flower:
-#  build: .
-#  command: flower -A catwatch.blueprints.user.tasks --port=8081
-#  links:
-#    - redis
-#  ports:
-#    - 8081:8081
+volumes:
+  redis:

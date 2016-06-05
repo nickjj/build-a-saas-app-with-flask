@@ -1,3 +1,0 @@
-# Helpers to auto-load the venv, this could be hooked up to PyCharm, etc..
-source ~/.bashrc
-source ~/.virtualenvs/catwatch/bin/activate

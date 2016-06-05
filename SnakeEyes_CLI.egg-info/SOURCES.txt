@@ -1,0 +1,9 @@
+SnakeEyes_CLI.egg-info/PKG-INFO
+SnakeEyes_CLI.egg-info/SOURCES.txt
+SnakeEyes_CLI.egg-info/dependency_links.txt
+SnakeEyes_CLI.egg-info/entry_points.txt
+SnakeEyes_CLI.egg-info/requires.txt
+SnakeEyes_CLI.egg-info/top_level.txt
+cli/__init__.py
+cli/cli.py
+cli/commands/__init__.py

@@ -1,0 +1,66 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 10px;
+  border-top: 1px solid #e9e9e9;
+
+  height: 60px;
+}
+
+/* Margin and padding
+-------------------------------------------------- */
+.lg-margin-bottom {
+  margin-bottom: 60px;
+}
+
+.lg-margin-top {
+  margin-top: 60px;
+}
+
+.md-margin-top {
+  margin-top: 40px;
+}
+
+.sm-margin-top {
+  margin-top: 20px;
+}
+
+/* Bootstrap overrides
+-------------------------------------------------- */
+label {
+  font-weight: 400;
+}
+
+.alert-small {
+  padding: 5px;
+  margin-bottom: 0;
+}
+
+.alert-error, .alert-message {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.alert-error hr, .alert-message hr {
+  border-top-color: #e4b9c0;
+}
+
+.alert-error .alert-link, .alert-message .alert-link {
+  color: #843534;
+}
