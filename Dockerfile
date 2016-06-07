@@ -1,4 +1,4 @@
-FROM python:2.7-alpine
+FROM python:2.7-slim
 MAINTAINER Nick Janetakis <nick.janetakis@gmail.com>
 
 ENV INSTALL_PATH /snakeeyes
