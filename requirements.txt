@@ -1,24 +1,21 @@
-Flask==0.10.1
+Flask==1.0.*
 
 # Application server for both development and production.
-gunicorn==19.4.5
+gunicorn==19.8.*
 
 # Testing and static analysis.
-pytest==2.9.1
-pytest-cov==2.2.1
-flake8==2.5.4
-
-# CLI.
-Click==6.4
+pytest==3.5.*
+pytest-cov==2.5.*
+flake8==3.5.*
 
 # Data and workers.
-redis==2.10.5
-celery==3.1.23
+redis==2.10.*
+celery==4.1.*
 
 # Forms.
-Flask-WTF==0.9.5
-WTForms-Components==0.9.7
+Flask-WTF==0.14.*
+WTForms-Components==0.9.*
 
 # Extensions.
-flask-debugtoolbar==0.10.0
-Flask-Mail==0.9.1
+flask-debugtoolbar==0.10.*
+Flask-Mail==0.9.*

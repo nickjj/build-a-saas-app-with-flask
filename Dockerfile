@@ -1,10 +1,10 @@
 FROM python:2.7-slim
-MAINTAINER Nick Janetakis <nick.janetakis@gmail.com>
+LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
-ENV INSTALL_PATH /snakeeyes
-RUN mkdir -p $INSTALL_PATH
+RUN apt-get update && apt-get install -qq -y \
+  build-essential libpq-dev --no-install-recommends
 
-WORKDIR $INSTALL_PATH
+WORKDIR /app
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt

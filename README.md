@@ -1,13 +1,13 @@
-## Welcome to The Build a SAAS App with Flask Course
+## Welcome to The Build a SAAS App with Flask Course!
 
-*Learn how to build a production ready web app with Flask and Docker. Level up
-and win that dream software developer job.*
+*A video course where you'll Learn how to build a real world web application
+with Flask, Celery, Redis, PostgreSQL, Stripe and Docker.*
 
 **Full details on the course can be found here:**  
-http://nickjanetakis.com/courses/build-a-saas-app-with-flask
+[https://buildasaasappwithflask.com](https://buildasaasappwithflask.com/?utm_source=github&utm_medium=bsawf&utm_campaign=readme-top)
 
 Free sample videos **(including what we'll build)** can be found here:  
-http://nickjanetakis.com/blog/build-a-saas-app-with-flask-free-sample-videos
+https://nickjanetakis.com/blog/build-a-saas-app-with-flask-free-sample-videos
 
 ### How does this source code differ than what's in the course?
 
@@ -44,7 +44,7 @@ The rest of the course covers topics such as:
 - Dealing with database migrations
 - Converting your app to support multiple languages (i18n)
 
-**By the time you finish my course, you'll have all the confidence you need to
+**By the time you finish the course, you'll have all the confidence you need to
 build a large web application with Flask**.
 
 ---
@@ -52,5 +52,8 @@ build a large web application with Flask**.
 There's over 150 video lectures, 9.5 hours of content, coding exercises and an
 e-book that's included.
 
+Also as a bonus, there's an additional 3 hours of content that covers building a
+separate RESTful API driven application that uses web sockets.
+
 **Everything you'd want to know about the course can be found here:**  
-http://nickjanetakis.com/courses/build-a-saas-app-with-flask
+[https://buildasaasappwithflask.com](https://buildasaasappwithflask.com/?utm_source=github&utm_medium=bsawf&utm_campaign=readme-bottom)
