@@ -32,5 +32,4 @@ services:
       - '.:/app'
 
 volumes:
-  postgres:
   redis:
