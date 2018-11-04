@@ -1,15 +1,6 @@
 version: '2'
 
 services:
-  postgres:
-    image: 'postgres:10.4-alpine'
-    env_file:
-      - '.env'
-    volumes:
-      - 'postgres:/var/lib/postgresql/data'
-    ports:
-      - '5432:5432'
-
   redis:
     image: 'redis:4.0-alpine'
     command: redis-server --requirepass devpassword
