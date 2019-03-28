@@ -1,4 +1,5 @@
 Flask==1.0.*
+werkzeug==0.14.1
 
 # Application server for both development and production.
 gunicorn==19.8.*
