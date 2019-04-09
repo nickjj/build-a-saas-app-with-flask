@@ -1,35 +1,52 @@
-version: '2'
+version: "3.4"
 
 services:
   redis:
-    image: 'redis:4.0-alpine'
-    command: redis-server --requirepass devpassword
-    volumes:
-      - 'redis:/var/lib/redis/data'
-    ports:
-      - '6379:6379'
-
-  website:
-    build: .
-    command: >
-      gunicorn -b 0.0.0.0:8000
-        --access-logfile -
-        --reload
-        "snakeeyes.app:create_app()"
     env_file:
-      - '.env'
+      - ".env"
+    image: "redis:5.0.4-stretch"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
     volumes:
-      - '.:/app'
-    ports:
-      - '8000:8000'
+      - "redis:/data"
 
-  celery:
-    build: .
+  web:
+    build:
+      context: "."
+      args:
+        - "FLASK_ENV=${FLASK_ENV:-production}"
+    depends_on:
+      - "redis"
+    env_file:
+      - ".env"
+    healthcheck:
+      test: "${DOCKER_HEALTHCHECK_TEST:-curl localhost:8000/healthy}"
+      interval: "60s"
+      timeout: "3s"
+      start_period: "5s"
+      retries: 3
+    ports:
+      - "${DOCKER_WEB_PORT:-127.0.0.1:8000}:8000"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
+    volumes:
+      - "${DOCKER_WEB_VOLUME:-./public:/app/public}"
+
+  worker:
+    build:
+      context: "."
+      args:
+        - "FLASK_ENV=${FLASK_ENV:-production}"
     command: celery worker -B -l info -A snakeeyes.blueprints.contact.tasks
+    depends_on:
+      - "redis"
     env_file:
-      - '.env'
+      - ".env"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
     volumes:
-      - '.:/app'
+      - "${DOCKER_WEB_VOLUME:-./public:/app/public}"
 
 volumes:
-  redis:
+  redis: {}
+

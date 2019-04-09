@@ -49,5 +49,6 @@ docs/_build/
 tmtags
 
 # App ignores.
+.env
 celerybeat*
-instance/settings.py
+
