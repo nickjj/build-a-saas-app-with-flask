@@ -6,9 +6,6 @@ with Flask, Celery, Redis, PostgreSQL, Stripe and Docker.*
 **Full details on the course can be found here:**  
 [https://buildasaasappwithflask.com](https://buildasaasappwithflask.com/?utm_source=github&utm_medium=bsawf&utm_campaign=readme-top)
 
-Free sample videos **(including what we'll build)** can be found here:  
-https://nickjanetakis.com/blog/build-a-saas-app-with-flask-free-sample-videos
-
 ### How does this source code differ than what's in the course?
 
 In the course we build up a 4,000+ line Flask application in 15 stages while I'm
@@ -17,8 +14,7 @@ at your side explaining my thought process along the way.
 You will get to see the source code grow from a single `app.py` file to a large
 code base that spans across dozens of files and folders.
 
-This repo includes up to the 6th stage. By this point in the code base, you'll
-be introduced to concepts such as:
+#### This repo includes up to the 6th stage. By this point in the code base, you'll be introduced to concepts such as:
 
 - Using Docker to "Dockerize" a multi-service Flask app
 - Using Flask extensions
@@ -29,7 +25,7 @@ be introduced to concepts such as:
 - Creating Click based CLI scripts
 - Testing and analyzing your code base
 
-The rest of the course covers topics such as:
+#### The rest of the course covers topics such as:
 
 - What is Docker and how can you use it?
 - Going over the application's architecture and tech choices
@@ -49,11 +45,11 @@ build a large web application with Flask**.
 
 ---
 
-There's over 150 video lectures, 9.5 hours of content, coding exercises and an
+There's over 170 video lessons, 12.5 hours of content, coding exercises and an
 e-book that's included.
 
-Also as a bonus, there's an additional 3 hours of content that covers building a
-separate RESTful API driven application that uses web sockets.
+Also as a bonus, there's an additional 18 video lessons and 3 hours of content
+that covers building a separate RESTful API driven application that uses web sockets.
 
 **Everything you'd want to know about the course can be found here:**  
 [https://buildasaasappwithflask.com](https://buildasaasappwithflask.com/?utm_source=github&utm_medium=bsawf&utm_campaign=readme-bottom)
