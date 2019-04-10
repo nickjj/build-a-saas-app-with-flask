@@ -1,10 +1,17 @@
 ## Welcome to The Build a SAAS App with Flask Course!
 
-*A video course where you'll Learn how to build a real world web application
-with Flask, Celery, Redis, PostgreSQL, Stripe and Docker.*
+*A video course where we build a real world web application with Flask, Celery,
+Redis, PostgreSQL, Stripe and Docker.*
 
 **Full details on the course can be found here:**  
 [https://buildasaasappwithflask.com](https://buildasaasappwithflask.com/?utm_source=github&utm_medium=bsawf&utm_campaign=readme-top)
+
+### Getting started
+
+```sh
+cp .env.example .env
+docker-compose up --build
+```
 
 ### How does this source code differ than what's in the course?
 
