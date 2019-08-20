@@ -1,4 +1,4 @@
-FROM python:2.7.15-slim-stretch
+FROM python:3.7.4-slim-buster
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
