@@ -52,7 +52,7 @@ build a large web application with Flask**.
 
 ---
 
-There's over 170 video lessons, 12.5 hours of content, coding exercises and an
+There's over 172 video lessons, 14+ hours of content, coding exercises and an
 e-book that's included.
 
 Also as a bonus, there's an additional 18 video lessons and 3 hours of content
