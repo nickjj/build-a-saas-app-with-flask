@@ -4,7 +4,7 @@ from werkzeug.debug import DebuggedApplication
 
 from snakeeyes.blueprints.page import page
 from snakeeyes.blueprints.contact import contact
-from snakeeyes.extensions import debug_toolbar, mail, csrf
+from snakeeyes.extensions import debug_toolbar, mail, csrf, flask_static_digest
 
 CELERY_TASK_LIST = [
     'snakeeyes.blueprints.contact.tasks',
@@ -71,5 +71,6 @@ def extensions(app):
     debug_toolbar.init_app(app)
     mail.init_app(app)
     csrf.init_app(app)
+    flask_static_digest.init_app(app)
 
     return None

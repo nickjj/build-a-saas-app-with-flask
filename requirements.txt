@@ -20,3 +20,4 @@ WTForms-Components==0.10.4
 # Extensions.
 flask-debugtoolbar==0.10.1
 Flask-Mail==0.9.1
+Flask-Static-Digest==0.1.2

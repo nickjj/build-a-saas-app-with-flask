@@ -18,11 +18,15 @@ RUN apt-get update \
 
 ARG FLASK_ENV="production"
 ENV FLASK_ENV="${FLASK_ENV}" \
+    FLASK_APP="snakeeyes.app" \
     PYTHONUNBUFFERED="true"
 
 COPY . .
 
 RUN pip install --editable .
+
+RUN if [ "${FLASK_ENV}" != "development" ]; then \
+  flask digest compile; fi
 
 EXPOSE 8000
 
