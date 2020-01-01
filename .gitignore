@@ -60,4 +60,4 @@ celerybeat*
 cache_manifest.json
 
 assets/node_modules/
-public/
+public/*
