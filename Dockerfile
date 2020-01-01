@@ -1,4 +1,4 @@
-FROM python:3.7.4-slim-buster
+FROM python:3.8.1-slim-buster
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
@@ -31,4 +31,3 @@ RUN if [ "${FLASK_ENV}" != "development" ]; then \
 EXPOSE 8000
 
 CMD ["gunicorn", "-c", "python:config.gunicorn", "snakeeyes.app:create_app()"]
-
