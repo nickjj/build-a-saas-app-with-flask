@@ -1,17 +1,17 @@
 Flask==1.1.1
-werkzeug==0.15.5
+werkzeug==0.16.0
 
 # Application server for both development and production.
-gunicorn==19.9.0
+gunicorn==20.0.4
 
 # Testing and static analysis.
-pytest==5.1.0
-pytest-cov==2.7.1
-flake8==3.7.8
+pytest==5.3.2
+pytest-cov==2.8.1
+flake8==3.7.9
 
 # Data and workers.
-redis==3.3.7
-celery==4.3.0
+redis==3.3.11
+celery==4.4.0
 
 # Forms.
 Flask-WTF==0.14.2
