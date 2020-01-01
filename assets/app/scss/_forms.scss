@@ -1,0 +1,14 @@
+label {
+  margin-top: 10px;
+}
+
+.form-control {
+  &:focus {
+    border-color: $gray-600;
+    border: 1px solid $gray-600;
+  }
+
+  &.is-invalid {
+    background-image: none;
+  }
+}

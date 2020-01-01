@@ -14,58 +14,46 @@
 
     <link
       rel="stylesheet"
-      href="{{ static_url_for('static', filename='styles/vendor/bootstrap.min.css') }}">
-    <link
-      rel="stylesheet"
-      href="{{ static_url_for('static', filename='styles/main.css') }}">
-    <link
-      rel="stylesheet"
-      href="{{ static_url_for('static', filename='styles/vendor/font-awesome.min.css') }}">
-    <script src="https://code.jquery.com/jquery-1.12.2.min.js"
-            integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="
-            crossorigin="anonymous"></script>
+      href="{{ static_url_for('static', filename='css/app.css') }}">
+    <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
   </head>
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-5">
       <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed"
-                  data-toggle="collapse" data-target="#navbar"
-                  aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a href="{{ url_for('page.home') }}">
-            <img src="{{ static_url_for('static', filename='images/snake-eyes.jpg') }}"
-                 class="img-responsive"
-                 width="229" height="50" title="Snake Eyes" alt="Snake Eyes"/>
-          </a>
-        </div>
+        <a href="{{ url_for('page.home') }}">
+          <img src="{{ static_url_for('static', filename='images/snake-eyes.jpg') }}"
+               class="img-fluid"
+               width="229" height="50" title="Snake Eyes" alt="Snake Eyes"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarCollapse"
+                aria-controls="navbarCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
       </div>
     </nav>
 
-    <main class="container">
+    <main class="container mb-5">
       {{ flash.render() }}
-
-      <div class="md-margin-top">{% block heading %}{% endblock %}</div>
       {% block body %}{% endblock %}
     </main>
 
     <footer class="footer text-center">
       <div class="container">
         <ul class="list-inline">
-          <li class="text-muted">Snake Eyes &copy; 2019</li>
-          <li><a href="{{ url_for('contact.index') }}">Contact</a></li>
-          <li><a href="{{ url_for('page.privacy') }}">Privacy Policy</a></li>
-          <li><a href="{{ url_for('page.terms') }}">Terms of Service</a></li>
+          <li class="list-inline-item text-muted">Snake Eyes &copy; 2020</li>
+          <li class="list-inline-item">
+            <a href="{{ url_for('contact.index') }}">Contact</a>
+          </li>
+          <li class="list-inline-item">
+            <a href="{{ url_for('page.privacy') }}">Privacy Policy</a>
+          </li>
+          <li class="list-inline-item">
+            <a href="{{ url_for('page.terms') }}">Terms of Service</a>
+          </li>
         </ul>
       </div>
     </footer>
-
-    <script
-      src="{{ static_url_for('static', filename='scripts/vendor/bootstrap.min.js') }}">
-    </script>
   </body>
 </html>

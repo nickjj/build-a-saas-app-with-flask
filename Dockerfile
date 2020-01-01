@@ -1,4 +1,34 @@
-FROM python:3.8.1-slim-buster
+FROM node:12.14.0-buster-slim as webpack
+LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
+
+WORKDIR /app/assets
+
+COPY assets/package.json assets/*yarn* ./
+
+ENV BUILD_DEPS="build-essential" \
+    APP_DEPS=""
+
+RUN apt-get update \
+  && apt-get install -y ${BUILD_DEPS} ${APP_DEPS} --no-install-recommends \
+  && yarn install \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /usr/share/doc && rm -rf /usr/share/man \
+  && apt-get purge -y --auto-remove ${BUILD_DEPS} \
+  && apt-get clean
+
+COPY assets .
+
+ARG NODE_ENV="production"
+ENV NODE_ENV="${NODE_ENV}"
+
+RUN if [ "${NODE_ENV}" != "development" ]; then \
+  yarn run build; else mkdir -p /app/public; fi
+
+CMD ["bash"]
+
+#
+
+FROM python:3.8.1-slim-buster as app
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
@@ -21,12 +51,17 @@ ENV FLASK_ENV="${FLASK_ENV}" \
     FLASK_APP="snakeeyes.app" \
     PYTHONUNBUFFERED="true"
 
+COPY --from=webpack /app/public /public
+
 COPY . .
 
 RUN pip install --editable .
 
 RUN if [ "${FLASK_ENV}" != "development" ]; then \
   flask digest compile; fi
+
+RUN chmod +x docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
 EXPOSE 8000
 

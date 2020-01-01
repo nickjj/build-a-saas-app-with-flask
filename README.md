@@ -10,6 +10,7 @@ Redis, PostgreSQL, Stripe and Docker.*
 
 ```sh
 cp .env.example .env
+cp docker-compose.override.example.yml docker-compose.override.yml
 docker-compose up --build
 ```
 
@@ -52,7 +53,7 @@ build a large web application with Flask**.
 
 ---
 
-There's over 173 video lessons, 15+ hours of content, coding exercises and an
+There's over 176 video lessons, 18.5+ hours of content, coding exercises and an
 e-book that's included.
 
 Also as a bonus, there's an additional 18 video lessons and 3 hours of content

@@ -15,6 +15,7 @@ services:
       context: "."
       args:
         - "FLASK_ENV=${FLASK_ENV:-production}"
+        - "NODE_ENV=${NODE_ENV:-production}"
     depends_on:
       - "redis"
     env_file:

@@ -13,9 +13,9 @@
 {# Render a form field's errors. #}
 {%- macro field_errors(f) -%}
   {% if f.errors %}
-    <ul class="list-unstyled text-danger field-error">
+    <ul class="list-unstyled text-danger">
       {% for error in f.errors %}
-          <li>{{ error | e }}</li>
+        <li>{{ error | e }}</li>
       {% endfor %}
     </ul>
   {% endif %}
@@ -23,30 +23,24 @@
 
 
 {# Render a form field. #}
-{%- macro field(f, css_class='form-control') -%}
-  {{ f(class=css_class, **kwargs) }}
-{%- endmacro -%}
-
-
-{# Render a checkbox field. #}
-{%- macro checkbox_field(f) -%}
-  {{ f(type='checkbox', **kwargs) }} {{ f.label }}
+{%- macro field(f, css_class='') -%}
+  {{ f(class='form-control shadow-none ' + css_class, **kwargs) }}
 {%- endmacro -%}
 
 
 {# Render a form group with errors for various field types. #}
 {%- macro form_group(f, css_class='') -%}
   {% if f.errors %}
-    {% set css_class = css_class + ' has-error ' + kwargs.pop('class', '') %}
+    {% set css_class = css_class + ' is-invalid ' + kwargs.pop('class', '') %}
   {% endif %}
 
   {% if f.type == 'BooleanField' %}
-      <div class="checkbox {{ css_class }}">
-    {{ checkbox_field(f, **kwargs) }}
+    <div class="checkbox">
+    {{ checkbox_field(f, css_class, **kwargs) }}
   {% else %}
-      <div class="form-group {{ css_class }}">
+    <div class="form-group">
     {{ field_label(f) }}
-    {{ field(f, **kwargs) }}
+    {{ field(f, css_class, **kwargs) }}
   {% endif %}
 
     {{ field_errors(f) }}
