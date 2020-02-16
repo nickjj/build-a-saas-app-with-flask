@@ -2,12 +2,15 @@ import subprocess
 
 import click
 
+from flask.cli import with_appcontext
+
 
 @click.command()
 @click.option('--skip-init/--no-skip-init', default=True,
               help='Skip __init__.py files?')
-@click.argument('path', default='snakeeyes')
-def cli(skip_init, path):
+@click.argument('path', default='.')
+@with_appcontext
+def flake8(skip_init, path):
     """
     Run flake8 to analyze your code base.
 

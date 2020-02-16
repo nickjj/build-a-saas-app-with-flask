@@ -55,8 +55,6 @@ COPY --from=webpack /app/public /public
 
 COPY . .
 
-RUN pip install --editable .
-
 RUN if [ "${FLASK_ENV}" != "development" ]; then \
   flask digest compile; fi
 

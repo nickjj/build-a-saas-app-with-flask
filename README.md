@@ -53,9 +53,9 @@ build a large web application with Flask**.
 
 ---
 
-There's over 179 video lessons, 18.5+ hours of content, coding exercises and an
+There's over 180 video lessons, 19+ hours of content, coding exercises and an
 e-book that's included. You also get free updates for life as well as life time
-support. I've added 10+ hours of free updates over the years.
+support. I've added 11+ hours of free updates over the years.
 
 Also as a bonus, there's an additional 18 video lessons and 3 hours of content
 that covers building a separate RESTful API driven application that uses web sockets.
