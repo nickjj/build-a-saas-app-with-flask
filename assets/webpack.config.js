@@ -1,9 +1,9 @@
-var merge = require('webpack-merge');
+var { merge } = require('webpack-merge');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var TerserPlugin = require('terser-webpack-plugin');
 
 var common = {
   watchOptions: {
@@ -46,7 +46,7 @@ var common = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({cache: true, parallel: true}),
+      new TerserPlugin({cache: true, parallel: true, sourceMap: false}),
       new OptimizeCSSAssetsPlugin({})
     ]
   }
@@ -69,7 +69,7 @@ module.exports = [
       ]
     },
     plugins: [
-      new CopyWebpackPlugin([{from: __dirname + '/static'}]),
+      new CopyWebpackPlugin({patterns: [{from: __dirname + '/static'}]}),
       new MiniCssExtractPlugin({filename: 'css/app.css'}),
       new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery'}),
     ]
