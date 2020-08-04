@@ -56,7 +56,7 @@ COPY --from=webpack /app/public /public
 COPY . .
 
 RUN if [ "${FLASK_ENV}" != "development" ]; then \
-  flask digest compile; fi
+  ln -s /public /app/public && flask digest compile && rm -rf /app/public; fi
 
 RUN chmod +x docker-entrypoint.sh
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
