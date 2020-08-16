@@ -15,7 +15,7 @@ MAIL_USE_TLS = bool(strtobool(os.getenv('MAIL_USE_TLS', 'true')))
 MAIL_USE_SSL = bool(strtobool(os.getenv('MAIL_USE_SSL', 'false')))
 MAIL_USERNAME = os.getenv('MAIL_USERNAME', None)
 MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', None)
-MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'smtp.gmail.com')
+MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'contact@local.host')
 
 # Celery.
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://redis:6379/0')
