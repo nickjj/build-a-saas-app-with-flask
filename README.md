@@ -29,7 +29,6 @@ spans across dozens of files and folders.
 - Jinja templates
 - Working with forms
 - Sending e-mails through Celery
-- Creating Click based CLI scripts
 - Testing and analyzing your code base
 
 #### The rest of the course covers topics such as:
@@ -39,7 +38,7 @@ spans across dozens of files and folders.
 - Creating a full blown user management system
 - Creating a custom admin dashboard
 - Logging, middleware and error handling
-- Adding quality of life improvements to the CLI script
+- Using Click to create custom CLI commands
 - Accepting recurring credit card payments with Stripe
 - Building up a dice game called "Snake Eyes"
 - Responding with JSON from Flask and creating AJAX requests
@@ -53,12 +52,19 @@ build a large web application with Flask**.
 
 ---
 
-There's over 180 video lessons, 19+ hours of content, coding exercises and an
+There's over 187 video lessons, 25+ hours of content, coding exercises and an
 e-book that's included. You also get free updates for life as well as life time
-support. I've added 11+ hours of free updates over the years.
+support. I've added 15+ hours of free updates over the years.
+
+These updates range from adding brand new features (like Webpack) to keeping
+Python, Node and all package / service versions up to date. There's even 1
+update that's a 5 hour live recording where I updated a bunch of things at
+once. This includes using git too (making good commits, interactive rebasing,
+etc.), live debugging and Googling for errors.
 
 Also as a bonus, there's an additional 18 video lessons and 3 hours of content
-that covers building a separate RESTful API driven application that uses web sockets.
+that covers building a separate RESTful API driven application that uses
+websockets.
 
 **Everything you'd want to know about the course can be found here:**  
 [https://buildasaasappwithflask.com](https://buildasaasappwithflask.com/?utm_source=github&utm_medium=bsawf&utm_campaign=readme-bottom)
