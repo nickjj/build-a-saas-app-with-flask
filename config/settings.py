@@ -17,10 +17,14 @@ MAIL_USERNAME = os.getenv('MAIL_USERNAME', None)
 MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', None)
 MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'contact@local.host')
 
+# Redis.
+REDIS_URL = os.getenv('REDIS_URL', 'redis://redis:6379/0')
+
 # Celery.
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://redis:6379/0')
-CELERY_RESULT_BACKEND = CELERY_BROKER_URL
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_REDIS_MAX_CONNECTIONS = 5
+CELERY_CONFIG = {
+    'broker_url': REDIS_URL,
+    'result_backend': REDIS_URL,
+    'include': [
+        'snakeeyes.blueprints.contact.tasks'
+    ]
+}

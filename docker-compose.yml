@@ -38,7 +38,7 @@ services:
       context: "."
       args:
         - "FLASK_ENV=${FLASK_ENV:-production}"
-    command: celery -A snakeeyes.blueprints.contact.tasks worker -l info
+    command: celery -A "snakeeyes.app.celery_app" worker -l info
     depends_on:
       - "redis"
     env_file:

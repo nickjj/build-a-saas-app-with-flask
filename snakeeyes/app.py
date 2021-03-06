@@ -7,10 +7,6 @@ from snakeeyes.blueprints.page import page
 from snakeeyes.blueprints.contact import contact
 from snakeeyes.extensions import debug_toolbar, mail, csrf, flask_static_digest
 
-CELERY_TASK_LIST = [
-    'snakeeyes.blueprints.contact.tasks',
-]
-
 
 def create_celery_app(app=None):
     """
@@ -22,9 +18,8 @@ def create_celery_app(app=None):
     """
     app = app or create_app()
 
-    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'],
-                    include=CELERY_TASK_LIST)
-    celery.conf.update(app.config)
+    celery = Celery(app.import_name)
+    celery.conf.update(app.config.get('CELERY_CONFIG', {}))
     TaskBase = celery.Task
 
     class ContextTask(TaskBase):
@@ -76,3 +71,6 @@ def extensions(app):
     flask_static_digest.init_app(app)
 
     return None
+
+
+celery_app = create_celery_app()
