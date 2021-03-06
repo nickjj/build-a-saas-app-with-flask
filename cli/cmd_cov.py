@@ -6,7 +6,7 @@ from flask.cli import with_appcontext
 
 
 @click.command()
-@click.argument('path', default='snakeeyes')
+@click.argument('path', default='test')
 @with_appcontext
 def cov(path):
     """

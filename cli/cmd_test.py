@@ -7,7 +7,7 @@ from flask.cli import with_appcontext
 
 
 @click.command()
-@click.argument('path', default=os.path.join('snakeeyes', 'tests'))
+@click.argument('path', default='test')
 @with_appcontext
 def test(path):
     """
