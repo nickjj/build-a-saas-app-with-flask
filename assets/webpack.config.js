@@ -28,7 +28,9 @@ var common = {
       {
         test: /\.(png|jpg|gif|svg)$/,
         exclude: /fonts/,
-        loader: 'file-loader?name=/images/[name].[ext]'
+        use: [
+          {loader: 'file-loader?name=/images/[name].[ext]'}
+        ]
       },
       {
         test: /\.(ttf|eot|svg|woff2?)$/,
@@ -46,7 +48,7 @@ var common = {
   },
   optimization: {
     minimizer: [
-      new TerserPlugin({cache: true, parallel: true, sourceMap: false}),
+      new TerserPlugin(),
       new OptimizeCSSAssetsPlugin({})
     ]
   }
