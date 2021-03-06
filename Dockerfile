@@ -28,7 +28,7 @@ CMD ["bash"]
 
 #
 
-FROM python:3.8.3-slim-buster as app
+FROM python:3.9.2-slim-buster as app
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
