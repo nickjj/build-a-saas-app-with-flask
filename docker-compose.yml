@@ -40,7 +40,7 @@ services:
           cpus: "${DOCKER_WEB_CPUS:-0}"
           memory: "${DOCKER_WEB_MEMORY:-0}"
     healthcheck:
-      test: "${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:8000/healthy}"
+      test: "${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:8000/up}"
       interval: "60s"
       timeout: "3s"
       start_period: "5s"
