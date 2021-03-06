@@ -3,23 +3,23 @@ LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app/assets
 
-COPY assets/package.json assets/*yarn* ./
-
-ENV BUILD_DEPS="build-essential" \
-    APP_DEPS=""
-
 RUN apt-get update \
-  && apt-get install -y ${BUILD_DEPS} ${APP_DEPS} --no-install-recommends \
-  && yarn install \
-  && rm -rf /var/lib/apt/lists/* \
-  && rm -rf /usr/share/doc && rm -rf /usr/share/man \
-  && apt-get purge -y --auto-remove ${BUILD_DEPS} \
-  && apt-get clean
+  && apt-get install -y build-essential --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
+  && apt-get clean \
+  && mkdir -p /node_modules && chown node:node -R /node_modules /app
 
-COPY assets .
+USER node
+
+COPY --chown=node:node assets/package.json assets/*yarn* ./
+
+RUN yarn install
 
 ARG NODE_ENV="production"
-ENV NODE_ENV="${NODE_ENV}"
+ENV NODE_ENV="${NODE_ENV}" \
+    USER="node"
+
+COPY --chown=node:node assets .
 
 RUN if [ "${NODE_ENV}" != "development" ]; then \
   yarn run build; else mkdir -p /app/public; fi
@@ -33,33 +33,36 @@ LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
-
-ENV BUILD_DEPS="build-essential" \
-    APP_DEPS="curl libpq-dev"
-
 RUN apt-get update \
-  && apt-get install -y ${BUILD_DEPS} ${APP_DEPS} --no-install-recommends \
-  && pip install -r requirements.txt \
-  && rm -rf /var/lib/apt/lists/* \
-  && rm -rf /usr/share/doc && rm -rf /usr/share/man \
-  && apt-get purge -y --auto-remove ${BUILD_DEPS} \
-  && apt-get clean
+  && apt-get install -y build-essential curl --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
+  && apt-get clean \
+  && useradd --create-home python \
+  && mkdir -p /home/python/.cache/pip && chown python:python -R /home/python /app
+
+USER python
+
+COPY --chown=python:python requirements*.txt ./
+COPY --chown=python:python bin/ ./bin
+
+RUN chmod 0755 bin/* && bin/pip3-install
 
 ARG FLASK_ENV="production"
 ENV FLASK_ENV="${FLASK_ENV}" \
     FLASK_APP="snakeeyes.app" \
-    PYTHONUNBUFFERED="true"
+    FLASK_SKIP_DOTENV="true" \
+    PYTHONUNBUFFERED="true" \
+    PYTHONPATH="." \
+    PATH="${PATH}:/home/python/.local/bin" \
+    USER="python"
 
-COPY --from=webpack /app/public /public
-
-COPY . .
+COPY --chown=python:python --from=webpack /app/public /public
+COPY --chown=python:python . .
 
 RUN if [ "${FLASK_ENV}" != "development" ]; then \
   ln -s /public /app/public && flask digest compile && rm -rf /app/public; fi
 
-RUN chmod +x docker-entrypoint.sh
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
+ENTRYPOINT ["/app/bin/docker-entrypoint-web"]
 
 EXPOSE 8000
 
