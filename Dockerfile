@@ -1,4 +1,4 @@
-FROM node:12.14.0-buster-slim as webpack
+FROM node:14.16.0-buster-slim as webpack
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app/assets
