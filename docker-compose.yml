@@ -4,7 +4,7 @@ services:
   redis:
     env_file:
       - ".env"
-    image: "redis:6.0.5-buster"
+    image: "redis:6.0.10-buster"
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
     volumes:
