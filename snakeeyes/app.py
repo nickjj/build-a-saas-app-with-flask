@@ -2,7 +2,6 @@ from flask import Flask
 from celery import Celery
 from werkzeug.debug import DebuggedApplication
 
-from cli import register_cli_commands
 from snakeeyes.blueprints.page import page
 from snakeeyes.blueprints.contact import contact
 from snakeeyes.extensions import debug_toolbar, mail, csrf, flask_static_digest
@@ -50,7 +49,6 @@ def create_app(settings_override=None):
     app.register_blueprint(page)
     app.register_blueprint(contact)
     extensions(app)
-    register_cli_commands(app)
 
     if app.debug:
         app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
