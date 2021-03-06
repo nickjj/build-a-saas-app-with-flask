@@ -56,11 +56,11 @@ There's over 187 video lessons, 25+ hours of content, coding exercises and an
 e-book that's included. You also get free updates for life as well as life time
 support. I've added 15+ hours of free updates over the years.
 
-These updates range from adding brand new features (like Webpack) to keeping
-Python, Node and all package / service versions up to date. There's even 1
-update that's a 5 hour live recording where I updated a bunch of things at
-once. This includes using git too (making good commits, interactive rebasing,
-etc.), live debugging and Googling for errors.
+These updates range from adding new features like Webpack to keeping Python,
+Node and all package / service versions up to date. There's even 1 update
+that's a 5 hour live recording where I updated a bunch of things at once. This
+includes using git too (making good commits, interactive rebasing, etc.), live
+debugging and Googling for errors.
 
 Also as a bonus, there's an additional 18 video lessons and 3 hours of content
 that covers building a separate RESTful API driven application that uses
