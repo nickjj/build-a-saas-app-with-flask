@@ -14,6 +14,8 @@ cp docker-compose.override.example.yml docker-compose.override.yml
 docker-compose up --build
 ```
 
+After everything is up and running, visit http://localhost:8000.
+
 ### How does this source code differ than what's in the course?
 
 In the course we build up a 4,000+ line Flask application in 15 stages while
