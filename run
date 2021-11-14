@@ -38,6 +38,12 @@ function flask {
   cmd flask "${@}"
 }
 
+function hadolint {
+  # Lint Dockerfile with hadolint
+  docker container run --rm -i \
+    hadolint/hadolint hadolint --ignore DL3008 -t style "${@}" - < Dockerfile
+}
+
 function flake8 {
   # Lint Python code with flake8
   cmd flake8 "${@}"
