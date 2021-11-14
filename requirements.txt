@@ -1,21 +1,21 @@
-Flask==2.0.0
-werkzeug==2.0.0
+Flask==2.0.2
+werkzeug==2.0.2
 
 # Application server for both development and production.
 gunicorn==20.1.0
 
 # Testing and static analysis.
-pytest==6.2.4
-pytest-cov==2.11.1
-flake8==3.9.2
+pytest==6.2.5
+pytest-cov==3.0.0
+flake8==4.0.1
 
 # Data and workers.
 redis==3.5.3
-celery==5.0.5
+celery==5.2.0
 
 # Forms.
 WTForms==2.3.3
-Flask-WTF==0.14.3
+Flask-WTF==1.0.0
 WTForms-Components==0.10.5
 
 # Extensions.
