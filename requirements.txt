@@ -11,7 +11,7 @@ flake8==4.0.1
 
 # Data and workers.
 redis==3.5.3
-celery==5.2.0
+celery==5.2.2
 
 # Forms.
 WTForms==2.3.3
