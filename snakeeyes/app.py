@@ -50,9 +50,6 @@ def create_app(settings_override=None):
     app.register_blueprint(contact)
     extensions(app)
 
-    if app.debug:
-        app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
-
     return app
 
 
@@ -67,6 +64,20 @@ def extensions(app):
     mail.init_app(app)
     csrf.init_app(app)
     flask_static_digest.init_app(app)
+
+    return None
+
+
+def middleware(app):
+    """
+    Register 0 or more middleware (mutates the app passed in).
+
+    :param app: Flask application instance
+    :return: None
+    """
+    # Enable the Flask interactive debugger in the brower for development.
+    if app.debug:
+        app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
     return None
 
