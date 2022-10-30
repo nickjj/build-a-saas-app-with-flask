@@ -49,6 +49,11 @@ function lint {
   cmd flake8 "${@}"
 }
 
+function format {
+  # Format Python code
+  cmd black . "${@}"
+}
+
 function test {
   # Run test suite
   cmd pytest test/ "${@}"
