@@ -2,8 +2,8 @@ from flask import Flask
 from celery import Celery
 from werkzeug.debug import DebuggedApplication
 
-from snakeeyes.blueprints.page import page
-from snakeeyes.blueprints.contact import contact
+from snakeeyes.blueprints.page.views import page
+from snakeeyes.blueprints.contact.views import contact
 from snakeeyes.extensions import debug_toolbar, mail, csrf, flask_static_digest
 
 
