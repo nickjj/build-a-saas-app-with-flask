@@ -50,7 +50,7 @@ services:
 
   worker:
     <<: *default-app
-    command: celery -A "snakeeyes.app.celery_app" worker -l "${CELERY_LOG_LEVEL:-info}"
+    command: celery -A "snakeeyes.app.celery_app" worker -l "${CELERY_LOG_LEVEL:-INFO}"
     deploy:
       resources:
         limits:
