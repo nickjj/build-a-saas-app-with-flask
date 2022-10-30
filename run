@@ -56,7 +56,7 @@ function pytest {
 
 function pytest-cov {
   # Get test coverage with pytest-cov
-  cmd pytest --cov test/ --cov-report term-missing "${@}"
+  cmd pytest --cov snakeeyes/ --cov lib/ --cov-report term-missing "${@}"
 }
 
 function bash {
