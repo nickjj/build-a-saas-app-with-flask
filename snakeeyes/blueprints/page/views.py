@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from snakeeyes.extensions import redis
+from snakeeyes.initializers import redis
 
 
 page = Blueprint('page', __name__, template_folder='templates')
