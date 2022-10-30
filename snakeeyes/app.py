@@ -1,11 +1,14 @@
-from flask import Flask
 from celery import Celery
+from flask import Flask
 from werkzeug.debug import DebuggedApplication
 
-from snakeeyes.blueprints.page.views import page
 from snakeeyes.blueprints.contact.views import contact
+from snakeeyes.blueprints.page.views import page
 from snakeeyes.blueprints.up.views import up
-from snakeeyes.extensions import debug_toolbar, mail, csrf, flask_static_digest
+from snakeeyes.extensions import csrf
+from snakeeyes.extensions import debug_toolbar
+from snakeeyes.extensions import flask_static_digest
+from snakeeyes.extensions import mail
 
 
 def create_celery_app(app=None):

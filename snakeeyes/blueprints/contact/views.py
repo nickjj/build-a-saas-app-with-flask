@@ -1,4 +1,9 @@
-from flask import Blueprint, flash, redirect, request, url_for, render_template
+from flask import Blueprint
+from flask import flash
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
 
 from snakeeyes.blueprints.contact.forms import ContactForm
 

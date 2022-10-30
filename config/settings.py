@@ -1,7 +1,6 @@
 import os
 from distutils.util import strtobool
 
-
 SECRET_KEY = os.getenv("SECRET_KEY", None)
 
 SERVER_NAME = os.getenv(

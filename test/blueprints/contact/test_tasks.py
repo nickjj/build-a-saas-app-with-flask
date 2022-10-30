@@ -1,5 +1,5 @@
-from snakeeyes.extensions import mail
 from snakeeyes.blueprints.contact.tasks import deliver_contact_email
+from snakeeyes.extensions import mail
 
 
 class TestTasks(object):
