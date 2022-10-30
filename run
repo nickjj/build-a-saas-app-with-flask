@@ -5,7 +5,7 @@ set -euo pipefail
 DC="${DC:-exec}"
 APP_NAME="${APP_NAME:-snakeeyes}"
 
-# If we're running in CI we need to disable TTY allocation for docker-compose
+# If we're running in CI we need to disable TTY allocation for docker compose
 # commands that enable it by default, such as exec and run.
 TTY=""
 if [[ ! -t 1 ]]; then
@@ -17,13 +17,13 @@ fi
 # -----------------------------------------------------------------------------
 
 function _dc {
-  docker-compose "${DC}" ${TTY} "${@}"
+  docker compose "${DC}" ${TTY} "${@}"
 }
 
 function _build_run_down {
-  docker-compose build
-  docker-compose run ${TTY} "${@}"
-  docker-compose down
+  docker compose build
+  docker compose run ${TTY} "${@}"
+  docker compose down
 }
 
 # -----------------------------------------------------------------------------

@@ -10,8 +10,7 @@ Redis, PostgreSQL, Stripe and Docker.*
 
 ```sh
 cp .env.example .env
-cp docker-compose.override.example.yml docker-compose.override.yml
-docker-compose up --build
+docker compose up --build
 ```
 
 After everything is up and running, visit http://localhost:8000.

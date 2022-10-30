@@ -27,6 +27,7 @@ services:
     env_file:
       - ".env"
     image: "redis:6.2.6-bullseye"
+    profiles: ["redis"]
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     stop_grace_period: "3s"
     volumes:
@@ -47,6 +48,7 @@ services:
       retries: 3
     ports:
       - "${DOCKER_WEB_PORT_FORWARD:-127.0.0.1:8000}:8000"
+    profiles: ["web"]
 
   worker:
     <<: *default-app
@@ -56,6 +58,25 @@ services:
         limits:
           cpus: "${DOCKER_WORKER_CPUS:-0}"
           memory: "${DOCKER_WORKER_MEMORY:-0}"
+    profiles: ["worker"]
+
+  webpack:
+    build:
+      context: "."
+      target: "webpack"
+      args:
+        - "UID=${UID:-1000}"
+        - "GID=${GID:-1000}"
+        - "NODE_ENV=${NODE_ENV:-production}"
+    command: "yarn run watch"
+    env_file:
+      - ".env"
+    profiles: ["assets"]
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "0"
+    tty: true
+    volumes:
+      - ".:/app"
 
 volumes:
   redis: {}
