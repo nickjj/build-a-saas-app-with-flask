@@ -59,6 +59,13 @@ function format {
   cmd black . "${@}"
 }
 
+function quality {
+  # Perform all code quality commands together
+  format:imports "${@}"
+  format "${@}"
+  lint "${@}"
+}
+
 function test {
   # Run test suite
   cmd pytest test/ "${@}"
