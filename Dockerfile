@@ -21,6 +21,7 @@ RUN yarn install
 
 ARG NODE_ENV="production"
 ENV NODE_ENV="${NODE_ENV}" \
+    PATH="${PATH}:/node_modules/.bin" \
     USER="node"
 
 COPY --chown=node:node . ..
