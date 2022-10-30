@@ -76,5 +76,13 @@ services:
     volumes:
       - ".:/app"
 
+  mail:
+    image: "sj26/mailcatcher:v0.8.2"
+    ports:
+      - "${DOCKER_MAIL_PORT_FORWARD:-127.0.0.1:1080}:1080"
+    profiles: ["mail"]
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "0"
+
 volumes:
   redis: {}

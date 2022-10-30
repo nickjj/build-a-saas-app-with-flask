@@ -21,7 +21,9 @@ def deliver_contact_email(email, message):
 
     send_template_message(subject='[Snake Eyes] Contact',
                           sender=email,
-                          recipients=[current_app.config['MAIL_USERNAME']],
+                          recipients=[
+                              current_app.config["MAIL_DEFAULT_SENDER"]
+                          ],
                           reply_to=email,
                           template='contact/mail/index', ctx=ctx)
 
