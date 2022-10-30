@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -o errexit
+set -o pipefail
 
 DC="${DC:-exec}"
 APP_NAME="${APP_NAME:-snakeeyes}"
