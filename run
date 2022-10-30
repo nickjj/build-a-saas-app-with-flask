@@ -49,6 +49,11 @@ function lint {
   cmd flake8 "${@}"
 }
 
+function format:imports {
+  # Sort Python imports
+  cmd isort . "${@}"
+}
+
 function format {
   # Format Python code
   cmd black . "${@}"

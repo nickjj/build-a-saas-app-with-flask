@@ -25,6 +25,7 @@ idna==3.4
 infinity==1.5
 iniconfig==1.1.1
 intervals==0.9.2
+isort==5.10.1
 itsdangerous==2.1.2
 Jinja2==3.1.2
 kombu==5.2.4
