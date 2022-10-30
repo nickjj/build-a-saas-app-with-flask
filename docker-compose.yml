@@ -61,7 +61,7 @@ services:
   webpack:
     build:
       context: "."
-      target: "webpack"
+      target: "assets"
       args:
         - "UID=${UID:-1000}"
         - "GID=${GID:-1000}"

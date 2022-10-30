@@ -1,4 +1,4 @@
-FROM node:14.18.1-bullseye-slim as webpack
+FROM node:16.18.0-bullseye-slim AS assets
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app/assets
@@ -30,9 +30,9 @@ RUN if [ "${NODE_ENV}" != "development" ]; then \
 
 CMD ["bash"]
 
-#
+###############################################################################
 
-FROM python:3.10.0-slim-bullseye as app
+FROM python:3.11.0-slim-bullseye AS app
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
@@ -64,7 +64,7 @@ ENV FLASK_ENV="${FLASK_ENV}" \
     PATH="${PATH}:/home/python/.local/bin" \
     USER="python"
 
-COPY --chown=python:python --from=webpack /app/public /public
+COPY --chown=python:python --from=assets /app/public /public
 COPY --chown=python:python . .
 
 RUN if [ "${FLASK_ENV}" != "development" ]; then \
