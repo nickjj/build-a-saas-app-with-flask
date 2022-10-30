@@ -17,14 +17,15 @@ def deliver_contact_email(email, message):
     :type user_id: str
     :return: None
     """
-    ctx = {'email': email, 'message': message}
+    ctx = {"email": email, "message": message}
 
-    send_template_message(subject='[Snake Eyes] Contact',
-                          sender=email,
-                          recipients=[
-                              current_app.config["MAIL_DEFAULT_SENDER"]
-                          ],
-                          reply_to=email,
-                          template='contact/mail/index', ctx=ctx)
+    send_template_message(
+        subject="[Snake Eyes] Contact",
+        sender=email,
+        recipients=[current_app.config["MAIL_DEFAULT_SENDER"]],
+        reply_to=email,
+        template="contact/mail/index",
+        ctx=ctx,
+    )
 
     return None

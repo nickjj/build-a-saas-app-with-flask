@@ -19,7 +19,7 @@ def create_celery_app(app=None):
     app = app or create_app()
 
     celery = Celery(app.import_name)
-    celery.conf.update(app.config.get('CELERY_CONFIG', {}))
+    celery.conf.update(app.config.get("CELERY_CONFIG", {}))
     TaskBase = celery.Task
 
     class ContextTask(TaskBase):
@@ -40,9 +40,9 @@ def create_app(settings_override=None):
     :param settings_override: Override settings
     :return: Flask app
     """
-    app = Flask(__name__, static_folder='../public', static_url_path='')
+    app = Flask(__name__, static_folder="../public", static_url_path="")
 
-    app.config.from_object('config.settings')
+    app.config.from_object("config.settings")
 
     if settings_override:
         app.config.update(settings_override)
