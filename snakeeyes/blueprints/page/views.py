@@ -1,7 +1,5 @@
 from flask import Blueprint, render_template
 
-from snakeeyes.initializers import redis
-
 
 page = Blueprint('page', __name__, template_folder='templates')
 
@@ -19,9 +17,3 @@ def terms():
 @page.get('/privacy')
 def privacy():
     return render_template('page/privacy.html')
-
-
-@page.get('/up')
-def up():
-    redis.ping()
-    return ''

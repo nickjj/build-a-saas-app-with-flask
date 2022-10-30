@@ -4,6 +4,7 @@ from werkzeug.debug import DebuggedApplication
 
 from snakeeyes.blueprints.page.views import page
 from snakeeyes.blueprints.contact.views import contact
+from snakeeyes.blueprints.up.views import up
 from snakeeyes.extensions import debug_toolbar, mail, csrf, flask_static_digest
 
 
@@ -48,6 +49,7 @@ def create_app(settings_override=None):
 
     app.register_blueprint(page)
     app.register_blueprint(contact)
+    app.register_blueprint(up)
     extensions(app)
 
     return app
