@@ -38,29 +38,29 @@ function flask {
   cmd flask "${@}"
 }
 
-function hadolint {
-  # Lint Dockerfile with hadolint
+function lint:dockerfile {
+  # Lint Dockerfile
   docker container run --rm -i \
     hadolint/hadolint hadolint --ignore DL3008 -t style "${@}" - < Dockerfile
 }
 
-function flake8 {
-  # Lint Python code with flake8
+function lint {
+  # Lint Python code
   cmd flake8 "${@}"
 }
 
-function pytest {
-  # Run test suite with pytest
+function test {
+  # Run test suite
   cmd pytest test/ "${@}"
 }
 
-function pytest-cov {
-  # Get test coverage with pytest-cov
+function test:coverage {
+  # Get test coverage
   cmd pytest --cov snakeeyes/ --cov lib/ --cov-report term-missing "${@}"
 }
 
-function bash {
-  # Start a Bash session in the web container
+function shell {
+  # Start a Shell session in the web container
   cmd bash "${@}"
 }
 
