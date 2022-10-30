@@ -3,10 +3,14 @@ LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app/assets
 
+ARG UID=1000
+ARG GID=1000
+
 RUN apt-get update \
-  && apt-get install -y build-essential --no-install-recommends \
+  && apt-get install -y --no-install-recommends build-essential \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean \
+  && groupmod -g "${GID}" node && usermod -u "${UID}" -g "${GID}" node \
   && mkdir -p /node_modules && chown node:node -R /node_modules /app
 
 USER node
@@ -19,7 +23,7 @@ ARG NODE_ENV="production"
 ENV NODE_ENV="${NODE_ENV}" \
     USER="node"
 
-COPY --chown=node:node assets .
+COPY --chown=node:node . ..
 
 RUN if [ "${NODE_ENV}" != "development" ]; then \
   yarn run build; else mkdir -p /app/public; fi
@@ -33,12 +37,16 @@ LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
 
 WORKDIR /app
 
+ARG UID=1000
+ARG GID=1000
+
 RUN apt-get update \
-  && apt-get install -y build-essential curl --no-install-recommends \
+  && apt-get install -y --no-install-recommends build-essential curl libpq-dev \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean \
-  && useradd --create-home python \
-  && mkdir -p /home/python/.cache/pip && chown python:python -R /home/python /app
+  && groupadd -g "${GID}" python \
+  && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" python \
+  && chown python:python -R /app
 
 USER python
 
