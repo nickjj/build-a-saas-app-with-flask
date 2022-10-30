@@ -4,7 +4,6 @@ set -o errexit
 set -o pipefail
 
 DC="${DC:-exec}"
-APP_NAME="${APP_NAME:-snakeeyes}"
 
 # If we're running in CI we need to disable TTY allocation for docker compose
 # commands that enable it by default, such as exec and run.
