@@ -1,24 +1,19 @@
-Flask==2.0.2
-werkzeug==2.0.2
-
-# Application server for both development and production.
+Flask==2.2.2
+werkzeug==2.2.2
+jinja2==3.1.2
 gunicorn==20.1.0
 
-# Testing and static analysis.
-pytest==6.2.5
-pytest-cov==3.0.0
-flake8==4.0.1
+pytest==7.1.3
+pytest-cov==4.0.0
+flake8==5.0.4
 
-# Data and workers.
-redis==3.5.3
-celery==5.2.0
+redis==4.3.4
+celery==5.2.7
 
-# Forms.
-WTForms==2.3.3
-Flask-WTF==1.0.0
+Flask-WTF==1.0.1
 WTForms-Components==0.10.5
+WTForms==3.0.1
 
-# Extensions.
-flask-debugtoolbar==0.11.0
+flask-debugtoolbar==0.13.0
 Flask-Mail==0.9.1
 Flask-Static-Digest==0.2.1

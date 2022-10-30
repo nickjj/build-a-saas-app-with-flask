@@ -56,8 +56,8 @@ COPY --chown=python:python bin/ ./bin
 
 RUN chmod 0755 bin/* && bin/pip3-install
 
-ARG FLASK_ENV="production"
-ENV FLASK_ENV="${FLASK_ENV}" \
+ARG FLASK_DEBUG="false"
+ENV FLASK_DEBUG="${FLASK_DEBUG}" \
     FLASK_APP="snakeeyes.app" \
     FLASK_SKIP_DOTENV="true" \
     PYTHONUNBUFFERED="true" \
@@ -68,7 +68,7 @@ ENV FLASK_ENV="${FLASK_ENV}" \
 COPY --chown=python:python --from=assets /app/public /public
 COPY --chown=python:python . .
 
-RUN if [ "${FLASK_ENV}" != "development" ]; then \
+RUN if [ "${FLASK_DEBUG}" != "true" ]; then \
   ln -s /public /app/public && flask digest compile && rm -rf /app/public; fi
 
 ENTRYPOINT ["/app/bin/docker-entrypoint-web"]

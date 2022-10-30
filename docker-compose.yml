@@ -5,7 +5,7 @@ x-app: &default-app
     args:
       - "UID=${UID:-1000}"
       - "GID=${GID:-1000}"
-      - "FLASK_ENV=${FLASK_ENV:-production}"
+      - "FLASK_DEBUG=${FLASK_DEBUG:-false}"
       - "NODE_ENV=${NODE_ENV:-production}"
   depends_on:
     - "redis"
