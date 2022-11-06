@@ -8,6 +8,13 @@ Redis, PostgreSQL, Stripe and Docker.*
 
 ### Getting started
 
+This project takes advantage of Docker Compose v2 features. If you're using
+Docker Desktop, please enable [Docker Compose
+v2](https://nickjanetakis.com/blog/docker-tip-94-docker-compose-v2-and-profiles-are-the-best-thing-ever)
+in your settings. If you're not using Docker Desktop please install the
+official [Docker Compose
+Plugin](https://docs.docker.com/compose/install/linux/#install-using-the-repository).
+
 ```sh
 cp .env.example .env
 docker compose up --build
