@@ -8,7 +8,9 @@ x-app: &default-app
       - "FLASK_DEBUG=${FLASK_DEBUG:-false}"
       - "NODE_ENV=${NODE_ENV:-production}"
   depends_on:
-    - "redis"
+    redis:
+      condition: "service_started"
+      required: false
   env_file:
     - ".env"
   restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"

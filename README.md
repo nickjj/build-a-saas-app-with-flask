@@ -8,12 +8,13 @@ Redis, PostgreSQL, Stripe and Docker.*
 
 ### Getting started
 
-This project takes advantage of Docker Compose v2 features. If you're using
-Docker Desktop, please enable [Docker Compose
-v2](https://nickjanetakis.com/blog/docker-tip-94-docker-compose-v2-and-profiles-are-the-best-thing-ever)
-in your settings. If you're not using Docker Desktop please install the
-official [Docker Compose
-Plugin](https://docs.docker.com/compose/install/linux/#install-using-the-repository).
+You'll need to enable Docker Compose v2 support if you're using Docker
+Desktop. On native Linux without Docker Desktop you can [install it as a plugin
+to Docker](https://docs.docker.com/compose/install/linux/). It's been generally
+available for a while now and is stable. This project uses specific [Docker
+Compose v2
+features](https://nickjanetakis.com/blog/optional-depends-on-with-docker-compose-v2-20-2)
+that only work with Docker Compose v2 2.20.2+.
 
 ```sh
 cp .env.example .env
