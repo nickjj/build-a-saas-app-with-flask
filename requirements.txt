@@ -1,5 +1,5 @@
-Flask==2.2.2
-werkzeug==2.2.2
+Flask==2.3.2
+werkzeug==2.3.6
 jinja2==3.1.2
 gunicorn==21.2.0
 
