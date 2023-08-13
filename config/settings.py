@@ -1,7 +1,7 @@
 import os
 from distutils.util import strtobool
 
-SECRET_KEY = os.getenv("SECRET_KEY", None)
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 SERVER_NAME = os.getenv(
     "SERVER_NAME", "localhost:{0}".format(os.getenv("DOCKER_WEB_PORT", "8000"))
