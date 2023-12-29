@@ -1,21 +1,21 @@
-Flask==2.3.2
-werkzeug==2.3.6
+Flask==3.0.0
+werkzeug==3.0.1
 jinja2==3.1.2
 gunicorn==21.2.0
 
-pytest==7.4.0
+pytest==7.4.3
 pytest-cov==4.1.0
 flake8==6.1.0
-isort==5.12.0
-black==23.7.0
+isort==5.13.2
+black==23.12.1
 
-redis==4.6.0
-celery==5.3.1
+redis==5.0.1
+celery==5.3.6
 
-Flask-WTF==1.1.1
+Flask-WTF==1.2.1
 WTForms-Components==0.10.5
-WTForms==3.0.1
+WTForms==3.1.1
 
-flask-debugtoolbar==0.13.1
+flask-debugtoolbar==0.14.1
 Flask-Mail==0.9.1
 Flask-Static-Digest==0.4.0
