@@ -1,4 +1,5 @@
 from celery import Celery
+from celery import Task
 from flask import Flask
 from werkzeug.debug import DebuggedApplication
 
@@ -21,18 +22,16 @@ def create_celery_app(app=None):
     """
     app = app or create_app()
 
-    celery = Celery(app.import_name)
-    celery.conf.update(app.config.get("CELERY_CONFIG", {}))
-    TaskBase = celery.Task
-
-    class ContextTask(TaskBase):
-        abstract = True
-
+    class FlaskTask(Task):
         def __call__(self, *args, **kwargs):
             with app.app_context():
-                return TaskBase.__call__(self, *args, **kwargs)
+                return self.run(*args, **kwargs)
 
-    celery.Task = ContextTask
+    celery = Celery(app.import_name, task_cls=FlaskTask)
+    celery.conf.update(app.config.get("CELERY_CONFIG", {}))
+    celery.set_default()
+    app.extensions["celery"] = celery
+
     return celery
 
 
