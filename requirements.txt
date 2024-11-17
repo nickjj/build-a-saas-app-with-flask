@@ -19,3 +19,5 @@ WTForms==3.2.1
 flask-DebugToolbar==0.16.0
 Flask-Mail==0.10.0
 Flask-Static-Digest==0.4.1
+
+setuptools==75.5.0

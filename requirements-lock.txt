@@ -36,6 +36,7 @@ pytest==8.3.3
 pytest-cov==6.0.0
 python-dateutil==2.9.0.post0
 redis==5.2.0
+setuptools==75.5.0
 six==1.16.0
 tzdata==2024.2
 validators==0.34.0
